@@ -9,9 +9,9 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import kotlinx.android.synthetic.main.activity_main_app.*
+import kotlinx.android.synthetic.main.activity_sign_in.*
 
-class MainAppActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.AuthStateListener, OnCompleteListener<AuthResult> {
+class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.AuthStateListener, OnCompleteListener<AuthResult> {
     private lateinit var mAuth: FirebaseAuth
 
     override fun onComplete(p0: Task<AuthResult>) {
@@ -50,13 +50,9 @@ class MainAppActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.
         FirebaseAuth.getInstance().signInWithEmailAndPassword(mail, password).addOnCompleteListener(this)
     }
 
-    override fun onStart() {
-        super.onStart()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main_app)
+        setContentView(R.layout.activity_sign_in)
 
         register_button.setOnClickListener(this)
         sign_in_button.setOnClickListener(this)
