@@ -19,43 +19,61 @@
         android:text="@string/app_label"
         android:textAlignment="center"
         android:textColor="@color/colorPrimary"
-        android:textSize="30sp" />
+        android:textSize="@dimen/title_size" />
 
     <EditText
         android:id="@+id/et_name"
         android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:layout_width="300dp"
+        android:layout_marginTop="@dimen/margin_from_title"
+        android:layout_width="@dimen/et_width"
         android:layout_height="wrap_content"
-        android:hint="nombre"/>
+        android:hint="@string/mail_telf"/>
 
     <EditText
         android:id="@+id/et_pass"
         android:layout_gravity="center"
-        android:layout_width="300dp"
+        android:layout_width="@dimen/et_width"
         android:inputType="textPassword"
         android:layout_height="wrap_content"
-        android:hint="contraseña"/>
-
-    <Button
-        android:id="@+id/register_button"
-        android:layout_marginTop="50dp"
-        android:layout_width="300dp"
-        android:text="Registrarse"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content" />
+        android:hint="@string/pass"/>
 
     <Button
         android:id="@+id/sign_in_button"
-        android:layout_width="300dp"
-        android:text="Iniciar sesión"
+        android:layout_width="@dimen/et_width"
+        android:layout_marginTop="@dimen/margin_from_button"
+        android:text="@string/sign_in"
         android:layout_gravity="center"
         android:layout_height="wrap_content" />
 
     <Button
         android:id="@+id/google_sign_in_button"
-        android:layout_width="300dp"
-        android:text="Iniciar con Google"
+        android:layout_width="@dimen/et_width"
+        android:text="@string/google_sign_in"
         android:layout_gravity="center"
         android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/register_text"
+        android:layout_width="@dimen/not_registered_width"
+        android:text="@string/not_registered"
+        android:textColor="@color/colorPrimary"
+        android:layout_gravity="center"
+        android:gravity="end"
+        android:clickable="true"
+        android:layout_height="wrap_content"
+        android:focusable="true" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/skip"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            />
+    </RelativeLayout>
+
 </LinearLayout>

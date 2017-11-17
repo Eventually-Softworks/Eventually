@@ -2,4 +2,10 @@
     <string name="app_name">EventuallyTest</string>
     <string name="app_login">Iniciar sesión</string>
     <string name="app_label">eventually</string>
+    <string name="mail_telf">email / teléfono</string>
+    <string name="pass">contraseña</string>
+    <string name="sign_in">Iniciar sesión</string>
+    <string name="google_sign_in">Iniciar con Google</string>
+    <string name="not_registered">Aún no eres miembro? Regístrate</string>
+    <string name="skip">OMITIR</string>
 </resources>

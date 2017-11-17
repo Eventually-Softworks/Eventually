@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="title_size">30sp</dimen>
+    <dimen name="margin_from_title">30dp</dimen>
+    <dimen name="et_width">300dp</dimen>
+    <dimen name="margin_from_button">50dp</dimen>
+    <dimen name="not_registered_width">290dp</dimen>
+</resources>

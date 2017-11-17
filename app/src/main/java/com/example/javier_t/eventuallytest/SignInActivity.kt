@@ -21,7 +21,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
 
     override fun onClick(p0: View?) {
         when (p0?.id) {
-            R.id.register_button -> {
+            R.id.register_text -> {
 
             }
 
@@ -54,7 +54,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
 
-        register_button.setOnClickListener(this)
+        register_text.setOnClickListener(this)
         sign_in_button.setOnClickListener(this)
         google_sign_in_button.setOnClickListener(this)
 
