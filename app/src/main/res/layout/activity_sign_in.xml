@@ -73,6 +73,8 @@
             android:text="@string/skip"
             android:layout_alignParentBottom="true"
             android:layout_alignParentEnd="true"
+            android:layout_marginEnd="@dimen/margin_skip_button"
+            android:layout_marginBottom="@dimen/margin_skip_button"
             />
     </RelativeLayout>
 

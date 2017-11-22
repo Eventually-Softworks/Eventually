@@ -5,4 +5,5 @@
     <dimen name="et_width">300dp</dimen>
     <dimen name="margin_from_button">50dp</dimen>
     <dimen name="not_registered_width">290dp</dimen>
+    <dimen name="margin_skip_button">20dp</dimen>
 </resources>
