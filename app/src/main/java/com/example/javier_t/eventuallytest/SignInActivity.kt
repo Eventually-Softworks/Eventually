@@ -1,5 +1,6 @@
 package com.example.javier_t.eventuallytest
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -22,7 +23,8 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
     override fun onClick(p0: View?) {
         when (p0?.id) {
             R.id.register_text -> {
-
+                val intent = Intent(this, RegisterActivity::class.java)
+                startActivity(intent)
             }
 
             R.id.sign_in_button -> {
