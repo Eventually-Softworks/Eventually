@@ -1,9 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.javier_t.eventuallytest.RegisterActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/eventually"
+        android:id="@+id/image_icon"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/app_label"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="@dimen/title_size" />
+
+    <EditText
+        android:id="@+id/et_name"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/margin_from_title"
+        android:layout_width="@dimen/et_width"
+        android:layout_height="wrap_content"
+        android:hint="@string/mail_telf"/>
+
+    <EditText
+        android:id="@+id/et_pass"
+        android:layout_gravity="center"
+        android:layout_width="@dimen/et_width"
+        android:inputType="textPassword"
+        android:layout_height="wrap_content"
+        android:hint="@string/pass"/>
+
+    <EditText
+        android:id="@+id/et_repass"
+        android:layout_gravity="center"
+        android:layout_width="@dimen/et_width"
+        android:inputType="textPassword"
+        android:layout_height="wrap_content"
+        android:hint="@string/retype_pass"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="@dimen/et_width"
+        android:layout_marginTop="@dimen/margin_from_button"
+        android:text="@string/register"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@color/textButton"/>
+
+    <TextView
+        android:id="@+id/register_text"
+        android:layout_width="@dimen/not_registered_width"
+        android:text="@string/already_registered"
+        android:textColor="@color/colorPrimary"
+        android:layout_gravity="center"
+        android:gravity="end"
+        android:clickable="true"
+        android:layout_height="wrap_content"
+        android:focusable="true" />
+</LinearLayout>
+

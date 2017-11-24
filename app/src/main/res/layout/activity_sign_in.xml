@@ -37,20 +37,23 @@
         android:layout_height="wrap_content"
         android:hint="@string/pass"/>
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/sign_in_button"
         android:layout_width="@dimen/et_width"
         android:layout_marginTop="@dimen/margin_from_button"
         android:text="@string/sign_in"
         android:layout_gravity="center"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
+        android:textColor="@color/textButton"/>
 
-    <Button
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/google_sign_in_button"
         android:layout_width="@dimen/et_width"
         android:text="@string/google_sign_in"
         android:layout_gravity="center"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content" >
+    </android.support.v7.widget.AppCompatButton>
 
     <TextView
         android:id="@+id/register_text"
@@ -63,14 +66,12 @@
         android:layout_height="wrap_content"
         android:focusable="true" />
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/skip"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:layout_marginEnd="@dimen/margin_skip_button"
         android:layout_marginBottom="@dimen/margin_skip_button"
         android:layout_marginTop="@dimen/margin_skip_button"/>
-
 </LinearLayout>

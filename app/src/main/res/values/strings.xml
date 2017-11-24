@@ -8,4 +8,7 @@
     <string name="google_sign_in">Iniciar con Google</string>
     <string name="not_registered">Aún no eres miembro? Regístrate</string>
     <string name="skip">OMITIR</string>
+    <string name="retype_pass">repetir contraseña</string>
+    <string name="register">Registrarse</string>
+    <string name="already_registered">Ya tienes cuenta? Inicia sesión</string>
 </resources>
