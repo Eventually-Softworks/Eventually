@@ -5,6 +5,8 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -13,7 +15,8 @@ import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
 class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.AuthStateListener, OnCompleteListener<AuthResult> {
-    private lateinit var mAuth: FirebaseAuth
+    lateinit var mAuth: FirebaseAuth
+    lateinit var gso: GoogleSignInOptions
 
     override fun onComplete(p0: Task<AuthResult>) {
         if (p0.isSuccessful) Toast.makeText(this, "User signed in", Toast.LENGTH_LONG).show()
@@ -42,9 +45,9 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
         val user: FirebaseUser? = p0.currentUser
 
         if (user != null) {
-            Toast.makeText(applicationContext, "User ${user.uid} has signed in", Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, "User ${user.displayName} has signed in", Toast.LENGTH_LONG).show()
         } else {
-            Toast.makeText(applicationContext, "User ${user?.uid} has signed out", Toast.LENGTH_LONG).show()
+            Toast.makeText(applicationContext, "User ${user?.displayName} has signed out", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -60,6 +63,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
         sign_in_button.setOnClickListener(this)
         google_sign_in_button.setOnClickListener(this)
 
+        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build()
         mAuth = FirebaseAuth.getInstance()
         mAuth.addAuthStateListener(this)
 
