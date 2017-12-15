@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
@@ -18,9 +17,9 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
     lateinit var mAuth: FirebaseAuth
     lateinit var gso: GoogleSignInOptions
 
-    override fun onComplete(p0: Task<AuthResult>) {
-        if (p0.isSuccessful) Toast.makeText(this, "User signed in", Toast.LENGTH_LONG).show()
-        else Toast.makeText(this, p0.exception.toString(), Toast.LENGTH_LONG).show()
+    override fun onComplete(task: Task<AuthResult>) {
+        if (task.isSuccessful) Toast.makeText(this, "User signed in", Toast.LENGTH_LONG).show()
+        else Toast.makeText(this, task.exception.toString(), Toast.LENGTH_LONG).show()
     }
 
     override fun onClick(p0: View?) {
@@ -52,7 +51,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
     }
 
     private fun signIn(mail: String, password: String) {
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(mail, password).addOnCompleteListener(this)
+        mAuth.signInWithEmailAndPassword(mail, password).addOnCompleteListener(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
