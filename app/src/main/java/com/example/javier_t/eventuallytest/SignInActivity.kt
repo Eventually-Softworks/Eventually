@@ -1,8 +1,10 @@
 package com.example.javier_t.eventuallytest
 
 import android.content.Intent
+import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -18,8 +20,12 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
     lateinit var gso: GoogleSignInOptions
 
     override fun onComplete(task: Task<AuthResult>) {
-        if (task.isSuccessful) Toast.makeText(this, "User signed in", Toast.LENGTH_LONG).show()
-        else Toast.makeText(this, task.exception.toString(), Toast.LENGTH_LONG).show()
+        if (task.isSuccessful) {
+            val intent: Intent = Intent(this, GridSelectionActivity::class.java)
+            Toast.makeText(this, "User signed in", Toast.LENGTH_LONG).show()
+            startActivity(intent)
+            finish()
+        } else Toast.makeText(this, task.exception.toString(), Toast.LENGTH_LONG).show()
     }
 
     override fun onClick(p0: View?) {
@@ -30,7 +36,12 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
             }
 
             R.id.sign_in_button -> {
-                signIn(et_name.text.toString(), et_pass.text.toString())
+                if (TextUtils.isEmpty(et_name.text.toString()) || TextUtils.isEmpty(et_pass.text.toString())) {
+                    Toast.makeText(this, "Rellena los inputs con información válida, por favor", Toast.LENGTH_LONG).show()
+                } else {
+                    signIn(et_name.text.toString(), et_pass.text.toString())
+                }
+
             }
 
             R.id.google_sign_in_button -> {
