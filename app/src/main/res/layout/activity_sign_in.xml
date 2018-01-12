@@ -47,13 +47,11 @@
         android:backgroundTint="@color/colorPrimary"
         android:textColor="@color/textButton"/>
 
-    <android.support.v7.widget.AppCompatButton
+    <com.shobhitpuri.custombuttons.GoogleSignInButton
         android:id="@+id/google_sign_in_button"
         android:layout_width="@dimen/et_width"
-        android:text="@string/google_sign_in"
-        android:layout_gravity="center"
-        android:layout_height="wrap_content" >
-    </android.support.v7.widget.AppCompatButton>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
 
     <TextView
         android:id="@+id/register_text"

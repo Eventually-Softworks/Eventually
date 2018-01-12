@@ -6,4 +6,8 @@
     android:layout_height="match_parent"
     tools:context="com.example.javier_t.eventuallytest.GridSelectionActivity">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/boton"/>
 </android.support.constraint.ConstraintLayout>
