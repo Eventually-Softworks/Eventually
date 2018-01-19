@@ -11,16 +11,17 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_sign_in.*
 
 class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.AuthStateListener, OnCompleteListener<AuthResult> {
     lateinit var mAuth: FirebaseAuth
-    lateinit var gso: GoogleSignInOptions
     lateinit var mGoogleSignInClient: GoogleSignInClient
 
 
@@ -49,7 +50,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
             }
 
             R.id.google_sign_in_button -> {
-
+                signInGoogle()
             }
         }
 
@@ -70,8 +71,25 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
 
     }
 
-    private fun googleSignIn() {
+    private fun signInGoogle() {
+        val intent = mGoogleSignInClient.signInIntent
+        startActivityForResult(intent, 0)
+    }
 
+    private fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
+        val credential = GoogleAuthProvider.getCredential(account.idToken, null)
+
+        mAuth.signInWithCredential(credential).addOnCompleteListener(this, object:OnCompleteListener<AuthResult>{
+            override fun onComplete(task: Task<AuthResult>) {
+                if (task.isSuccessful) {
+                    val user = mAuth.currentUser
+                    Toast.makeText(applicationContext, "has iniciado sesion con ${user?.email}", Toast.LENGTH_LONG).show()
+                } else {
+                    Toast.makeText(applicationContext, "pues falla como siempre", Toast.LENGTH_LONG).show()
+                }
+            }
+
+        })
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -82,17 +100,30 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
         sign_in_button.setOnClickListener(this)
         google_sign_in_button.setOnClickListener(this)
 
-        gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build()
+        var gso: GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
         mAuth = FirebaseAuth.getInstance()
         mAuth.addAuthStateListener(this)
-
-        onAuthStateChanged(mAuth)
     }
 
     override fun onStart() {
         super.onStart()
-        var account: GoogleSignInAccount?= GoogleSignIn.getLastSignedInAccount(this)
+        val currentUser = mAuth.currentUser
+        Toast.makeText(this, "Hey ${currentUser}!", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == 0) {
+            val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
+
+            try {
+                val account: GoogleSignInAccount = task.getResult()
+                firebaseAuthWithGoogle(account)
+            } catch (e: ApiException) {
+                Toast.makeText(applicationContext, "1 FAIL FOR GRYFFINDOR", Toast.LENGTH_LONG).show()
+
+            }
+        }
     }
 }
