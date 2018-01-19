@@ -37,7 +37,6 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
             R.id.register_text -> {
                 val intent = Intent(this, RegisterActivity::class.java)
                 startActivity(intent)
-                finish()
             }
 
             R.id.sign_in_button -> {
