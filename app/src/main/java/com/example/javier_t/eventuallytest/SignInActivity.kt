@@ -6,11 +6,10 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import android.widget.Toast
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.auth.api.signin.*
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
@@ -27,9 +26,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
 
     override fun onComplete(task: Task<AuthResult>) {
         if (task.isSuccessful) {
-            val intent = Intent(this, GridSelectionActivity::class.java)
-            Toast.makeText(this, "User signed in", Toast.LENGTH_LONG).show()
-            startActivity(intent)
+            updateUI()
         } else Toast.makeText(this, task.exception.toString(), Toast.LENGTH_LONG).show()
     }
 
@@ -59,10 +56,8 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
     override fun onAuthStateChanged(p0: FirebaseAuth) {
         val user: FirebaseUser? = p0.currentUser
 
-        if (user != null) {
-            Toast.makeText(applicationContext, "User ${user.email} has signed in", Toast.LENGTH_LONG).show()
-        } else {
-            Toast.makeText(applicationContext, "User ${user?.email} has signed out", Toast.LENGTH_LONG).show()
+        if (user == null) {
+            Toast.makeText(applicationContext, "Has cerrado sesión", Toast.LENGTH_LONG).show()
         }
     }
 
@@ -79,13 +74,14 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
     private fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
 
-        mAuth.signInWithCredential(credential).addOnCompleteListener(this, object:OnCompleteListener<AuthResult>{
+        mAuth.signInWithCredential(credential).addOnCompleteListener(this, object : OnCompleteListener<AuthResult> {
             override fun onComplete(task: Task<AuthResult>) {
                 if (task.isSuccessful) {
                     val user = mAuth.currentUser
-                    Toast.makeText(applicationContext, "has iniciado sesion con ${user?.email}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext, "Has iniciado sesion con ${user?.email}", Toast.LENGTH_LONG).show()
+                    updateUI()
                 } else {
-                    Toast.makeText(applicationContext, "pues falla como siempre", Toast.LENGTH_LONG).show()
+                    Toast.makeText(applicationContext, "Ha habido un error en el inicio de sesión", Toast.LENGTH_LONG).show()
                 }
             }
 
@@ -95,12 +91,13 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_sign_in)
+        supportActionBar?.hide()
 
         register_text.setOnClickListener(this)
         sign_in_button.setOnClickListener(this)
         google_sign_in_button.setOnClickListener(this)
 
-        var gso: GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build()
+        val gso: GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
         mAuth = FirebaseAuth.getInstance()
@@ -109,21 +106,26 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
 
     override fun onStart() {
         super.onStart()
-        val currentUser = mAuth.currentUser
-        Toast.makeText(this, "Hey ${currentUser}!", Toast.LENGTH_SHORT).show()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 0) {
+
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
 
             try {
-                val account: GoogleSignInAccount = task.getResult()
+                val account: GoogleSignInAccount = task.getResult(ApiException::class.java)
                 firebaseAuthWithGoogle(account)
             } catch (e: ApiException) {
-                Toast.makeText(applicationContext, "1 FAIL FOR GRYFFINDOR", Toast.LENGTH_LONG).show()
-
+                Toast.makeText(applicationContext, "Back pressed", Toast.LENGTH_LONG).show()
             }
+
         }
+    }
+
+    private fun updateUI() {
+        val intent = Intent(this, GridSelectionActivity::class.java)
+        Toast.makeText(this, "Has iniciado sesion correctamente", Toast.LENGTH_LONG).show()
+        startActivity(intent)
     }
 }
