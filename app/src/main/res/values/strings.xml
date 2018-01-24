@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">EventuallyTest</string>
+    <string name="app_name">Eventually</string>
     <string name="app_login">Iniciar sesión</string>
     <string name="app_label">eventually</string>
     <string name="mail_telf">email</string>
