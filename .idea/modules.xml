@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Eventually.iml" filepath="$PROJECT_DIR$/Eventually.iml" />
       <module fileurl="file://C:\Users\Usuari1\AndroidStudioProjects\Eventually_DEV\EventuallyTesting24112017.iml" filepath="C:\Users\Usuari1\AndroidStudioProjects\Eventually_DEV\EventuallyTesting24112017.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Eventually_TUESDAY.iml" filepath="$PROJECT_DIR$/Eventually_TUESDAY.iml" />
+      <module fileurl="file://C:\Users\javyc\Documents\Eventually\Eventually_TUESDAY.iml" filepath="C:\Users\javyc\Documents\Eventually\Eventually_TUESDAY.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
       <module fileurl="file://C:\Users\Usuari1\AndroidStudioProjects\EventuallyTesting24112017\app\app.iml" filepath="C:\Users\Usuari1\AndroidStudioProjects\EventuallyTesting24112017\app\app.iml" />
     </modules>

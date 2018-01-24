@@ -1,4 +1,4 @@
-package com.example.javier_t.eventuallytest.DatabaseObjects
+package com.evesoftworks.javier_t.eventually.databaseobjects
 
 class User () {
     lateinit var email: String

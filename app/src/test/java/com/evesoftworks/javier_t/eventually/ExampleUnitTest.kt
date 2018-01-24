@@ -1,4 +1,4 @@
-package com.example.javier_t.eventuallytest
+package com.evesoftworks.javier_t.eventually
 
 import org.junit.Test
 

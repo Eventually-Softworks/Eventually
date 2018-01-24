@@ -4,10 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.javier_t.eventuallytest.GridSelectionActivity">
+    tools:context="com.evesoftworks.javier_t.eventually.activities.GridSelectionActivity">
 
-    <Button
+    <GridView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/boton"/>
+        />
 </android.support.constraint.ConstraintLayout>

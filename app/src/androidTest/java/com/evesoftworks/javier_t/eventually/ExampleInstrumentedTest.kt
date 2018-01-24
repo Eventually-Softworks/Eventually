@@ -1,4 +1,4 @@
-package com.example.javier_t.eventuallytest
+package com.evesoftworks.javier_t.eventually
 
 import android.support.test.InstrumentationRegistry
 import android.support.test.runner.AndroidJUnit4
