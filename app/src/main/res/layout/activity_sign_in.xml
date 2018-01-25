@@ -10,7 +10,7 @@
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_android_black_24dp"
+        app:srcCompat="@drawable/eventually"
         android:id="@+id/image_icon"/>
 
     <TextView
@@ -21,21 +21,35 @@
         android:textColor="@color/colorPrimary"
         android:textSize="@dimen/title_size" />
 
-    <EditText
-        android:id="@+id/et_name"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/margin_from_title"
-        android:layout_width="@dimen/et_width"
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/mail_telf"/>
+        app:hintEnabled="true">
 
-    <EditText
-        android:id="@+id/et_pass"
-        android:layout_gravity="center"
-        android:layout_width="@dimen/et_width"
-        android:inputType="textPassword"
+        <EditText
+            android:id="@+id/et_name"
+            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/margin_from_title"
+            android:layout_width="@dimen/et_width"
+            android:layout_height="wrap_content"
+            android:hint="@string/mail_telf"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/pass"/>
+        app:passwordToggleEnabled="true"
+        app:hintEnabled="true">
+
+        <EditText
+            android:id="@+id/et_pass"
+            android:layout_gravity="center"
+            android:layout_width="@dimen/et_width"
+            android:inputType="textPassword"
+            android:layout_height="wrap_content"
+            android:hint="@string/pass"/>
+    </android.support.design.widget.TextInputLayout>
+
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/sign_in_button"
@@ -64,12 +78,12 @@
         android:layout_height="wrap_content"
         android:focusable="true" />
 
-    <TextView
+    <!--<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/skip"
         android:layout_gravity="end"
         android:layout_marginEnd="@dimen/margin_skip_button"
         android:layout_marginBottom="@dimen/margin_skip_button"
-        android:layout_marginTop="@dimen/margin_skip_button"/>
+        android:layout_marginTop="@dimen/margin_skip_button"/>-->
 </LinearLayout>

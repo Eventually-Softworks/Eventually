@@ -1,291 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:gravity="center"
+    android:id="@+id/tableLayout"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     tools:context="com.evesoftworks.javier_t.eventually.activities.GridSelectionActivity">
 
-    <GridLayout
-        android:id="@+id/gridLayout"
-        android:columnCount="3"
-        android:rowCount="4"
-        android:alignmentMode="alignMargins"
-        android:columnOrderPreserved="false"
-        android:layout_weight="1"
+    <TableRow
+        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
+        android:layout_height="match_parent">
 
-        <android.support.v7.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1">
+        <ToggleButton
+            android:id="@+id/button_Cine"
+            android:layout_width="@dimen/bu_table_size"
+            android:layout_height="@dimen/bu_table_size"
+            android:textOff="@string/bu_cine"
+            android:textOn="@string/bu_cine"/>
 
-            <LinearLayout
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+        <ToggleButton
+            android:id="@+id/button_Playa"
+            android:layout_width="@dimen/bu_table_size"
+            android:layout_height="@dimen/bu_table_size"
+            android:textOff="@string/bu_playa"
+            android:textOn="@string/bu_playa"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cine"
-                    android:layout_gravity="center"/>
+        <ToggleButton
+            android:id="@+id/button_Moda"
+            android:layout_width="@dimen/bu_table_size"
+            android:layout_height="@dimen/bu_table_size"
+            android:textOff="@string/bu_moda"
+            android:textOn="@string/bu_moda"/>
+    </TableRow>
 
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1">
-
-            <LinearLayout
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Playa"
-                    android:layout_gravity="center"/>
-
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1">
-
-            <LinearLayout
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Moda"
-                    android:layout_gravity="center"/>
-
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1">
-
-            <LinearLayout
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cultura"
-                    android:layout_gravity="center"/>
-
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1">
-
-            <LinearLayout
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Musica"
-                    android:layout_gravity="center"/>
-
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1">
-
-            <LinearLayout
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Gastronomia"
-                    android:layout_gravity="center"/>
-
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1">
-            <LinearLayout
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cocteles"
-                    android:layout_gravity="center"/>
-
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1">
-
-            <LinearLayout
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Deportes"
-                    android:layout_gravity="center"/>
-
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1">
-
-            <LinearLayout
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Festivales"
-                    android:layout_gravity="center"/>
-
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1">
-
-            <LinearLayout
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Clubes"
-                    android:layout_gravity="center"/>
-
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1">
-
-            <LinearLayout
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Expos"
-                    android:layout_gravity="center"/>
-
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-
-        <android.support.v7.widget.CardView
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_columnWeight="1"
-            android:layout_rowWeight="1">
-
-            <LinearLayout
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:layout_margin="16dp"
-                android:orientation="vertical"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="En grupo"
-                    android:layout_gravity="center"/>
-
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
-    </GridLayout>
-
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/grid_next_button"
+    <TableRow
+        android:gravity="center"
         android:layout_width="match_parent"
-        android:text="Continuar"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimary"
-        android:textColor="@color/textButton"/>
-</LinearLayout>
+        android:layout_height="match_parent">
+
+        <ToggleButton
+            android:id="@+id/button_Cultura"
+            android:layout_width="@dimen/bu_table_size"
+            android:layout_height="@dimen/bu_table_size"
+            android:textOff="@string/bu_cultura"
+            android:textOn="@string/bu_cultura"/>
+
+        <ToggleButton
+            android:id="@+id/button_Musica"
+            android:layout_width="@dimen/bu_table_size"
+            android:layout_height="@dimen/bu_table_size"
+            android:textOff="@string/bu_musica"
+            android:textOn="@string/bu_musica"/>
+
+        <ToggleButton
+            android:id="@+id/button_Gastronomia"
+            android:layout_width="@dimen/bu_table_size"
+            android:layout_height="@dimen/bu_table_size"
+            android:textOff="@string/bu_gastronomia"
+            android:textOn="@string/bu_gastronomia"/>
+
+    </TableRow>
+
+    <TableRow
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ToggleButton
+            android:id="@+id/button_Cocteles"
+            android:layout_width="@dimen/bu_table_size"
+            android:layout_height="@dimen/bu_table_size"
+            android:textOff="@string/bu_cocteles"
+            android:textOn="@string/bu_cocteles"/>
+
+        <ToggleButton
+            android:id="@+id/button_Deportes"
+            android:layout_width="@dimen/bu_table_size"
+            android:layout_height="@dimen/bu_table_size"
+            android:textOff="@string/bu_deportes"
+            android:textOn="@string/bu_deportes"/>
+
+        <ToggleButton
+            android:id="@+id/button_Festivales"
+            android:layout_width="@dimen/bu_table_size"
+            android:layout_height="@dimen/bu_table_size"
+            android:textOff="@string/bu_festival"
+            android:textOn="@string/bu_festival"/>
+
+    </TableRow>
+
+
+    <TableRow
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ToggleButton
+            android:id="@+id/button_Clubes"
+            android:layout_width="@dimen/bu_table_size"
+            android:layout_height="@dimen/bu_table_size"
+            android:textOff="@string/bu_clubes"
+            android:textOn="@string/bu_clubes"/>
+
+        <ToggleButton
+            android:id="@+id/button_Expos"
+            android:layout_width="@dimen/bu_table_size"
+            android:layout_height="@dimen/bu_table_size"
+            android:textOff="@string/bu_expos"
+            android:textOn="@string/bu_expos"/>
+
+        <ToggleButton
+            android:id="@+id/button_EnGrupo"
+            android:layout_width="@dimen/bu_table_size"
+            android:layout_height="@dimen/bu_table_size"
+            android:textOff="@string/bu_grupo"
+            android:textOn="@string/bu_grupo"/>
+
+    </TableRow>
+
+
+
+</TableLayout>

@@ -1,21 +1,27 @@
 package com.evesoftworks.javier_t.eventually.activities
 
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.CardView
+import android.util.Log
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.GridLayout
-import android.widget.Toast
+import android.widget.*
 import com.evesoftworks.javier_t.eventually.R
-import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.activity_grid_selection.*
 
 class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
+    private var userPreferencesSelected: ArrayList<String> = ArrayList<String>()
+
     override fun onClick(view: View?) {
-        Toast.makeText(this, "hola", Toast.LENGTH_LONG).show()
+        val button: ToggleButton = view as ToggleButton
+
+        if (button.isChecked) {
+            Toast.makeText(this, button.textOn.toString(), Toast.LENGTH_LONG).show()
+            userPreferencesSelected.add(button.textOn.toString())
+        } else {
+            userPreferencesSelected.remove(button.textOn.toString())
+        }
+
+        Log.d("ARRAY", "${userPreferencesSelected.size}")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,13 +29,22 @@ class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(R.layout.activity_grid_selection)
         supportActionBar?.hide()
 
-        addListenersToElements(gridLayout)
+        setAllListeners()
+
     }
 
-    private fun addListenersToElements(mainGrid: GridLayout) {
-        for (i in 0 until mainGrid.childCount) {
-            val cardView: CardView = mainGrid.getChildAt(i) as CardView
-            cardView.setOnClickListener(this)
+    private fun setAllListeners() {
+        for (i in 0 until tableLayout.childCount) {
+            val child: View = tableLayout.getChildAt(i)
+
+            if (child is TableRow) {
+                val row: TableRow = child
+
+                for (j in 0 until row.childCount) {
+                    val view: View = row.getChildAt(j)
+                    view.setOnClickListener(this)
+                }
+            }
         }
     }
 }
