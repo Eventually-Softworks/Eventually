@@ -1,11 +1,4 @@
 package com.evesoftworks.javier_t.eventually.databaseobjects
 
-class User () {
-    lateinit var email: String
-    lateinit var password: String
-
-    constructor(email: String, password: String): this() {
-        this.email = email
-        this.password = password
-    }
-}
+data class User (val email: String, val password: String, val userName: String, val firstName: String, val lastName: String, val categories: ArrayList<Category>,
+                 val groups: ArrayList<Group> = ArrayList<Group>(), val friends: ArrayList<User> = ArrayList<User>())

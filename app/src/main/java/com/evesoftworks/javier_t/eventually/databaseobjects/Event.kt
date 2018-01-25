@@ -1,4 +1,5 @@
 package com.evesoftworks.javier_t.eventually.databaseobjects
 
-class Event {
-}
+import java.util.*
+
+data class Event(val eventId: String, val eventName: String, val eventDescription: String, val location: ArrayList<String>, val eventDate: Date)
