@@ -6,4 +6,7 @@
     <dimen name="margin_from_button">50dp</dimen>
     <dimen name="not_registered_width">290dp</dimen>
     <dimen name="margin_skip_button">20dp</dimen>
+    <dimen name="app_bar_height">180dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 </resources>

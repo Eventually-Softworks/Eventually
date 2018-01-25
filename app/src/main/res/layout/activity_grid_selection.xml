@@ -8,6 +8,7 @@
     tools:context="com.evesoftworks.javier_t.eventually.activities.GridSelectionActivity">
 
     <GridLayout
+        android:id="@+id/gridLayout"
         android:columnCount="3"
         android:rowCount="4"
         android:alignmentMode="alignMargins"

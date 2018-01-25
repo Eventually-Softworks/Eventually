@@ -9,15 +9,18 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.evesoftworks.javier_t.eventually.activities.SignInActivity" android:launchMode="singleTask">
+        <activity
+            android:name=".activities.SignInActivity"
+            android:launchMode="singleTask">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.evesoftworks.javier_t.eventually.activities.RegisterActivity"/>
-        <activity android:name="com.evesoftworks.javier_t.eventually.activities.GridSelectionActivity"></activity>
+        <activity android:name=".activities.RegisterActivity" />
+        <activity android:name=".activities.GridSelectionActivity" />
+        <activity android:name=".activities.GridItemActivity" />
     </application>
 
 </manifest>
