@@ -44,6 +44,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, OnCompleteLi
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+        supportActionBar?.hide()
 
         mAuth = FirebaseAuth.getInstance()
         register_button.setOnClickListener(this)
