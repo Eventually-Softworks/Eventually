@@ -21,6 +21,7 @@
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.GridSelectionActivity" />
         <activity android:name=".activities.GridItemActivity" />
+        <activity android:name=".activities.MainPageActivity"></activity>
     </application>
 
 </manifest>

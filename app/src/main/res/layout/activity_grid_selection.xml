@@ -117,9 +117,17 @@
             android:layout_height="@dimen/bu_table_size"
             android:textOff="@string/bu_grupo"
             android:textOn="@string/bu_grupo"/>
-
     </TableRow>
 
-
+    <LinearLayout>
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/continue_button"
+            android:layout_width="match_parent"
+            android:text="Continuar"
+            android:layout_gravity="center"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/colorPrimary"
+            android:textColor="@color/textButton"/>
+    </LinearLayout>
 
 </TableLayout>
