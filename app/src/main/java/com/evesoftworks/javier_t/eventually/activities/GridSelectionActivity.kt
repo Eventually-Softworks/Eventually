@@ -46,7 +46,7 @@ class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
 
             val newUser = User(arrayOfPreferences)
 
-            db.collection("Usuarios").add(newUser)
+            db.collection("PreferenciasUsuario").document(FirebaseAuth.getInstance().currentUser!!.uid).set(newUser)
             val intent = Intent(applicationContext, MainPageActivity::class.java)
             startActivity(intent)
         }
