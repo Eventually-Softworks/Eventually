@@ -4,9 +4,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/eventually"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/eventually_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -20,7 +20,6 @@
         </activity>
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.GridSelectionActivity" />
-        <activity android:name=".activities.GridItemActivity" />
         <activity android:name=".activities.MainPageActivity"></activity>
     </application>
 

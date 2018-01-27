@@ -16,6 +16,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_sign_in.*
+import android.view.ViewGroup
+import android.widget.Button
+import com.crashlytics.android.Crashlytics
+
+
 
 class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.AuthStateListener, OnCompleteListener<AuthResult> {
     lateinit var mAuth: FirebaseAuth
@@ -100,6 +105,15 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
 
         mAuth = FirebaseAuth.getInstance()
         mAuth.addAuthStateListener(this)
+
+        val crashButton = Button(this)
+        crashButton.setText("Crash!")
+        crashButton.setOnClickListener(View.OnClickListener {
+            Crashlytics.getInstance().crash() // Force a crash
+        })
+        addContentView(crashButton,
+                ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT))
     }
 
     override fun onStart() {
