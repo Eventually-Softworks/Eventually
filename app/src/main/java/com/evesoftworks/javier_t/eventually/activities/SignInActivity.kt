@@ -105,15 +105,6 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
 
         mAuth = FirebaseAuth.getInstance()
         mAuth.addAuthStateListener(this)
-
-        val crashButton = Button(this)
-        crashButton.setText("Crash!")
-        crashButton.setOnClickListener(View.OnClickListener {
-            Crashlytics.getInstance().crash() // Force a crash
-        })
-        addContentView(crashButton,
-                ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT))
     }
 
     override fun onStart() {

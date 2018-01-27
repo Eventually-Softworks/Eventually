@@ -15,8 +15,8 @@
             android:endY="2383.097941287994"
             android:endX="8958.600120544434"
             android:type="linear">
-    <item android:offset="0.0" android:color="#FFE4235C" />
-    <item android:offset="1.0" android:color="#FFA61E78" />
+    <item android:offset="0.0" android:color="#e91e63" />
+    <item android:offset="1.0" android:color="#ad1457" />
                 </gradient></aapt:attr></path>
         <path
             android:pathData="M65.4,27.5H41.6c-0.7,2.3 -1.1,4.9 -1.1,7.9c0,0.3 0,0.6 0,0.9c0.1,1.5 0.4,2.8 1,4.1h27.2l10.3,-13l-11,4.1C68,31.6 67.1,29.8 65.4,27.5z">
@@ -28,8 +28,8 @@
             android:endY="2409.5436418571476"
             android:endX="4784.901724384307"
             android:type="linear">
-    <item android:offset="0.0" android:color="#FFE4235C" />
-    <item android:offset="1.0" android:color="#FFA61E78" />
+    <item android:offset="0.0" android:color="#e91e63" />
+    <item android:offset="1.0" android:color="#ad1457" />
                 </gradient></aapt:attr></path>
         <path
             android:pathData="M68,31.6l11,-4.1H65.4C67.1,29.8 68,31.6 68,31.6z">
@@ -41,8 +41,8 @@
             android:endY="2095.981295108795"
             android:endX="8958.600120544434"
             android:type="linear">
-    <item android:offset="0.0" android:color="#FFE4235C" />
-    <item android:offset="1.0" android:color="#FFA61E78" />
+    <item android:offset="0.0" android:color="#e91e63" />
+    <item android:offset="1.0" android:color="#ad1457" />
                 </gradient></aapt:attr></path>
         <path
             android:pathData="M68,31.6l11,-4.1H65.4C67.1,29.8 68,31.6 68,31.6z">
@@ -54,8 +54,8 @@
             android:endY="2095.981295108795"
             android:endX="4784.901724384307"
             android:type="linear">
-    <item android:offset="0.0" android:color="#FFE4235C" />
-    <item android:offset="1.0" android:color="#FFA61E78" />
+    <item android:offset="0.0" android:color="#e91e63" />
+    <item android:offset="1.0" android:color="#ad1457" />
                 </gradient></aapt:attr></path>
     </group>
 </vector>
