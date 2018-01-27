@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center"
     android:orientation="vertical"
     tools:context="com.evesoftworks.javier_t.eventually.activities.RegisterActivity">
 
@@ -24,12 +25,12 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_from_title"
         app:hintEnabled="true">
 
         <EditText
             android:id="@+id/et_name"
             android:layout_gravity="center"
-            android:layout_marginTop="@dimen/margin_from_title"
             android:layout_width="@dimen/et_width"
             android:inputType="textEmailAddress"
             android:layout_height="wrap_content"
@@ -76,15 +77,19 @@
         android:backgroundTint="@color/colorPrimary"
         android:textColor="@color/textButton"/>
 
-    <TextView
+    <android.support.v7.widget.AppCompatButton
         android:id="@+id/register_text"
-        android:layout_width="@dimen/not_registered_width"
-        android:text="@string/already_registered"
-        android:textColor="@color/colorPrimary"
+        android:layout_width="wrap_content"
+        android:layout_height="23dp"
         android:layout_gravity="center"
-        android:gravity="end"
+        android:layout_marginTop="20dp"
+        android:background="@android:color/transparent"
         android:clickable="true"
-        android:layout_height="wrap_content"
-        android:focusable="true" />
+        android:focusable="true"
+        android:gravity="end"
+        android:text="@string/already_registered"
+        android:textAllCaps="false"
+        android:textColor="@color/colorPrimary"
+        android:textStyle="bold"/>
 </LinearLayout>
 
