@@ -1,133 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:gravity="center"
-    android:id="@+id/tableLayout"
     android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:background="@color/dark"
     tools:context="com.evesoftworks.javier_t.eventually.activities.GridSelectionActivity">
 
-    <TableRow
-        android:gravity="center"
+    <TableLayout
+        android:id="@+id/tableLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="400dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ToggleButton
-            android:id="@+id/button_Cine"
-            android:layout_width="@dimen/bu_table_size"
-            android:layout_height="@dimen/bu_table_size"
-            android:textOff="@string/bu_cine"
-            android:textOn="@string/bu_cine"/>
-
-        <ToggleButton
-            android:id="@+id/button_Playa"
-            android:layout_width="@dimen/bu_table_size"
-            android:layout_height="@dimen/bu_table_size"
-            android:textOff="@string/bu_playa"
-            android:textOn="@string/bu_playa"/>
-
-        <ToggleButton
-            android:id="@+id/button_Moda"
-            android:layout_width="@dimen/bu_table_size"
-            android:layout_height="@dimen/bu_table_size"
-            android:textOff="@string/bu_moda"
-            android:textOn="@string/bu_moda"/>
-    </TableRow>
-
-    <TableRow
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ToggleButton
-            android:id="@+id/button_Cultura"
-            android:layout_width="@dimen/bu_table_size"
-            android:layout_height="@dimen/bu_table_size"
-            android:textOff="@string/bu_cultura"
-            android:textOn="@string/bu_cultura"/>
-
-        <ToggleButton
-            android:id="@+id/button_Musica"
-            android:layout_width="@dimen/bu_table_size"
-            android:layout_height="@dimen/bu_table_size"
-            android:textOff="@string/bu_musica"
-            android:textOn="@string/bu_musica"/>
-
-        <ToggleButton
-            android:id="@+id/button_Gastronomia"
-            android:layout_width="@dimen/bu_table_size"
-            android:layout_height="@dimen/bu_table_size"
-            android:textOff="@string/bu_gastronomia"
-            android:textOn="@string/bu_gastronomia"/>
-
-    </TableRow>
-
-    <TableRow
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ToggleButton
-            android:id="@+id/button_Cocteles"
-            android:layout_width="@dimen/bu_table_size"
-            android:layout_height="@dimen/bu_table_size"
-            android:textOff="@string/bu_cocteles"
-            android:textOn="@string/bu_cocteles"/>
-
-        <ToggleButton
-            android:id="@+id/button_Deportes"
-            android:layout_width="@dimen/bu_table_size"
-            android:layout_height="@dimen/bu_table_size"
-            android:textOff="@string/bu_deportes"
-            android:textOn="@string/bu_deportes"/>
-
-        <ToggleButton
-            android:id="@+id/button_Festivales"
-            android:layout_width="@dimen/bu_table_size"
-            android:layout_height="@dimen/bu_table_size"
-            android:textOff="@string/bu_festival"
-            android:textOn="@string/bu_festival"/>
-
-    </TableRow>
-
-
-    <TableRow
-        android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <ToggleButton
-            android:id="@+id/button_Clubes"
-            android:layout_width="@dimen/bu_table_size"
-            android:layout_height="@dimen/bu_table_size"
-            android:textOff="@string/bu_clubes"
-            android:textOn="@string/bu_clubes"/>
-
-        <ToggleButton
-            android:id="@+id/button_Expos"
-            android:layout_width="@dimen/bu_table_size"
-            android:layout_height="@dimen/bu_table_size"
-            android:textOff="@string/bu_expos"
-            android:textOn="@string/bu_expos"/>
-
-        <ToggleButton
-            android:id="@+id/button_EnGrupo"
-            android:layout_width="@dimen/bu_table_size"
-            android:layout_height="@dimen/bu_table_size"
-            android:textOff="@string/bu_grupo"
-            android:textOn="@string/bu_grupo"/>
-    </TableRow>
-
-    <LinearLayout>
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/continue_button"
+        <TableRow
             android:layout_width="match_parent"
-            android:text="Continuar"
-            android:layout_gravity="center"
-            android:layout_height="match_parent"
-            android:backgroundTint="@color/colorPrimary"
-            android:textColor="@color/textButton"/>
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:gravity="center">
 
-</TableLayout>
+            <ToggleButton
+                android:id="@+id/button_Cine"
+                android:layout_width="@dimen/bu_table_width"
+                android:layout_height="@dimen/bu_table_height"
+                android:background="@drawable/selector"
+                android:gravity="center|bottom"
+                android:textOff="@string/bu_cine"
+                android:textOn="@string/bu_cine" />
+
+            <ToggleButton
+                android:id="@+id/button_Playa"
+                android:layout_width="@dimen/bu_table_width"
+                android:layout_height="@dimen/bu_table_height"
+                android:background="@drawable/selector"
+                android:gravity="center|bottom"
+                android:textOff="@string/bu_playa"
+                android:textOn="@string/bu_playa" />
+
+            <ToggleButton
+                android:id="@+id/button_Moda"
+                android:layout_width="@dimen/bu_table_width"
+                android:layout_height="@dimen/bu_table_height"
+                android:background="@drawable/selector"
+                android:gravity="center|bottom"
+                android:textOff="@string/bu_moda"
+                android:textOn="@string/bu_moda" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <ToggleButton
+                android:id="@+id/button_Cultura"
+                android:layout_width="@dimen/bu_table_width"
+                android:layout_height="@dimen/bu_table_height"
+                android:background="@drawable/selector"
+                android:gravity="center|bottom"
+                android:textOff="@string/bu_cultura"
+                android:textOn="@string/bu_cultura" />
+
+            <ToggleButton
+                android:id="@+id/button_Musica"
+                android:layout_width="@dimen/bu_table_width"
+                android:layout_height="@dimen/bu_table_height"
+                android:background="@drawable/selector"
+                android:gravity="center|bottom"
+                android:textOff="@string/bu_musica"
+                android:textOn="@string/bu_musica" />
+
+            <ToggleButton
+                android:id="@+id/button_Gastronomia"
+                android:layout_width="@dimen/bu_table_width"
+                android:layout_height="@dimen/bu_table_height"
+                android:background="@drawable/selector"
+                android:gravity="center|bottom"
+                android:textOff="@string/bu_gastronomia"
+                android:textOn="@string/bu_gastronomia" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <ToggleButton
+                android:id="@+id/button_Cocteles"
+                android:layout_width="@dimen/bu_table_width"
+                android:layout_height="@dimen/bu_table_height"
+                android:background="@drawable/selector"
+                android:gravity="center|bottom"
+                android:textOff="@string/bu_cocteles"
+                android:textOn="@string/bu_cocteles" />
+
+            <ToggleButton
+                android:id="@+id/button_Deportes"
+                android:layout_width="@dimen/bu_table_width"
+                android:layout_height="@dimen/bu_table_height"
+                android:background="@drawable/selector"
+                android:gravity="center|bottom"
+                android:textOff="@string/bu_deportes"
+                android:textOn="@string/bu_deportes" />
+
+            <ToggleButton
+                android:id="@+id/button_Festivales"
+                android:layout_width="@dimen/bu_table_width"
+                android:layout_height="@dimen/bu_table_height"
+                android:background="@drawable/selector"
+                android:gravity="center|bottom"
+                android:textOff="@string/bu_festival"
+                android:textOn="@string/bu_festival" />
+
+        </TableRow>
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <ToggleButton
+                android:id="@+id/button_Clubes"
+                android:layout_width="@dimen/bu_table_width"
+                android:layout_height="@dimen/bu_table_height"
+                android:background="@drawable/selector"
+                android:gravity="center|bottom"
+                android:textOff="@string/bu_clubes"
+                android:textOn="@string/bu_clubes" />
+
+            <ToggleButton
+                android:id="@+id/button_Expos"
+                android:layout_width="@dimen/bu_table_width"
+                android:layout_height="@dimen/bu_table_height"
+                android:background="@drawable/selector"
+                android:gravity="center|bottom"
+                android:textOff="@string/bu_expos"
+                android:textOn="@string/bu_expos" />
+
+            <ToggleButton
+                android:id="@+id/button_EnGrupo"
+                android:layout_width="@dimen/bu_table_width"
+                android:layout_height="@dimen/bu_table_height"
+                android:background="@drawable/selector"
+                android:gravity="center|bottom"
+                android:textOff="@string/bu_grupo"
+                android:textOn="@string/bu_grupo" />
+        </TableRow>
+    </TableLayout>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/continue_button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/primaryButton"
+        android:text="@string/text_continue"
+        android:textColor="@color/textButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout" />
+
+</android.support.constraint.ConstraintLayout>
