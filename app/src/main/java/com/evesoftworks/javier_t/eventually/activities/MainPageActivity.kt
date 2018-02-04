@@ -15,13 +15,16 @@ import com.evesoftworks.javier_t.eventually.adapters.SectionsPagerAdapter
 import com.evesoftworks.javier_t.eventually.fragments.ContactsFragment
 import com.evesoftworks.javier_t.eventually.fragments.EventsFragment
 import com.evesoftworks.javier_t.eventually.fragments.GroupsFragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_main_page.*
 import kotlinx.android.synthetic.main.app_bar.*
+import kotlinx.android.synthetic.main.header_drawer.*
 import kotlinx.android.synthetic.main.tabs_layout.*
 
 class MainPageActivity : AppCompatActivity(), ContactsFragment.OnFragmentInteractionListener, EventsFragment.OnFragmentInteractionListener, GroupsFragment.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        TODO()
     }
 
     override fun onFragmentInteraction(uri: Uri) {}
@@ -41,6 +44,8 @@ class MainPageActivity : AppCompatActivity(), ContactsFragment.OnFragmentInterac
         main_content.addDrawerListener(mToggle)
         mToggle.syncState()
 
+        setDataWithCurrentUser()
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         navigation_drawer.setNavigationItemSelectedListener(this)
 
@@ -54,5 +59,15 @@ class MainPageActivity : AppCompatActivity(), ContactsFragment.OnFragmentInterac
         }
 
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun setDataWithCurrentUser() {
+        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+        val currentUser = FirebaseAuth.getInstance().currentUser
+
+        db.collection("PreferenciasUsuario").document(currentUser?.uid as String).get().addOnSuccessListener {
+            documentSnapshot ->
+                nav_email.text = currentUser.email.toString()
+        }
     }
 }

@@ -56,11 +56,11 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
 
     }
 
-    override fun onAuthStateChanged(p0: FirebaseAuth) {
-        val user: FirebaseUser? = p0.currentUser
+    override fun onAuthStateChanged(firebaseAuth: FirebaseAuth) {
+        val user = firebaseAuth.currentUser
 
-        if (user == null) {
-            Toast.makeText(applicationContext, "Has cerrado sesión", Toast.LENGTH_LONG).show()
+        if (user != null) {
+            userIsHere()
         }
     }
 
@@ -109,6 +109,8 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
 
     override fun onStart() {
         super.onStart()
+        mAuth = FirebaseAuth.getInstance()
+        mAuth.addAuthStateListener(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -128,7 +130,11 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
 
     private fun updateUI() {
         val intent = Intent(this, GridSelectionActivity::class.java)
-        Toast.makeText(this, "Has iniciado sesion correctamente", Toast.LENGTH_LONG).show()
+        startActivity(intent)
+    }
+
+    private fun userIsHere() {
+        val intent = Intent(this, MainPageActivity::class.java)
         startActivity(intent)
     }
 }

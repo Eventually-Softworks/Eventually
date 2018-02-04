@@ -40,4 +40,6 @@
     <string name="feedback">Feedback</string>
     <string name="sidebaropen">Open</string>
     <string name="sidebarclosed">Closed</string>
+    <string name="guest_first_time">Invitado</string>
+    <string name="mail_guest">invitado@invitado.com</string>
 </resources>
