@@ -12,7 +12,7 @@
     <string name="retype_pass">repetir contraseña</string>
     <string name="register">Registrarse</string>
     <string name="already_registered">Ya tienes cuenta? Inicia sesión</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Ajustes</string>
     <string name="bu_clubes">Clubes</string>
     <string name="bu_expos">Expos</string>
     <string name="bu_grupo">Grupales</string>
@@ -30,8 +30,14 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main_page">MainPageActivity</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
-    <string name="tab_text_3">Tab 3</string>
+    <string name="tab_text_1">Eventos</string>
+    <string name="tab_text_2">Contactos</string>
+    <string name="tab_text_3">Grupos</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="my_events">Mis eventos</string>
+    <string name="log_out">Cerrar sesión</string>
+    <string name="share_friends">Invitar a amigos</string>
+    <string name="feedback">Feedback</string>
+    <string name="sidebaropen">Open</string>
+    <string name="sidebarclosed">Closed</string>
 </resources>

@@ -4,7 +4,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.evesoftworks.javier_t.eventually.activities.MainPageActivity$PlaceholderFragment">
+    tools:context="com.evesoftworks.javier_t.eventually.fragments.PlaceholderFragment">
 
     <TextView
         android:id="@+id/section_label"
