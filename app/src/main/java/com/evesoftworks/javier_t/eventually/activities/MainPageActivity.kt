@@ -1,11 +1,13 @@
 package com.evesoftworks.javier_t.eventually.activities
 
+import android.content.Intent
 import android.net.Uri
 import android.support.design.widget.TabLayout
 import android.support.v7.app.AppCompatActivity
 
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.MenuItem
 
@@ -24,7 +26,34 @@ import kotlinx.android.synthetic.main.tabs_layout.*
 
 class MainPageActivity : AppCompatActivity(), ContactsFragment.OnFragmentInteractionListener, EventsFragment.OnFragmentInteractionListener, GroupsFragment.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        TODO()
+        val id: Int = item.itemId
+
+        when (id) {
+            R.id.my_events -> {
+
+            }
+
+            R.id.action_settings -> {
+
+            }
+
+            R.id.share_friends -> {
+
+            }
+
+            R.id.feedback -> {
+
+            }
+
+            R.id.log_out -> {
+                FirebaseAuth.getInstance().signOut()
+                goToFirstPage()
+                finish()
+            }
+        }
+
+        main_content.closeDrawer(GravityCompat.START)
+        return true
     }
 
     override fun onFragmentInteraction(uri: Uri) {}
@@ -69,5 +98,10 @@ class MainPageActivity : AppCompatActivity(), ContactsFragment.OnFragmentInterac
             documentSnapshot ->
                 nav_email.text = currentUser.email.toString()
         }
+    }
+
+    private fun goToFirstPage() {
+        val intent = Intent(this, SignInActivity::class.java)
+        startActivity(intent)
     }
 }
