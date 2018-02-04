@@ -20,7 +20,10 @@
         </activity>
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.GridSelectionActivity" />
-        <activity android:name=".activities.MainPageActivity"></activity>
+        <activity
+            android:name=".activities.MainPageActivity"
+            android:label="@string/title_activity_main_page"
+            android:theme="@style/AppTheme.NoActionBar" />
     </application>
 
 </manifest>

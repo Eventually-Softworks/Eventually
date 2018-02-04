@@ -40,7 +40,7 @@ class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
     private var continueButtonListener: View.OnClickListener = object: View.OnClickListener {
         override fun onClick(view: View?) {
             for (i in 0 until userPreferencesSelected.size) {
-                val actualPreference = Category(i+1, userPreferencesSelected[i])
+                val actualPreference = Category(userPreferencesSelected[i])
                 arrayOfPreferences.add(actualPreference)
             }
 
