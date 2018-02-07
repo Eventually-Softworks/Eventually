@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.single_event.view.*
 
 
 class EventsAdapter(val events: ArrayList<Event>, val context: Context) : BaseAdapter() {
-    private val references = FirebaseFirestore.getInstance().collection("Eventos")
+
 
     override fun getView(position: Int, view: View?, viewGroup: ViewGroup?): View {
         var convertView = view

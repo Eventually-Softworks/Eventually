@@ -4,29 +4,38 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.evesoftworks.javier_t.eventually.activities.MainPageActivity">
 
-    <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="2"
-        android:title="@string/action_settings"
-        app:showAsAction="never"/>
+    <group android:id="@+id/mainmenu">
+        <item
+            android:id="@+id/my_events"
+            android:orderInCategory="1"
+            android:icon="@drawable/ic_event_black_24dp"
+            android:title="@string/my_events"/>
 
-    <item
-        android:id="@+id/my_events"
-        android:orderInCategory="1"
-        android:title="@string/my_events"/>
+        <item
+            android:id="@+id/action_settings"
+            android:orderInCategory="2"
+            android:icon="@drawable/ic_settings_black_24dp"
+            android:title="@string/action_settings"
+            app:showAsAction="never"/>
 
-    <item
-        android:id="@+id/log_out"
-        android:orderInCategory="5"
-        android:title="@string/log_out"/>
+        <item
+            android:id="@+id/share_friends"
+            android:orderInCategory="3"
+            android:icon="@drawable/ic_share_black_24dp"
+            android:title="@string/share_friends"/>
 
-    <item
-        android:id="@+id/share_friends"
-        android:orderInCategory="3"
-        android:title="@string/share_friends"/>
+        <item
+            android:id="@+id/feedback"
+            android:title="@string/feedback"
+            android:icon="@drawable/ic_feedback_black_24dp"
+            android:orderInCategory="4"/>
+    </group>
 
-    <item
-        android:id="@+id/feedback"
-        android:title="@string/feedback"
-        android:orderInCategory="4"/>
+    <group android:id="@+id/logoutmenu">
+        <item
+            android:id="@+id/log_out"
+            android:orderInCategory="5"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"
+            android:title="@string/log_out"/>
+    </group>
 </menu>

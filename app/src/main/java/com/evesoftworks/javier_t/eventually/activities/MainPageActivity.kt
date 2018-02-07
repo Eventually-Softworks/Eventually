@@ -64,7 +64,7 @@ class MainPageActivity : AppCompatActivity(), ContactsFragment.OnFragmentInterac
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
-
+        container.setOffscreenPageLimit(3);
         setSupportActionBar(toolbar)
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
         container.adapter = mSectionsPagerAdapter
@@ -96,12 +96,26 @@ class MainPageActivity : AppCompatActivity(), ContactsFragment.OnFragmentInterac
 
         db.collection("PreferenciasUsuario").document(currentUser?.uid as String).get().addOnSuccessListener {
             documentSnapshot ->
-                nav_email.text = currentUser.email.toString()
+            nav_email.text = currentUser.email.toString()
         }
     }
 
     private fun goToFirstPage() {
         val intent = Intent(this, SignInActivity::class.java)
         startActivity(intent)
+        finish()
+    }
+
+    override fun onBackPressed() {
+
+        val count = fragmentManager.backStackEntryCount
+
+        if (count == 0) {
+            super.onBackPressed()
+            //additional code
+        } else {
+            fragmentManager.popBackStack()
+        }
+
     }
 }

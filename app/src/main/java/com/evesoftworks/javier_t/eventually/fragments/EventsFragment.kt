@@ -23,19 +23,19 @@ class EventsFragment : Fragment() {
     val db = FirebaseFirestore.getInstance()
     val mAuth = FirebaseAuth.getInstance()
 
-    companion object {
-        fun newInstance(): EventsFragment {
-            return EventsFragment()
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        getEventInfo()
     }
 
+
+
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        getEventInfo()
         return inflater!!.inflate(R.layout.fragment_events, container, false)
+    }
+
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
     }
 
     private fun getEventInfo() {

@@ -22,7 +22,7 @@ import com.crashlytics.android.Crashlytics
 
 
 
-class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.AuthStateListener, OnCompleteListener<AuthResult> {
+class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteListener<AuthResult> {
     lateinit var mAuth: FirebaseAuth
     lateinit var mGoogleSignInClient: GoogleSignInClient
 
@@ -54,14 +54,6 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
             }
         }
 
-    }
-
-    override fun onAuthStateChanged(firebaseAuth: FirebaseAuth) {
-        val user = firebaseAuth.currentUser
-
-        if (user != null) {
-            userIsHere()
-        }
     }
 
     private fun signIn(mail: String, password: String) {
@@ -96,6 +88,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
         setContentView(R.layout.activity_sign_in)
         supportActionBar?.hide()
 
+        userIsHere()
         register_text.setOnClickListener(this)
         sign_in_button.setOnClickListener(this)
         google_sign_in_button.setOnClickListener(this)
@@ -104,13 +97,11 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
         mAuth = FirebaseAuth.getInstance()
-        mAuth.addAuthStateListener(this)
     }
 
     override fun onStart() {
         super.onStart()
         mAuth = FirebaseAuth.getInstance()
-        mAuth.addAuthStateListener(this)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -131,10 +122,14 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, FirebaseAuth.A
     private fun updateUI() {
         val intent = Intent(this, GridSelectionActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
     private fun userIsHere() {
-        val intent = Intent(this, MainPageActivity::class.java)
-        startActivity(intent)
+        if (FirebaseAuth.getInstance().currentUser != null) {
+            val intent = Intent(this, MainPageActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 }
