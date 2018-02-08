@@ -42,4 +42,8 @@
     <string name="sidebarclosed">Closed</string>
     <string name="guest_first_time">Invitado</string>
     <string name="mail_guest">invitado@invitado.com</string>
+    <string name="edit_name">nombre</string>
+    <string name="edit_lastname">apellido</string>
+    <string name="edit_username">nombre de usuario</string>
+    <string name="edit_birthdate">fecha nacimiento</string>
 </resources>

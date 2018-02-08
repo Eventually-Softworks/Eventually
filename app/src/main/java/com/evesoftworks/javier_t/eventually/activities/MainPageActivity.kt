@@ -34,7 +34,8 @@ class MainPageActivity : AppCompatActivity(), ContactsFragment.OnFragmentInterac
             }
 
             R.id.action_settings -> {
-
+                val intent = Intent(this, EditProfileActivity::class.java)
+                startActivity(intent)
             }
 
             R.id.share_friends -> {

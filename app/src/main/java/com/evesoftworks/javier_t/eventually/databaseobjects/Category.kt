@@ -1,3 +1,9 @@
 package com.evesoftworks.javier_t.eventually.databaseobjects
 
-data class Category(val preferenceName: String)
+class Category() {
+    lateinit var  preferenceName: String
+
+    constructor(preferenceName: String): this() {
+        this.preferenceName = preferenceName
+    }
+}
