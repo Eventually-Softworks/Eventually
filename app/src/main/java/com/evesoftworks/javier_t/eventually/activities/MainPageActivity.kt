@@ -14,6 +14,7 @@ import android.view.MenuItem
 
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.adapters.SectionsPagerAdapter
+import com.evesoftworks.javier_t.eventually.databaseobjects.User
 import com.evesoftworks.javier_t.eventually.fragments.ContactsFragment
 import com.evesoftworks.javier_t.eventually.fragments.EventsFragment
 import com.evesoftworks.javier_t.eventually.fragments.GroupsFragment
@@ -83,6 +84,11 @@ class MainPageActivity : AppCompatActivity(), ContactsFragment.OnFragmentInterac
         tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(container))
     }
 
+    override fun onStart() {
+        super.onStart()
+        setDataWithCurrentUser()
+    }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (mToggle.onOptionsItemSelected(item)) {
             return true
@@ -97,7 +103,14 @@ class MainPageActivity : AppCompatActivity(), ContactsFragment.OnFragmentInterac
 
         db.collection("PreferenciasUsuario").document(currentUser?.uid as String).get().addOnSuccessListener {
             documentSnapshot ->
+            val user = documentSnapshot.toObject<User>(User::class.java)
+
             nav_email.text = currentUser.email.toString()
+
+            if (!user.firstName.isEmpty()) {
+                nav_username.text = user.firstName
+            }
+
         }
     }
 

@@ -2,8 +2,11 @@ package com.evesoftworks.javier_t.eventually.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.CoordinatorLayout
+import android.support.design.widget.Snackbar
 import android.util.Log
 import android.view.View
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import com.evesoftworks.javier_t.eventually.R
@@ -17,6 +20,8 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
         if (view?.id == fab_ok_edit.id) {
             updateInfo()
+            val snackbar: Snackbar = Snackbar.make(editlayout, "Has editado tu perfil correctamente!", Snackbar.LENGTH_LONG)
+            snackbar.show()
         }
     }
 

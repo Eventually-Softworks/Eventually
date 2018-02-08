@@ -59,6 +59,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, OnCompleteLi
 
         mAuth = FirebaseAuth.getInstance()
         register_button.setOnClickListener(this)
+        register_text.setOnClickListener(this)
 
     }
 
