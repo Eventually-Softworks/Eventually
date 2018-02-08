@@ -42,8 +42,11 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
 
             R.id.sign_in_button -> {
                 if (TextUtils.isEmpty(et_name.text.toString()) || TextUtils.isEmpty(et_pass.text.toString())) {
-                    Toast.makeText(this, "Rellena los inputs con información válida, por favor", Toast.LENGTH_LONG).show()
+                    et_name.error = "Rellena los inputs con información válida, por favor"
+                    et_pass.error = "Rellena los inputs con información válida, por favor"
                 } else {
+                    et_name.error = null
+                    et_pass.error = null
                     signIn(et_name.text.toString(), et_pass.text.toString())
                 }
 

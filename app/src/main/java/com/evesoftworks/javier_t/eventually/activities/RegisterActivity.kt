@@ -28,15 +28,26 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, OnCompleteLi
         when (elementPressed?.id) {
             R.id.register_button -> {
                 if (TextUtils.isEmpty(et_name.text.toString()) || TextUtils.isEmpty(et_pass.text.toString()) || TextUtils.isEmpty(et_repass.text.toString())) {
-                    Toast.makeText(this, "Rellena los inputs con información válida, por favor", Toast.LENGTH_LONG).show()
+                    et_name.error = "Rellena los inputs con información válida, por favor"
+                    et_pass.error = "Rellena los inputs con información válida, por favor"
+                    et_repass.error = "Rellena los inputs con información válida, por favor"
                 } else {
+                    et_name.error = null
+                    et_pass.error = null
+                    et_repass.error = null
+
                     if (et_pass.text.toString().equals(et_repass.text.toString())) {
                         register(et_name.text.toString(), et_pass.text.toString())
                         finish()
                     } else {
-                        Toast.makeText(this, "Las contraseñas no coinciden, revísalas, por favor", Toast.LENGTH_LONG).show()
+                        et_pass.error = "Las contraseñas no coinciden, revisalas, por favor"
+                        et_repass.error = "Las contraseñas no coinciden, revisalas, por favor"
                     }
                 }
+            }
+
+            R.id.register_text -> {
+                finish()
             }
         }
     }

@@ -11,6 +11,7 @@ import com.evesoftworks.javier_t.eventually.databaseobjects.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_edit_profile.*
+import kotlinx.android.synthetic.main.edit_profile_toolbar.*
 
 class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
     override fun onClick(view: View?) {
@@ -25,6 +26,14 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
         getUserInfo()
+        setSupportActionBar(editToolbar)
+        editToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+
+        editToolbar.setNavigationOnClickListener(object: View.OnClickListener {
+            override fun onClick(view: View?) {
+                finish()
+            }
+        })
 
         fab_ok_edit.setOnClickListener(this)
 
