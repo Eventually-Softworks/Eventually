@@ -13,6 +13,7 @@ import com.evesoftworks.javier_t.eventually.databaseobjects.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_grid_selection.*
+import kotlinx.android.synthetic.main.grid_toolbar.*
 
 class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
     private var userPreferencesSelected: ArrayList<String> = ArrayList<String>()
@@ -23,7 +24,7 @@ class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
         val button: ToggleButton = view as ToggleButton
 
         if (button.isChecked) {
-            Toast.makeText(this, button.textOn.toString(), Toast.LENGTH_LONG).show()
+            //Toast.makeText(this, button.textOn.toString(), Toast.LENGTH_LONG).show()
             userPreferencesSelected.add(button.textOn.toString())
         } else {
             userPreferencesSelected.remove(button.textOn.toString())
@@ -34,7 +35,7 @@ class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
         } else {
             continue_button.visibility = View.GONE
         }
-        Log.d("ARRAY", "${userPreferencesSelected.size}")
+        //Log.d("ARRAY", "${userPreferencesSelected.size}")
     }
 
     private var continueButtonListener: View.OnClickListener = object: View.OnClickListener {
@@ -57,7 +58,7 @@ class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_grid_selection)
-        supportActionBar?.title = "Selecciona tus gustos"
+        setSupportActionBar(gridToolbar)
         continue_button.visibility = View.GONE
 
         setAllListeners()
