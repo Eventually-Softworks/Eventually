@@ -9,9 +9,7 @@ import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.databaseobjects.EventSection
 import kotlinx.android.synthetic.main.single_event_section.view.*
 
-/**
- * Created by Javier_T on 3/1/2018.
- */
+
 class EventSectionAdapter(val sectionArray: ArrayList<EventSection>): RecyclerView.Adapter<EventSectionAdapter.Companion.ViewHolder>() {
     companion object {
         class ViewHolder(var cardView: CardView): RecyclerView.ViewHolder(cardView)
