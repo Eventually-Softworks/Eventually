@@ -28,8 +28,6 @@ class EventsFragment : Fragment() {
         getEventInfo()
     }
 
-
-
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater!!.inflate(R.layout.fragment_events, container, false)
     }
@@ -48,8 +46,8 @@ class EventsFragment : Fragment() {
                     events.add(event)
                 }
 
-                val eventsAdapter = EventsAdapter(events, context)
-                listView.adapter = eventsAdapter
+                val eventsAdapter = EventsAdapter(events)
+                recyclerView.adapter = eventsAdapter
             }
         }
     }
