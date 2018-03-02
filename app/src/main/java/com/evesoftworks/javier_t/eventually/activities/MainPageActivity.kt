@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.widget.ShareActionProvider
 import android.view.MenuItem
 
 
@@ -40,7 +41,11 @@ class MainPageActivity : AppCompatActivity(), ContactsFragment.OnFragmentInterac
             }
 
             R.id.share_friends -> {
-
+                val intent = Intent()
+                intent.action = Intent.ACTION_SEND
+                intent.putExtra(Intent.EXTRA_TEXT, "Descárgate Eventually, está genial! ;)")
+                intent.type = "text/plain"
+                startActivity(intent)
             }
 
             R.id.feedback -> {
@@ -66,7 +71,7 @@ class MainPageActivity : AppCompatActivity(), ContactsFragment.OnFragmentInterac
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
-        container.setOffscreenPageLimit(3);
+        container.offscreenPageLimit = 3;
         setSupportActionBar(toolbar)
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
         container.adapter = mSectionsPagerAdapter

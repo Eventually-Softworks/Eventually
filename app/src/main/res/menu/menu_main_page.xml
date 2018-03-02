@@ -22,7 +22,7 @@
             android:id="@+id/share_friends"
             android:orderInCategory="3"
             android:icon="@drawable/ic_share_black_24dp"
-            android:title="@string/share_friends"/>
+            android:title="@string/share_friends" />
 
         <item
             android:id="@+id/feedback"
