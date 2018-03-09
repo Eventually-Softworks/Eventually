@@ -28,8 +28,8 @@ class EventsAdapter(val events: ArrayList<Event>): RecyclerView.Adapter<EventsAd
         return events.size
     }
 
-    override fun onBindViewHolder(holder: EventViewHolder?, position: Int) {
-        holder!!.constraint.singleevent_name.text = events[position].name
+    override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
+        holder.constraint.singleevent_name.text = events[position].name
         holder.constraint.singleevent_category.text = events[position].category
         //definir imagen
      }

@@ -30,19 +30,14 @@ class EventsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getEventInfo()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         recyclerView.setHasFixedSize(true)
-        createSections()
 
-        val layoutManager = LinearLayoutManager(activity.applicationContext, LinearLayoutManager.VERTICAL, false)
-        recyclerView.layoutManager = layoutManager
+        setUpData()
 
-        val adapter = EventSectionAdapter(sections)
-        recyclerView.adapter = adapter
     }
 
     override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -62,13 +57,25 @@ class EventsFragment : Fragment() {
                     val event: Event = document.toObject(Event::class.java)
                     events.add(event)
                 }
+
+                val layoutManager = LinearLayoutManager(activity.applicationContext, LinearLayoutManager.VERTICAL, false)
+                recyclerView.layoutManager = layoutManager
+
+                val adapter = EventSectionAdapter(sections)
+                recyclerView.adapter = adapter
+
             }
         }
     }
 
     private fun createSections() {
         sections.add(EventSection("Te encantarán", events))
-        sections.add(EventSection("Diviértete con tus amigos", events))
         sections.add(EventSection("Próximamente", events))
+        sections.add(EventSection("Sugeridos para ti", events))
+    }
+
+    private fun setUpData() {
+        getEventInfo()
+        createSections()
     }
 }
