@@ -10,18 +10,18 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.evesoftworks.javier_t.eventually.R
+import com.evesoftworks.javier_t.eventually.adapters.ContactsAdapter
 import com.evesoftworks.javier_t.eventually.adapters.EventSectionAdapter
+import com.evesoftworks.javier_t.eventually.databaseobjects.Category
 import com.evesoftworks.javier_t.eventually.databaseobjects.Event
 import com.evesoftworks.javier_t.eventually.databaseobjects.EventSection
 import com.evesoftworks.javier_t.eventually.databaseobjects.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import kotlinx.android.synthetic.main.fragment_contacts.*
 import kotlinx.android.synthetic.main.fragment_events.*
 
 class ContactsFragment : Fragment() {
-
-    var events: ArrayList<Event> = ArrayList<Event>()
-    var sections: ArrayList<EventSection> = ArrayList<EventSection>()
     lateinit var user: User
     val db = FirebaseFirestore.getInstance()
     val mAuth = FirebaseAuth.getInstance()
@@ -32,48 +32,34 @@ class ContactsFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        recyclerView.setHasFixedSize(true)
 
-        setUpData()
 
-    }
+        val contacts = ArrayList<User>()
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater!!.inflate(R.layout.fragment_events, container, false)
-    }
-
-    override fun onAttach(context: Context?) {
-        super.onAttach(context)
-    }
-
-    private fun getEventInfo() {
-        events = ArrayList<Event>()
-
-        db.collection("Eventos").get().addOnCompleteListener { task ->
+        db.collection("PreferenciasUsuario").get().addOnCompleteListener{ task ->
             if (task.isSuccessful) {
                 for (document in task.result) {
-                    val event: Event = document.toObject(Event::class.java)
-                    events.add(event)
+                    val user: User = document.toObject(User::class.java)
+                    contacts.add(user)
                 }
 
-                val layoutManager = LinearLayoutManager(activity.applicationContext, LinearLayoutManager.VERTICAL, false)
-                recyclerView.layoutManager = layoutManager
+                contacts_recycler.setHasFixedSize(true)
 
-                val adapter = EventSectionAdapter(sections)
-                recyclerView.adapter = adapter
+                val layoutManager = LinearLayoutManager(activity.applicationContext, LinearLayoutManager.VERTICAL, false)
+                contacts_recycler.layoutManager = layoutManager
+
+                val adapter = ContactsAdapter(contacts)
+                contacts_recycler.adapter = adapter
 
             }
         }
     }
 
-    private fun createSections() {
-        sections.add(EventSection("Te encantarán", events))
-        sections.add(EventSection("Próximamente", events))
-        sections.add(EventSection("Sugeridos para ti", events))
+    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater!!.inflate(R.layout.fragment_contacts, container, false)
     }
 
-    private fun setUpData() {
-        getEventInfo()
-        createSections()
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
     }
 }

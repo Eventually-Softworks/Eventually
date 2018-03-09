@@ -6,6 +6,7 @@
     tools:context="com.evesoftworks.javier_t.eventually.fragments.ContactsFragment">
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/contacts_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

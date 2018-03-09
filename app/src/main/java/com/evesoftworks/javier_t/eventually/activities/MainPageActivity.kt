@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.header_drawer.*
 import kotlinx.android.synthetic.main.tabs_layout.*
 
-class MainPageActivity : AppCompatActivity(), ContactsFragment.OnFragmentInteractionListener, GroupsFragment.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
+class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val id: Int = item.itemId
 
