@@ -1,5 +1,8 @@
 package com.evesoftworks.javier_t.eventually.activities
 
+import android.animation.Animator
+import android.animation.AnimatorListenerAdapter
+import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.support.design.widget.TabLayout
@@ -9,8 +12,13 @@ import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
+import android.support.v7.app.AlertDialog
+import android.support.v7.widget.SearchView
 import android.support.v7.widget.ShareActionProvider
+import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.ViewAnimationUtils
 
 
 import com.evesoftworks.javier_t.eventually.R
@@ -53,9 +61,7 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
             }
 
             R.id.log_out -> {
-                FirebaseAuth.getInstance().signOut()
-                goToFirstPage()
-                finish()
+                confirmDialog()
             }
         }
 
@@ -99,7 +105,25 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
             return true
         }
 
+        when (item.itemId) {
+            R.id.action_search -> {
+                circleReveal(R.id.toolbar, 1, true, true)
+                return true
+            }
+        }
+
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.menu_searching, menu)
+
+        val searchItem: MenuItem? = menu?.findItem(R.id.action_search)
+        val mSearchView: SearchView = searchItem?.actionView as SearchView
+        mSearchView.queryHint = getString(R.string.search_event_hint)
+
+
+        return true
     }
 
     private fun setDataWithCurrentUser() {
@@ -136,5 +160,57 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
             fragmentManager.popBackStack()
         }
 
+    }
+
+    private fun confirmDialog() {
+        AlertDialog.Builder(this)
+                .setTitle(getString(R.string.action_log_out))
+                .setMessage(getString(R.string.logout_confirmation))
+                .setPositiveButton(getString(R.string.logout_ok), DialogInterface.OnClickListener { _, _ ->
+                    FirebaseAuth.getInstance().signOut()
+                    goToFirstPage()
+                    finish()
+                })
+                .setNegativeButton(getString(R.string.logout_cancel), null).show()
+    }
+
+    private fun circleReveal(viewId: Int, startingPos: Int, hasOverflow: Boolean, isShow: Boolean) {
+        val view = findViewById<View>(viewId)
+        var width = view.width
+
+        if (startingPos > 0) {
+            width -= (startingPos * resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_material)) - (resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_material))
+        }
+
+        if (hasOverflow) {
+            width -= resources.getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material)
+        }
+
+        val centerX = width
+        val centerY = view.height / 2
+        val anim: Animator
+
+        if (isShow) {
+            anim = ViewAnimationUtils.createCircularReveal(view, centerX, centerY, 0f, width.toFloat())
+        } else {
+            anim = ViewAnimationUtils.createCircularReveal(view, centerX, centerY, width.toFloat(), 0f)
+        }
+
+        anim.duration = 220L
+
+        anim.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator?) {
+                if (!isShow) {
+                    super.onAnimationEnd(animation)
+                    view.visibility = View.INVISIBLE
+                }
+            }
+        })
+
+        if (isShow) {
+            view.visibility = View.VISIBLE
+        }
+
+        anim.start()
     }
 }

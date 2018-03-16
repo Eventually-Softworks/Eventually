@@ -24,7 +24,9 @@
             android:name=".activities.MainPageActivity"
             android:label="@string/title_activity_main_page"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.EditProfileActivity"></activity>
+        <activity android:name=".activities.EditProfileActivity" />
+        <activity android:name=".activities.AnEventActivity" />
+        <activity android:name=".activities.ContactProfileActivity"></activity>
     </application>
 
 </manifest>

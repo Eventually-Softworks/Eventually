@@ -1,16 +1,14 @@
 package com.evesoftworks.javier_t.eventually.adapters
 
-import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import android.support.constraint.ConstraintLayout
-import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
 import com.evesoftworks.javier_t.eventually.R
+import com.evesoftworks.javier_t.eventually.activities.AnEventActivity
 import com.evesoftworks.javier_t.eventually.databaseobjects.Event
-import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.single_event.view.*
 
 
@@ -32,5 +30,14 @@ class EventsAdapter(val events: ArrayList<Event>): RecyclerView.Adapter<EventsAd
         holder.constraint.singleevent_name.text = events[position].name
         holder.constraint.singleevent_category.text = events[position].category
         //definir imagen
+
+        holder.constraint.singleevent_image.setOnClickListener({
+            val intent = Intent(holder.constraint.context, AnEventActivity::class.java)
+            val bundle = Bundle()
+
+            bundle.putParcelable("anEvent", events[position])
+            intent.putExtras(bundle)
+            holder.constraint.context.startActivity(intent)
+        })
      }
 }

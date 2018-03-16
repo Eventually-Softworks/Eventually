@@ -44,6 +44,7 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.7.1@aar') {
         transitive = true
     }
+    compile "org.jetbrains.kotlin:kotlin-reflect:1.2.30"
 }
 
 apply plugin: 'com.google.gms.google-services'

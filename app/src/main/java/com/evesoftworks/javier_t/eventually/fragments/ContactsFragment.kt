@@ -1,25 +1,18 @@
 package com.evesoftworks.javier_t.eventually.fragments
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.adapters.ContactsAdapter
-import com.evesoftworks.javier_t.eventually.adapters.EventSectionAdapter
-import com.evesoftworks.javier_t.eventually.databaseobjects.Category
-import com.evesoftworks.javier_t.eventually.databaseobjects.Event
-import com.evesoftworks.javier_t.eventually.databaseobjects.EventSection
 import com.evesoftworks.javier_t.eventually.databaseobjects.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_contacts.*
-import kotlinx.android.synthetic.main.fragment_events.*
 
 class ContactsFragment : Fragment() {
     lateinit var user: User
@@ -49,6 +42,7 @@ class ContactsFragment : Fragment() {
                 contacts_recycler.layoutManager = layoutManager
 
                 val adapter = ContactsAdapter(contacts)
+
                 contacts_recycler.adapter = adapter
 
             }
