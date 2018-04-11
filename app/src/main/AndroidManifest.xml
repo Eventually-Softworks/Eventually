@@ -26,7 +26,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".activities.EditProfileActivity" />
         <activity android:name=".activities.AnEventActivity" />
-        <activity android:name=".activities.ContactProfileActivity"></activity>
+        <activity android:name=".activities.ContactProfileActivity" />
+        <activity android:name=".activities.LauncherActivity"></activity>
     </application>
 
 </manifest>

@@ -19,13 +19,12 @@ import kotlinx.android.synthetic.main.activity_sign_in.*
 import android.view.ViewGroup
 import android.widget.Button
 import com.crashlytics.android.Crashlytics
-
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteListener<AuthResult> {
     lateinit var mAuth: FirebaseAuth
     lateinit var mGoogleSignInClient: GoogleSignInClient
-
 
     override fun onComplete(task: Task<AuthResult>) {
         if (task.isSuccessful) {
@@ -109,7 +108,6 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == 0) {
-
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
 
             try {
@@ -122,7 +120,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
         }
     }
 
-    private fun updateUI() {
+    private fun updateUI(currentUser: FirebaseUser) {
         val intent = Intent(this, GridSelectionActivity::class.java)
         startActivity(intent)
         finish()
@@ -134,5 +132,9 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
             startActivity(intent)
             finish()
         }
+    }
+
+    private fun userAlreadySetPreferences(currentUser: FirebaseUser): Boolean {
+        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
     }
 }

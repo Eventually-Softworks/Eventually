@@ -24,7 +24,6 @@ class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
         val button: ToggleButton = view as ToggleButton
 
         if (button.isChecked) {
-            //Toast.makeText(this, button.textOn.toString(), Toast.LENGTH_LONG).show()
             userPreferencesSelected.add(button.textOn.toString())
         } else {
             userPreferencesSelected.remove(button.textOn.toString())
@@ -35,7 +34,6 @@ class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
         } else {
             continue_button.visibility = View.GONE
         }
-        //Log.d("ARRAY", "${userPreferencesSelected.size}")
     }
 
     private var continueButtonListener: View.OnClickListener = object: View.OnClickListener {
