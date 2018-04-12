@@ -7,6 +7,7 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import com.evesoftworks.javier_t.eventually.R
+import com.evesoftworks.javier_t.eventually.databaseobjects.User
 import com.google.android.gms.auth.api.signin.*
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
@@ -16,9 +17,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import kotlinx.android.synthetic.main.activity_sign_in.*
-import android.view.ViewGroup
-import android.widget.Button
-import com.crashlytics.android.Crashlytics
 import com.google.firebase.firestore.FirebaseFirestore
 
 
@@ -28,7 +26,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
 
     override fun onComplete(task: Task<AuthResult>) {
         if (task.isSuccessful) {
-            updateUI()
+            userAlreadySetPreferences(mAuth.currentUser!!)
         } else Toast.makeText(this, task.exception.toString(), Toast.LENGTH_LONG).show()
     }
 
@@ -76,7 +74,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
                 if (task.isSuccessful) {
                     val user = mAuth.currentUser
                     Toast.makeText(applicationContext, "Has iniciado sesion con ${user?.email}", Toast.LENGTH_LONG).show()
-                    updateUI()
+                    userAlreadySetPreferences(user!!)
                 } else {
                     Toast.makeText(applicationContext, "Ha habido un error en el inicio de sesión", Toast.LENGTH_LONG).show()
                 }
@@ -120,21 +118,38 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
         }
     }
 
-    private fun updateUI(currentUser: FirebaseUser) {
+    private fun userIsHere() {
+        FirebaseAuth.getInstance().currentUser.let {
+            goToMainPageSelectionActivity()
+        }
+    }
+
+    private fun userAlreadySetPreferences(currentUser: FirebaseUser) {
+        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+
+        db.collection("PreferenciasUsuario").document(currentUser.uid).get().addOnSuccessListener {
+            documentSnapshot ->
+            val user = documentSnapshot.toObject<User>(User::class.java)
+
+            if (user.categories.isEmpty()) {
+                goToGridSelectionActivity()
+            } else {
+                goToMainPageSelectionActivity()
+            }
+        }
+
+
+    }
+
+    private fun goToGridSelectionActivity() {
         val intent = Intent(this, GridSelectionActivity::class.java)
         startActivity(intent)
         finish()
     }
 
-    private fun userIsHere() {
-        if (FirebaseAuth.getInstance().currentUser != null) {
-            val intent = Intent(this, MainPageActivity::class.java)
-            startActivity(intent)
-            finish()
-        }
-    }
-
-    private fun userAlreadySetPreferences(currentUser: FirebaseUser): Boolean {
-        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private fun goToMainPageSelectionActivity() {
+        val intent = Intent(this, MainPageActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }
