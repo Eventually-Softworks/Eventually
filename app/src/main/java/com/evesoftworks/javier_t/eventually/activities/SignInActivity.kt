@@ -119,8 +119,8 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
     }
 
     private fun userIsHere() {
-        FirebaseAuth.getInstance().currentUser.let {
-            goToMainPageSelectionActivity()
+        if (FirebaseAuth.getInstance().currentUser != null) {
+            goToMainPageActivity()
         }
     }
 
@@ -134,7 +134,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
             if (user.categories.isEmpty()) {
                 goToGridSelectionActivity()
             } else {
-                goToMainPageSelectionActivity()
+                goToMainPageActivity()
             }
         }
 
@@ -147,7 +147,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
         finish()
     }
 
-    private fun goToMainPageSelectionActivity() {
+    private fun goToMainPageActivity() {
         val intent = Intent(this, MainPageActivity::class.java)
         startActivity(intent)
         finish()

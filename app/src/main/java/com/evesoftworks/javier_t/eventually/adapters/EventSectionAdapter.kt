@@ -15,8 +15,8 @@ class EventSectionAdapter(val sectionArray: ArrayList<EventSection>): RecyclerVi
         class ViewHolder(var cardView: CardView): RecyclerView.ViewHolder(cardView)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ViewHolder {
-        val v = LayoutInflater.from(parent?.context).inflate(R.layout.single_event_section, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.single_event_section, parent, false)
         return ViewHolder(v as CardView)
     }
 
@@ -24,8 +24,8 @@ class EventSectionAdapter(val sectionArray: ArrayList<EventSection>): RecyclerVi
         return sectionArray.size
     }
 
-    override fun onBindViewHolder(holder: ViewHolder?, position: Int) {
-        holder!!.cardView.title.text = sectionArray[position].title
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+        holder.cardView.title.text = sectionArray[position].title
         holder.cardView.eventRecycle.adapter = EventsAdapter(sectionArray[position].events)
         holder.cardView.eventRecycle.setHasFixedSize(true)
         holder.cardView.eventRecycle.layoutManager = LinearLayoutManager(holder.cardView.context, LinearLayoutManager.HORIZONTAL, false)

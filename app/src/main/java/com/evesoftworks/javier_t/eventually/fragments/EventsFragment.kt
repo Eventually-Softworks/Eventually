@@ -40,8 +40,8 @@ class EventsFragment : Fragment() {
 
     }
 
-    override fun onCreateView(inflater: LayoutInflater?, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater!!.inflate(R.layout.fragment_events, container, false)
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        return inflater.inflate(R.layout.fragment_events, container, false)
     }
 
     override fun onAttach(context: Context?) {
@@ -58,7 +58,7 @@ class EventsFragment : Fragment() {
                     events.add(event)
                 }
 
-                val layoutManager = LinearLayoutManager(activity.applicationContext, LinearLayoutManager.VERTICAL, false)
+                val layoutManager = LinearLayoutManager(activity?.applicationContext, LinearLayoutManager.VERTICAL, false)
                 recyclerView.layoutManager = layoutManager
 
                 val adapter = EventSectionAdapter(sections)

@@ -52,4 +52,5 @@
     <string name="logout_confirmation">¿Estás seguro/a de que quieres cerrar sesión?</string>
     <string name="logout_ok">OK</string>
     <string name="logout_cancel">Cancelar</string>
+    <string name="my_profile">Mi perfil</string>
 </resources>

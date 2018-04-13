@@ -17,8 +17,8 @@ class EventsAdapter(val events: ArrayList<Event>): RecyclerView.Adapter<EventsAd
          class EventViewHolder(val constraint: ConstraintLayout): RecyclerView.ViewHolder(constraint)
      }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): EventViewHolder {
-        val v = LayoutInflater.from(parent?.context).inflate(R.layout.single_event, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.single_event, parent, false)
         return EventViewHolder(v as ConstraintLayout)
     }
 

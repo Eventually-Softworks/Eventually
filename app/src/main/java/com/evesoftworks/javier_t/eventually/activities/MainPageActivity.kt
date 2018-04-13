@@ -43,9 +43,14 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
 
             }
 
-            R.id.action_settings -> {
+            R.id.my_profile -> {
                 val intent = Intent(this, EditProfileActivity::class.java)
+                intent.putExtra("USERDATA", userData)
                 startActivity(intent)
+            }
+
+            R.id.action_settings -> {
+
             }
 
             R.id.share_friends -> {
@@ -73,6 +78,7 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
 
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
     private lateinit var mToggle: ActionBarDrawerToggle
+    var userData: ArrayList<String> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -128,19 +134,25 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
 
     private fun setDataWithCurrentUser() {
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-        val currentUser = FirebaseAuth.getInstance().currentUser
 
-        db.collection("PreferenciasUsuario").document(currentUser?.uid as String).get().addOnSuccessListener {
-            documentSnapshot ->
-            val user = documentSnapshot.toObject<User>(User::class.java)
+        FirebaseAuth.getInstance().currentUser.let {
+            db.collection("PreferenciasUsuario").document(it!!.uid).get().addOnSuccessListener {
+                documentSnapshot ->
+                val user = documentSnapshot.toObject<User>(User::class.java)
 
-            nav_email.text = currentUser.email.toString()
+                nav_email.text = it.email.toString()
 
-            if (!user.firstName.isEmpty()) {
-                nav_username.text = user.firstName
+                if (!user.firstName.isEmpty()) {
+                    nav_username.text = user.firstName
+                }
+
+                userData.add(user.firstName)
+                userData.add(user.username)
+                userData.add(it.email.toString())
             }
-
         }
+
+
     }
 
     private fun goToFirstPage() {

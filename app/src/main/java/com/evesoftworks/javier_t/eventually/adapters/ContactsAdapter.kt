@@ -18,8 +18,8 @@ class ContactsAdapter(val contacts: ArrayList<User>): RecyclerView.Adapter<Conta
         class ContactViewHolder(val cardView: CardView): RecyclerView.ViewHolder(cardView)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): ContactViewHolder {
-        val v = LayoutInflater.from(parent?.context).inflate(R.layout.single_contact, parent, false)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.single_contact, parent, false)
         return ContactViewHolder(v as CardView)
     }
 

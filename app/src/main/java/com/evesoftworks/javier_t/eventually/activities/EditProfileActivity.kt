@@ -16,17 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_edit_profile.*
 import kotlinx.android.synthetic.main.edit_profile_toolbar.*
 
-class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
-    override fun onClick(view: View?) {
-        if (view?.id == fab_ok_edit.id) {
-            updateInfo()
-            val snackbar: Snackbar = Snackbar.make(editlayout, "Has editado tu perfil correctamente!", Snackbar.LENGTH_LONG)
-            snackbar.show()
-        }
-    }
-
-    val db = FirebaseFirestore.getInstance()
-
+class EditProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
@@ -34,37 +24,20 @@ class EditProfileActivity : AppCompatActivity(), View.OnClickListener {
         setSupportActionBar(editToolbar)
         editToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
 
-        editToolbar.setNavigationOnClickListener(object: View.OnClickListener {
-            override fun onClick(view: View?) {
-                finish()
-            }
-        })
-
-        fab_ok_edit.setOnClickListener(this)
+        editToolbar.setNavigationOnClickListener { finish() }
 
     }
 
     private fun getUserInfo() {
-        db.collection("PreferenciasUsuario").document(FirebaseAuth.getInstance().currentUser?.uid as String).get().addOnSuccessListener { documentSnapshot ->
-            val user = documentSnapshot.toObject<User>(User::class.java)
+        val retrievedUserData = intent.extras
+        val arrayOfUserData = retrievedUserData.getStringArrayList("USERDATA")
 
-            edit_firstname.setText(user.firstName, TextView.BufferType.EDITABLE)
-            edit_lastname.setText(user.lastName, TextView.BufferType.EDITABLE)
-            edit_username.setText(user.username, TextView.BufferType.EDITABLE)
-        }
+        profile_my_name.setText(arrayOfUserData[0], TextView.BufferType.EDITABLE)
+        profile_my_username.setText(arrayOfUserData[1], TextView.BufferType.EDITABLE)
+        profile_my_email.setText(arrayOfUserData[2], TextView.BufferType.EDITABLE)
     }
 
-    private fun updateInfo() {
-        val firstNameEdited: String = edit_firstname.text.toString()
-        val lastNameEdited: String = edit_lastname.text.toString()
-        val userNameEdited: String = edit_username.text.toString()
+    private fun userIsEditing() {
 
-        val updates: HashMap<String, String> = HashMap<String, String>()
-
-        updates.put("firstName", firstNameEdited)
-        updates.put("lastName", lastNameEdited)
-        updates.put("username", userNameEdited)
-
-        db.collection("PreferenciasUsuario").document(FirebaseAuth.getInstance().currentUser?.uid as String).update(updates as Map<String, String>)
     }
 }
