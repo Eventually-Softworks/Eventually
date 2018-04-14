@@ -35,9 +35,11 @@
                     app:layout_collapseMode="parallax"
                     android:layout_marginTop="50dp"
                     android:layout_width="240dp"
+                    android:clickable="true"
                     android:layout_height="170dp"
-                    android:src="@color/cardview_light_background"
-                    android:elevation="5dp"/>
+                    android:src="@mipmap/default_pic"
+                    android:elevation="5dp"
+                    android:focusable="true" />
                 
                 <EditText
                     android:id="@+id/profile_my_name"
