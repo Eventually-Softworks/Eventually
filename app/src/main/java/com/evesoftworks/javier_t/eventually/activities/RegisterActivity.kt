@@ -1,5 +1,6 @@
 package com.evesoftworks.javier_t.eventually.activities
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.text.TextUtils
@@ -7,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.databaseobjects.Location
+import com.evesoftworks.javier_t.eventually.databaseobjects.User
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -18,7 +20,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, OnCompleteLi
 
     override fun onComplete(task: Task<AuthResult>) {
         if (task.isSuccessful) {
-            Toast.makeText(this, "Registration ended successfully", Toast.LENGTH_LONG).show()
+            goToDataCompletionActivity()
         } else {
             Toast.makeText(this, task.exception.toString(), Toast.LENGTH_LONG).show()
         }
@@ -38,7 +40,6 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, OnCompleteLi
 
                     if (et_pass.text.toString().equals(et_repass.text.toString())) {
                         register(et_name.text.toString(), et_pass.text.toString())
-                        finish()
                     } else {
                         et_pass.error = "Las contraseñas no coinciden, revisalas, por favor"
                         et_repass.error = "Las contraseñas no coinciden, revisalas, por favor"
@@ -65,5 +66,10 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, OnCompleteLi
 
     private fun register(mail: String, password: String) {
         mAuth.createUserWithEmailAndPassword(mail, password).addOnCompleteListener(this)
+    }
+
+    private fun goToDataCompletionActivity() {
+        val intent = Intent(this, DataCompletionActivity::class.java)
+        startActivity(intent)
     }
 }

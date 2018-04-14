@@ -36,7 +36,7 @@ class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private var continueButtonListener: View.OnClickListener = object: View.OnClickListener {
+    /*private var continueButtonListener: View.OnClickListener = object: View.OnClickListener {
         override fun onClick(view: View?) {
             for (i in 0 until userPreferencesSelected.size) {
                 val actualPreference = Category(userPreferencesSelected[i])
@@ -51,7 +51,7 @@ class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
             finish()
         }
 
-    }
+    }*/
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +60,7 @@ class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
         continue_button.visibility = View.GONE
 
         setAllListeners()
-        continue_button.setOnClickListener(continueButtonListener)
+        //continue_button.setOnClickListener(continueButtonListener)
     }
 
     private fun setAllListeners() {

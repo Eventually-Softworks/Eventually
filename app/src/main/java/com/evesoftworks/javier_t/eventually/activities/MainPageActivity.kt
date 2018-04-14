@@ -141,13 +141,14 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
                 val user = documentSnapshot.toObject<User>(User::class.java)
 
                 nav_email.text = it.email.toString()
-
                 if (!user.firstName.isEmpty()) {
                     nav_username.text = user.firstName
+                    userData.add(user.firstName)
+                    userData.add(user.username)
+                } else {
+                    nav_username.text = "Invitado"
                 }
 
-                userData.add(user.firstName)
-                userData.add(user.username)
                 userData.add(it.email.toString())
             }
         }

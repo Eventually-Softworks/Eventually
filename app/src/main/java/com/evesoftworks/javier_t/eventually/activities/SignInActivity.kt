@@ -73,7 +73,6 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
             override fun onComplete(task: Task<AuthResult>) {
                 if (task.isSuccessful) {
                     val user = mAuth.currentUser
-                    Toast.makeText(applicationContext, "Has iniciado sesion con ${user?.email}", Toast.LENGTH_LONG).show()
                     userAlreadySetPreferences(user!!)
                 } else {
                     Toast.makeText(applicationContext, "Ha habido un error en el inicio de sesión", Toast.LENGTH_LONG).show()
@@ -88,7 +87,6 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
         setContentView(R.layout.activity_sign_in)
         supportActionBar?.hide()
 
-        userIsHere()
         register_text.setOnClickListener(this)
         sign_in_button.setOnClickListener(this)
         google_sign_in_button.setOnClickListener(this)
@@ -118,12 +116,6 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
         }
     }
 
-    private fun userIsHere() {
-        if (FirebaseAuth.getInstance().currentUser != null) {
-            goToMainPageActivity()
-        }
-    }
-
     private fun userAlreadySetPreferences(currentUser: FirebaseUser) {
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
@@ -131,14 +123,12 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
             documentSnapshot ->
             val user = documentSnapshot.toObject<User>(User::class.java)
 
-            if (user.categories.isEmpty()) {
+            if (user.categories.count() < 3) {
                 goToGridSelectionActivity()
             } else {
                 goToMainPageActivity()
             }
         }
-
-
     }
 
     private fun goToGridSelectionActivity() {

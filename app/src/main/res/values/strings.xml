@@ -53,4 +53,6 @@
     <string name="logout_ok">OK</string>
     <string name="logout_cancel">Cancelar</string>
     <string name="my_profile">Mi perfil</string>
+    <string name="et_realname">nombre</string>
+    <string name="et_username">nombre de usuario</string>
 </resources>

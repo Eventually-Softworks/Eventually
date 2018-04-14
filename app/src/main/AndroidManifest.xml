@@ -12,11 +12,6 @@
         <activity
             android:name=".activities.SignInActivity"
             android:launchMode="singleTask">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".activities.RegisterActivity" />
         <activity android:name=".activities.GridSelectionActivity" />
@@ -27,7 +22,14 @@
         <activity android:name=".activities.EditProfileActivity" />
         <activity android:name=".activities.AnEventActivity" />
         <activity android:name=".activities.ContactProfileActivity" />
-        <activity android:name=".activities.LauncherActivity"></activity>
+        <activity android:name=".activities.LauncherActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activities.DataCompletionActivity"/>
     </application>
 
 </manifest>
