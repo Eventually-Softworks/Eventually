@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:gravity="center"
+    android:id="@+id/data_completion"
     tools:context=".activities.DataCompletionActivity">
     
     <ImageView
@@ -69,6 +70,7 @@
     </android.support.v7.widget.CardView>
 
     <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_to_grid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:fabSize="normal"
