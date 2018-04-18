@@ -8,7 +8,14 @@
     android:gravity="center"
     android:id="@+id/data_completion"
     tools:context=".activities.DataCompletionActivity">
-    
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <include layout="@layout/data_completion_toolbar"/>
+    </android.support.design.widget.AppBarLayout>
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="240dp"

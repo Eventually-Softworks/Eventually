@@ -19,6 +19,7 @@ import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_data_completion.*
+import kotlinx.android.synthetic.main.data_completion_toolbar.*
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 
@@ -46,6 +47,8 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_data_completion)
+
+        setSupportActionBar(completionToolbar)
 
         data_completion_profile_pic.setOnClickListener(this)
         fab_to_grid.setOnClickListener(this)
