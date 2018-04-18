@@ -39,7 +39,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, OnCompleteLi
                     et_repass.error = null
 
                     if (et_pass.text.toString() == et_repass.text.toString()) {
-                        goToDataCompletionActivity()
+                        register(et_name.text.toString(), et_pass.text.toString())
                     } else {
                         et_pass.error = "Las contraseñas no coinciden, revisalas, por favor"
                         et_repass.error = "Las contraseñas no coinciden, revisalas, por favor"
@@ -62,6 +62,10 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, OnCompleteLi
         register_button.setOnClickListener(this)
         register_text.setOnClickListener(this)
 
+    }
+
+    private fun register(mail: String, password: String) {
+        mAuth.createUserWithEmailAndPassword(mail, password).addOnCompleteListener(this)
     }
 
     private fun goToDataCompletionActivity() {
