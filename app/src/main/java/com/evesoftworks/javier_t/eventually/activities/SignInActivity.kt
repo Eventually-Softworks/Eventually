@@ -123,7 +123,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
             documentSnapshot ->
             val user = documentSnapshot.toObject<User>(User::class.java)
 
-            if (user.categories.count() < 3) {
+            if (user!!.categories.count() < 3) {
                 goToGridSelectionActivity()
             } else {
                 goToMainPageActivity()

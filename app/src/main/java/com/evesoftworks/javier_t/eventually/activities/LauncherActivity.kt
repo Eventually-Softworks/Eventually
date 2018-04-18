@@ -48,7 +48,7 @@ class LauncherActivity : AppCompatActivity() {
     }
 
     private fun goToSignInActivity() {
-        val intent = Intent(this, DataCompletionActivity::class.java)
+        val intent = Intent(this, SignInActivity::class.java)
         startActivity(intent)
         finish()
     }

@@ -29,12 +29,20 @@ import com.evesoftworks.javier_t.eventually.fragments.EventsFragment
 import com.evesoftworks.javier_t.eventually.fragments.GroupsFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.squareup.picasso.Picasso
+import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main_page.*
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.header_drawer.*
 import kotlinx.android.synthetic.main.tabs_layout.*
 
 class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
+    lateinit var header: View
+    lateinit var profilePic: CircleImageView
+    private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
+    private lateinit var mToggle: ActionBarDrawerToggle
+    var userData: ArrayList<String> = ArrayList()
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val id: Int = item.itemId
 
@@ -76,34 +84,29 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
 
     override fun onFragmentInteraction(uri: Uri) {}
 
-    private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
-    private lateinit var mToggle: ActionBarDrawerToggle
-    var userData: ArrayList<String> = ArrayList()
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
+
         container.offscreenPageLimit = 3;
         setSupportActionBar(toolbar)
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
         container.adapter = mSectionsPagerAdapter
 
+        header = (findViewById<NavigationView>(R.id.navigation_drawer)).getHeaderView(0)
+        profilePic = header.findViewById(R.id.profile_pic_drawer)
+
         mToggle = ActionBarDrawerToggle(this, main_content, R.string.sidebaropen, R.string.sidebarclosed)
         main_content.addDrawerListener(mToggle)
         mToggle.syncState()
 
-        setDataWithCurrentUser()
-
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         navigation_drawer.setNavigationItemSelectedListener(this)
 
+        setDataWithCurrentUser()
+
         container.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(tabs))
         tabs.addOnTabSelectedListener(TabLayout.ViewPagerOnTabSelectedListener(container))
-    }
-
-    override fun onStart() {
-        super.onStart()
-        setDataWithCurrentUser()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -135,13 +138,14 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
     private fun setDataWithCurrentUser() {
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-        FirebaseAuth.getInstance().currentUser.let {
-            db.collection("PreferenciasUsuario").document(it!!.uid).get().addOnSuccessListener {
-                documentSnapshot ->
+        FirebaseAuth.getInstance().currentUser?.let {
+            Picasso.get().load(FirebaseAuth.getInstance().currentUser?.photoUrl).into(profilePic)
+
+            db.collection("PreferenciasUsuario").document(it.uid).get().addOnSuccessListener { documentSnapshot ->
                 val user = documentSnapshot.toObject<User>(User::class.java)
 
                 nav_email.text = it.email.toString()
-                if (!user.firstName.isEmpty()) {
+                if (!user!!.firstName.isEmpty()) {
                     nav_username.text = user.firstName
                     userData.add(user.firstName)
                     userData.add(user.username)
@@ -152,8 +156,6 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
                 userData.add(it.email.toString())
             }
         }
-
-
     }
 
     private fun goToFirstPage() {

@@ -13,17 +13,21 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.widget.Toast
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.utils.RequestCode
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_data_completion.*
 import java.io.IOException
 
-
 class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
-    lateinit var selectedImageUri: Uri
+    var selectedImageUri: Uri? = null
+    lateinit var storageReference: StorageReference
+    val defaultImageUri = "https://firebasestorage.googleapis.com/v0/b/evedb-98c72.appspot.com/o/usersprofilepics%2Fdefault.jpg?alt=media&token=6c76f406-4c97-4ba9-82da-1720639376d1"
 
     override fun onClick(view: View?) {
         when (view?.id) {
@@ -46,19 +50,34 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun uploadImage() {
-        selectedImageUri.let {
-            val storageReference: StorageReference = FirebaseStorage.getInstance().reference.child("usersprofilepics/${FirebaseAuth.getInstance().currentUser!!.uid}")
+        storageReference = FirebaseStorage.getInstance().reference.child("usersprofilepics/${FirebaseAuth.getInstance().currentUser!!.uid}")
 
+        selectedImageUri?.let {
             storageReference.putFile(it).addOnSuccessListener {
-                goToGridSelectionActivity()
+                val uriDownloaded = it.downloadUrl
+                setProfilePictureToUser(uriDownloaded)
             }.addOnFailureListener({
                 Snackbar.make(findViewById(R.id.data_completion), "Ha ocurrido un error al subir la imagen", Snackbar.LENGTH_LONG)
             })
+        } ?: kotlin.run {
+            setProfilePictureToUser(Uri.parse(defaultImageUri))
         }
     }
 
+    private fun setProfilePictureToUser(imageUrl: Uri?) {
+        val userProfileChangeRequest = UserProfileChangeRequest.Builder()
+                .setPhotoUri(imageUrl)
+                .build()
+
+        FirebaseAuth.getInstance().currentUser!!.updateProfile(userProfileChangeRequest).addOnSuccessListener {
+            FirebaseFirestore.getInstance()
+        }
+
+        goToGridSelectionActivity()
+    }
+
     private fun goToGridSelectionActivity() {
-        val intent = Intent(this, GridSelectionActivity::class.java)
+        val intent = Intent(this, MainPageActivity::class.java)
         startActivity(intent)
         finish()
     }
