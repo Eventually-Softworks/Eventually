@@ -19,6 +19,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewAnimationUtils
+import android.widget.TextView
 
 
 import com.evesoftworks.javier_t.eventually.R
@@ -39,6 +40,8 @@ import kotlinx.android.synthetic.main.tabs_layout.*
 class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
     lateinit var header: View
     lateinit var profilePic: CircleImageView
+    lateinit var profileDisplayName: TextView
+    lateinit var profileEmail: TextView
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
     private lateinit var mToggle: ActionBarDrawerToggle
     var userData: ArrayList<String> = ArrayList()
@@ -94,7 +97,10 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
         container.adapter = mSectionsPagerAdapter
 
         header = (findViewById<NavigationView>(R.id.navigation_drawer)).getHeaderView(0)
+
         profilePic = header.findViewById(R.id.profile_pic_drawer)
+        profileDisplayName = header.findViewById(R.id.nav_username)
+        profileEmail = header.findViewById(R.id.nav_email)
 
         mToggle = ActionBarDrawerToggle(this, main_content, R.string.sidebaropen, R.string.sidebarclosed)
         main_content.addDrawerListener(mToggle)
@@ -136,25 +142,10 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
     }
 
     private fun setDataWithCurrentUser() {
-        val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-
         FirebaseAuth.getInstance().currentUser?.let {
-            Picasso.get().load(FirebaseAuth.getInstance().currentUser?.photoUrl).into(profilePic)
-
-            db.collection("PreferenciasUsuario").document(it.uid).get().addOnSuccessListener { documentSnapshot ->
-                val user = documentSnapshot.toObject<User>(User::class.java)
-
-                nav_email.text = it.email.toString()
-                if (!user!!.firstName.isEmpty()) {
-                    nav_username.text = user.firstName
-                    userData.add(user.firstName)
-                    userData.add(user.username)
-                } else {
-                    nav_username.text = "Invitado"
-                }
-
-                userData.add(it.email.toString())
-            }
+            Picasso.get().load(it.photoUrl).into(profilePic)
+            profileDisplayName.text = it.displayName.toString()
+            profileEmail.text = it.email.toString()
         }
     }
 

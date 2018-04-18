@@ -7,28 +7,24 @@ import kotlin.collections.ArrayList
 
 class User (): Parcelable {
     var categories: ArrayList<Category> = ArrayList()
-    var username: String = ""
     var firstName: String = ""
     var eventsLiked: ArrayList<Event> = ArrayList()
     var groups: ArrayList<Group> = ArrayList()
     var friends: ArrayList<User> = ArrayList()
 
     constructor(parcel: Parcel) : this() {
-        username = parcel.readString()
         firstName = parcel.readString()
     }
 
-    constructor(categories: ArrayList<Category>, eventsLiked: ArrayList<Event>, firstName: String, friends: ArrayList<User>, groups: ArrayList<Group>, username: String): this() {
+    constructor(categories: ArrayList<Category>, eventsLiked: ArrayList<Event>, firstName: String, friends: ArrayList<User>, groups: ArrayList<Group>): this() {
         this.categories = categories
         this.eventsLiked = eventsLiked
         this.firstName = firstName
         this.friends = friends
         this.groups = groups
-        this.username = username
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(username)
         parcel.writeString(firstName)
     }
 

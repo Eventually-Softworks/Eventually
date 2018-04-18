@@ -12,10 +12,12 @@ import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.utils.RequestCode
+import com.google.android.gms.flags.IFlagProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.firestore.FirebaseFirestore
@@ -36,7 +38,7 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             R.id.fab_to_grid -> {
-                uploadImage()
+                register()
             }
         }
     }
@@ -64,16 +66,41 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    private fun register() {
+        val retrievedUserData = intent.extras
+
+        val userEmail = retrievedUserData.getString("USER_EMAIL")
+        val userPassword = retrievedUserData.getString("USER_PASSWORD")
+
+        if (TextUtils.isEmpty(data_completion_name.text.toString()) || TextUtils.isEmpty(data_completion_username.text.toString())) {
+            data_completion_name.error = "Rellena los inputs con información válida, por favor"
+            data_completion_username.error = "Rellena los inputs con información válida, por favor"
+        } else {
+            data_completion_name.error = null
+            data_completion_username.error = null
+
+            FirebaseAuth.getInstance().createUserWithEmailAndPassword(userEmail, userPassword).addOnSuccessListener {
+                setDisplayNameToUser(data_completion_name.text.toString())
+                uploadImage()
+                goToGridSelectionActivity()
+            }
+        }
+    }
+
     private fun setProfilePictureToUser(imageUrl: Uri?) {
         val userProfileChangeRequest = UserProfileChangeRequest.Builder()
                 .setPhotoUri(imageUrl)
                 .build()
 
-        FirebaseAuth.getInstance().currentUser!!.updateProfile(userProfileChangeRequest).addOnSuccessListener {
-            FirebaseFirestore.getInstance()
-        }
+        FirebaseAuth.getInstance().currentUser!!.updateProfile(userProfileChangeRequest)
+    }
 
-        goToGridSelectionActivity()
+    private fun setDisplayNameToUser(displayName: String) {
+        val userProfileChangeRequest = UserProfileChangeRequest.Builder()
+                .setDisplayName(displayName)
+                .build()
+
+        FirebaseAuth.getInstance().currentUser!!.updateProfile(userProfileChangeRequest)
     }
 
     private fun goToGridSelectionActivity() {
@@ -116,6 +143,7 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
     private fun userHasPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), RequestCode.RC_PERMISSION_CAMERA)
+            userHasPermissions()
         } else {
             showChooserDialog()
         }

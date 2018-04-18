@@ -29,7 +29,7 @@ class ContactsAdapter(val contacts: ArrayList<User>): RecyclerView.Adapter<Conta
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
         // definir imagen
-        holder.cardView.contact_username.text = contacts[position].username
+        holder.cardView.contact_username.text = contacts[position].firstName
         holder.cardView.contact_friends.text = "${contacts[position].friends.count()} amigos"
 
         holder.cardView.contact_image.setOnClickListener({
