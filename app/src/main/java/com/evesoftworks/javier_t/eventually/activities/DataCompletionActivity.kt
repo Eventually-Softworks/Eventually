@@ -14,7 +14,9 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.TextView
 import com.evesoftworks.javier_t.eventually.R
+import com.evesoftworks.javier_t.eventually.utils.ContentsUri
 import com.evesoftworks.javier_t.eventually.utils.RequestCode
+import com.evesoftworks.javier_t.eventually.utils.SignalCode
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -31,11 +33,11 @@ import java.io.ByteArrayOutputStream
 import java.io.IOException
 
 class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
-    var selectedImageUri: Uri? = null
     lateinit var storageReference: StorageReference
     lateinit var bitmap: Bitmap
-    var signalCode: Int = 0
-    val defaultImageUri = "https://firebasestorage.googleapis.com/v0/b/evedb-98c72.appspot.com/o/usersprofilepics%2Fdefault.jpg?alt=media&token=6c76f406-4c97-4ba9-82da-1720639376d1"
+    var signalCode: Int = SignalCode.SC_DEFAULT_PROFILE_PICTURE
+    val defaultImageUri = ContentsUri.CU_STORAGE_DEFAULT_PROFILE_PICTURE
+    var selectedImageUri: Uri? = null
 
     override fun onClick(view: View?) {
         when (view?.id) {
@@ -67,19 +69,21 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
     private fun uploadImage() {
         storageReference = FirebaseStorage.getInstance().reference.child("usersprofilepics/${FirebaseAuth.getInstance().currentUser!!.uid}")
         when (signalCode) {
-            0 -> {
+            SignalCode.SC_DEFAULT_PROFILE_PICTURE -> {
                 if (userComesFromGoogleSignIn()) {
                     updateProfileRequest(FirebaseAuth.getInstance().currentUser!!.photoUrl, data_completion_name.text.toString())
                 } else {
                     updateProfileRequest(Uri.parse(defaultImageUri), data_completion_name.text.toString())
                 }
             }
-            1 -> {
+
+            SignalCode.SC_PROFILE_PICTURE_SET_WITH_CAMERA -> {
                 storageReference.putBytes(convertBitmapToByteArray(bitmap)).addOnSuccessListener {
                     updateProfileRequest(it.downloadUrl, data_completion_name.text.toString())
                 }
             }
-            2 -> {
+
+            SignalCode.SC_PROFILE_PICTURE_SET_WITH_GALLERY -> {
                 storageReference.putFile(selectedImageUri!!).addOnSuccessListener {
                     updateProfileRequest(it.downloadUrl, data_completion_name.text.toString())
                 }
@@ -121,7 +125,7 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
             when (requestCode) {
                 RequestCode.RC_CAMERA -> {
                     bitmap = data!!.extras.get("data") as Bitmap
-                    signalCode = 1
+                    signalCode = SignalCode.SC_PROFILE_PICTURE_SET_WITH_CAMERA
 
                     bitmap.let {
                         data_completion_profile_pic.setImageBitmap(bitmap)
@@ -131,7 +135,7 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
                 RequestCode.RC_GALLERY -> {
                     if (data != null) {
                         selectedImageUri = data.data
-                        signalCode = 2
+                        signalCode = SignalCode.SC_PROFILE_PICTURE_SET_WITH_GALLERY
 
                         try {
                             bitmap = MediaStore.Images.Media.getBitmap(contentResolver, selectedImageUri)
