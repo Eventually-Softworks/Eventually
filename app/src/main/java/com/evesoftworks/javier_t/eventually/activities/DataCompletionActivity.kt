@@ -12,13 +12,18 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import android.widget.TextView
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.utils.RequestCode
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_data_completion.*
 import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.data_completion_toolbar.*
@@ -51,9 +56,8 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
         setSupportActionBar(completionToolbar)
 
         if (userComesFromGoogleSignIn()) {
-            val bundle = intent.extras
-            //val googleAccountDefaultPic = bundle.get("googleAcountDefaultPic") as Bitmap
-
+            Picasso.get().load(FirebaseAuth.getInstance().currentUser!!.photoUrl).into(data_completion_profile_pic)
+            data_completion_name.setText(FirebaseAuth.getInstance().currentUser!!.displayName)
         }
 
         data_completion_profile_pic.setOnClickListener(this)
@@ -63,7 +67,13 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
     private fun uploadImage() {
         storageReference = FirebaseStorage.getInstance().reference.child("usersprofilepics/${FirebaseAuth.getInstance().currentUser!!.uid}")
         when (signalCode) {
-            0 -> updateProfileRequest(Uri.parse(defaultImageUri), data_completion_name.text.toString())
+            0 -> {
+                if (userComesFromGoogleSignIn()) {
+                    updateProfileRequest(FirebaseAuth.getInstance().currentUser!!.photoUrl, data_completion_name.text.toString())
+                } else {
+                    updateProfileRequest(Uri.parse(defaultImageUri), data_completion_name.text.toString())
+                }
+            }
             1 -> {
                 storageReference.putBytes(convertBitmapToByteArray(bitmap)).addOnSuccessListener {
                     updateProfileRequest(it.downloadUrl, data_completion_name.text.toString())
@@ -78,7 +88,7 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun userComesFromGoogleSignIn(): Boolean {
-        return intent.extras != null
+        return GoogleSignIn.getLastSignedInAccount(applicationContext) != null
     }
 
     private fun completeProfile() {
@@ -102,12 +112,6 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
         FirebaseAuth.getInstance().currentUser!!.updateProfile(userProfileChangeRequest).addOnSuccessListener {
             goToGridSelectionActivity()
         }
-    }
-
-    private fun goToGridSelectionActivity() {
-        val intent = Intent(this, MainPageActivity::class.java)
-        startActivity(intent)
-        finish()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -145,8 +149,13 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
     private fun userHasPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), RequestCode.RC_PERMISSION_CAMERA)
-            userHasPermissions()
-        } else {
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
             showChooserDialog()
         }
     }
@@ -181,5 +190,11 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
     private fun goToGallery() {
         val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(galleryIntent, RequestCode.RC_GALLERY)
+    }
+
+    private fun goToGridSelectionActivity() {
+        val intent = Intent(this, GridSelectionActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

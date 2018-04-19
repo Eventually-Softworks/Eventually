@@ -14,7 +14,6 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
 import android.support.v7.widget.SearchView
-import android.support.v7.widget.ShareActionProvider
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -24,17 +23,12 @@ import android.widget.TextView
 
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.adapters.SectionsPagerAdapter
-import com.evesoftworks.javier_t.eventually.databaseobjects.User
-import com.evesoftworks.javier_t.eventually.fragments.ContactsFragment
-import com.evesoftworks.javier_t.eventually.fragments.EventsFragment
 import com.evesoftworks.javier_t.eventually.fragments.GroupsFragment
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main_page.*
 import kotlinx.android.synthetic.main.app_bar.*
-import kotlinx.android.synthetic.main.header_drawer.*
 import kotlinx.android.synthetic.main.tabs_layout.*
 
 class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
@@ -149,7 +143,7 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
         }
     }
 
-    private fun goToFirstPage() {
+    private fun goToSignInActivity() {
         val intent = Intent(this, SignInActivity::class.java)
         startActivity(intent)
         finish()
@@ -174,7 +168,7 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
                 .setMessage(getString(R.string.logout_confirmation))
                 .setPositiveButton(getString(R.string.logout_ok), DialogInterface.OnClickListener { _, _ ->
                     FirebaseAuth.getInstance().signOut()
-                    goToFirstPage()
+                    goToSignInActivity()
                     finish()
                 })
                 .setNegativeButton(getString(R.string.logout_cancel), null).show()

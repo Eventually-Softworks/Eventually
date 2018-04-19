@@ -24,10 +24,11 @@ import com.google.firebase.firestore.FirebaseFirestore
 class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteListener<AuthResult> {
     lateinit var mAuth: FirebaseAuth
     lateinit var mGoogleSignInClient: GoogleSignInClient
+    lateinit var mAccount: GoogleSignInAccount
 
     override fun onComplete(task: Task<AuthResult>) {
         if (task.isSuccessful) {
-            userAlreadySetPreferences(mAuth.currentUser!!)
+            goToMainPageActivity()
         } else Toast.makeText(this, task.exception.toString(), Toast.LENGTH_LONG).show()
     }
 
@@ -72,8 +73,11 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
 
         mAuth.signInWithCredential(credential).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                val user = mAuth.currentUser
-                userAlreadySetPreferences(user!!)
+                if (userAlreadySetPreferences(FirebaseAuth.getInstance().currentUser!!)) {
+                    goToMainPageActivity()
+                } else {
+                    goToDataCompletionActivity()
+                }
             } else {
                 Toast.makeText(applicationContext, "Ha habido un error en el inicio de sesión", Toast.LENGTH_LONG).show()
             }
@@ -92,8 +96,6 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
         val gso: GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
-        mGoogleSignInClient
-
         mAuth = FirebaseAuth.getInstance()
     }
 
@@ -107,32 +109,37 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
 
             try {
-                val account: GoogleSignInAccount = task.getResult(ApiException::class.java)
+                mAccount = task.getResult(ApiException::class.java)
 
-                intent.putExtra("googleAccountDefaultName", account.displayName)
-                intent.putExtra("googleAccountDefaultPic", account.photoUrl)
-
-                firebaseAuthWithGoogle(account)
+                firebaseAuthWithGoogle(mAccount)
             } catch (e: ApiException) {
-                Toast.makeText(applicationContext, "Back pressed", Toast.LENGTH_LONG).show()
+                Toast.makeText(applicationContext, e.message, Toast.LENGTH_LONG).show()
             }
 
         }
     }
 
-    private fun userAlreadySetPreferences(currentUser: FirebaseUser) {
+    private fun userAlreadySetPreferences(currentUser: FirebaseUser): Boolean {
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+        var result = false
 
         db.collection("PreferenciasUsuario").document(currentUser.uid).get().addOnSuccessListener {
             documentSnapshot ->
             val user = documentSnapshot.toObject<User>(User::class.java)
 
             if (user!!.categories.count() < 3) {
-                goToGridSelectionActivity()
-            } else {
-                goToMainPageActivity()
+                result = true
             }
         }
+
+        return result
+    }
+
+    private fun goToDataCompletionActivity() {
+        val intent = Intent(this, DataCompletionActivity::class.java)
+        intent.putExtra("googleAccountDefaultName", mAccount.displayName)
+        startActivity(intent)
+        finish()
     }
 
     private fun goToGridSelectionActivity() {
