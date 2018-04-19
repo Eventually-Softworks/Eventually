@@ -6,6 +6,11 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
+    <permission
+        android:name="com.pkg.map.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" >
+    </permission>
+
 
 
     <application
@@ -38,7 +43,7 @@
         <activity android:name=".activities.DataCompletionActivity"/>
 
         <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
+            android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyB4mbjP61r2U864DhVdr6H3ckNftQMRqMA"/>
     </application>
 
