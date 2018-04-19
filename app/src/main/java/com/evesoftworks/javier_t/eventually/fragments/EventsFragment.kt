@@ -17,8 +17,10 @@ import com.evesoftworks.javier_t.eventually.adapters.EventsAdapter
 import com.evesoftworks.javier_t.eventually.databaseobjects.Event
 import com.evesoftworks.javier_t.eventually.databaseobjects.EventSection
 import com.evesoftworks.javier_t.eventually.databaseobjects.User
+import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.GeoPoint
 import kotlinx.android.synthetic.main.fragment_events.*
 
 class EventsFragment : Fragment() {
@@ -49,12 +51,19 @@ class EventsFragment : Fragment() {
     }
 
     private fun getEventInfo() {
-        events = ArrayList<Event>()
+        events = ArrayList()
 
         db.collection("Eventos").get().addOnCompleteListener{ task ->
             if (task.isSuccessful) {
                 for (document in task.result) {
-                    val event: Event = document.toObject(Event::class.java)
+                    val geoPoint: GeoPoint? = document.getGeoPoint("latLng")
+                    var latLng: LatLng? = null
+
+                    geoPoint?.let {
+                        latLng = LatLng(geoPoint.latitude, geoPoint.longitude)
+                    }
+
+                    val event = Event(document.getString("category")!!, latLng!!, document.getString("name")!!, document.getString("placeId")!!)
                     events.add(event)
                 }
 
