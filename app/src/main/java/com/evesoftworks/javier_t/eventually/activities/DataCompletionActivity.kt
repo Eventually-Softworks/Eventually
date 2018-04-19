@@ -50,6 +50,12 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
 
         setSupportActionBar(completionToolbar)
 
+        if (userComesFromGoogleSignIn()) {
+            val bundle = intent.extras
+            //val googleAccountDefaultPic = bundle.get("googleAcountDefaultPic") as Bitmap
+
+        }
+
         data_completion_profile_pic.setOnClickListener(this)
         fab_to_grid.setOnClickListener(this)
     }
@@ -69,6 +75,10 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
                 }
             }
         }
+    }
+
+    private fun userComesFromGoogleSignIn(): Boolean {
+        return intent.extras != null
     }
 
     private fun completeProfile() {

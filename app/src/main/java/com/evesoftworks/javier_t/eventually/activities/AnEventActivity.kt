@@ -6,10 +6,8 @@ import android.support.design.widget.AppBarLayout
 import android.view.MenuItem
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.databaseobjects.Event
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.MapFragment
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.activity_an_event.*
@@ -21,7 +19,18 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback {
         val bundle = intent.extras
         val event = bundle.getParcelable<Event>("anEvent")
 
-        googleMap!!.addMarker(MarkerOptions().position(LatLng(event.latLng.latitude, event.latLng.longitude)))
+        val currentLocLatLng = LatLng(event.latLng.latitude, event.latLng.longitude)
+
+        googleMap!!.addMarker(MarkerOptions().position(currentLocLatLng))
+
+        val cameraPosition: CameraPosition = CameraPosition.Builder()
+                .target(currentLocLatLng)
+                .zoom(17f)
+                .bearing(90f)
+                .tilt(30f)
+                .build()
+
+        googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

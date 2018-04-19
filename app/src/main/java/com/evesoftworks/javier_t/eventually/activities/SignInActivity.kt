@@ -8,6 +8,7 @@ import android.view.View
 import android.widget.Toast
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.databaseobjects.User
+import com.evesoftworks.javier_t.eventually.utils.RequestCode
 import com.google.android.gms.auth.api.signin.*
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
@@ -63,23 +64,20 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
 
     private fun signInGoogle() {
         val intent = mGoogleSignInClient.signInIntent
-        startActivityForResult(intent, 0)
+        startActivityForResult(intent, RequestCode.RC_GOOGLE_SIGN_IN)
     }
 
     private fun firebaseAuthWithGoogle(account: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(account.idToken, null)
 
-        mAuth.signInWithCredential(credential).addOnCompleteListener(this, object : OnCompleteListener<AuthResult> {
-            override fun onComplete(task: Task<AuthResult>) {
-                if (task.isSuccessful) {
-                    val user = mAuth.currentUser
-                    userAlreadySetPreferences(user!!)
-                } else {
-                    Toast.makeText(applicationContext, "Ha habido un error en el inicio de sesión", Toast.LENGTH_LONG).show()
-                }
+        mAuth.signInWithCredential(credential).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val user = mAuth.currentUser
+                userAlreadySetPreferences(user!!)
+            } else {
+                Toast.makeText(applicationContext, "Ha habido un error en el inicio de sesión", Toast.LENGTH_LONG).show()
             }
-
-        })
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -94,6 +92,8 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
         val gso: GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build()
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
+        mGoogleSignInClient
+
         mAuth = FirebaseAuth.getInstance()
     }
 
@@ -103,11 +103,15 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == 0) {
+        if (requestCode == RequestCode.RC_GOOGLE_SIGN_IN) {
             val task: Task<GoogleSignInAccount> = GoogleSignIn.getSignedInAccountFromIntent(data)
 
             try {
                 val account: GoogleSignInAccount = task.getResult(ApiException::class.java)
+
+                intent.putExtra("googleAccountDefaultName", account.displayName)
+                intent.putExtra("googleAccountDefaultPic", account.photoUrl)
+
                 firebaseAuthWithGoogle(account)
             } catch (e: ApiException) {
                 Toast.makeText(applicationContext, "Back pressed", Toast.LENGTH_LONG).show()
