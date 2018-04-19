@@ -14,11 +14,13 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.utils.RequestCode
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import kotlinx.android.synthetic.main.activity_data_completion.*
+import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.data_completion_toolbar.*
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -27,8 +29,6 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
     var selectedImageUri: Uri? = null
     lateinit var storageReference: StorageReference
     lateinit var bitmap: Bitmap
-    var profileImageTaskOk: Boolean = false
-    var displayNameTaskOk: Boolean = false
     var signalCode: Int = 0
     val defaultImageUri = "https://firebasestorage.googleapis.com/v0/b/evedb-98c72.appspot.com/o/usersprofilepics%2Fdefault.jpg?alt=media&token=6c76f406-4c97-4ba9-82da-1720639376d1"
 
@@ -57,15 +57,15 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
     private fun uploadImage() {
         storageReference = FirebaseStorage.getInstance().reference.child("usersprofilepics/${FirebaseAuth.getInstance().currentUser!!.uid}")
         when (signalCode) {
-            0 -> setProfilePictureToUser(Uri.parse(defaultImageUri))
+            0 -> updateProfileRequest(Uri.parse(defaultImageUri), data_completion_name.text.toString())
             1 -> {
                 storageReference.putBytes(convertBitmapToByteArray(bitmap)).addOnSuccessListener {
-                    setProfilePictureToUser(it.downloadUrl)
+                    updateProfileRequest(it.downloadUrl, data_completion_name.text.toString())
                 }
             }
             2 -> {
                 storageReference.putFile(selectedImageUri!!).addOnSuccessListener {
-                    setProfilePictureToUser(it.downloadUrl)
+                    updateProfileRequest(it.downloadUrl, data_completion_name.text.toString())
                 }
             }
         }
@@ -79,33 +79,18 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
             data_completion_name.error = null
             data_completion_username.error = null
 
-            setDisplayNameToUser(data_completion_name.text.toString())
             uploadImage()
-
-            if (profileImageTaskOk && displayNameTaskOk) {
-                goToGridSelectionActivity()
-            }
-
         }
     }
 
-    private fun setProfilePictureToUser(imageUrl: Uri?) {
+    private fun updateProfileRequest(imageUrl: Uri?, displayName: String) {
         val userProfileChangeRequest = UserProfileChangeRequest.Builder()
                 .setPhotoUri(imageUrl)
-                .build()
-
-        FirebaseAuth.getInstance().currentUser!!.updateProfile(userProfileChangeRequest).addOnSuccessListener {
-            profileImageTaskOk = true
-        }
-    }
-
-    private fun setDisplayNameToUser(displayName: String) {
-        val userProfileChangeRequest = UserProfileChangeRequest.Builder()
                 .setDisplayName(displayName)
                 .build()
 
         FirebaseAuth.getInstance().currentUser!!.updateProfile(userProfileChangeRequest).addOnSuccessListener {
-            displayNameTaskOk = true
+            goToGridSelectionActivity()
         }
     }
 

@@ -31,7 +31,7 @@ class EventsAdapter(val events: ArrayList<Event>): RecyclerView.Adapter<EventsAd
         holder.constraint.singleevent_category.text = events[position].category
         //definir imagen
 
-        holder.constraint.singleevent_image.setOnClickListener({
+        holder.constraint.setOnClickListener({
             val intent = Intent(holder.constraint.context, AnEventActivity::class.java)
             val bundle = Bundle()
 
