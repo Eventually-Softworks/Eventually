@@ -1,11 +1,16 @@
 package com.evesoftworks.javier_t.eventually.activities
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.view.View
 import android.widget.*
 import com.evesoftworks.javier_t.eventually.R
+import com.evesoftworks.javier_t.eventually.constants.RequestCode
 import com.evesoftworks.javier_t.eventually.dbmodel.Category
 import com.evesoftworks.javier_t.eventually.dbmodel.Event
 import com.evesoftworks.javier_t.eventually.dbmodel.Group
@@ -36,20 +41,6 @@ class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private var continueButtonListener: View.OnClickListener = View.OnClickListener {
-        for (i in 0 until userPreferencesSelected.size) {
-            val actualPreference = Category(userPreferencesSelected[i])
-            arrayOfPreferences.add(actualPreference)
-        }
-
-        val newUser = User(arrayOfPreferences, ArrayList(), intent.extras.get("USERNAME_TO_FIRESTORE") as String, ArrayList(), ArrayList())
-
-        db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).set(newUser)
-        val intent = Intent(applicationContext, MainPageActivity::class.java)
-        startActivity(intent)
-        finish()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_grid_selection)
@@ -57,7 +48,9 @@ class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
         continue_button.visibility = View.GONE
 
         setAllListeners()
-        continue_button.setOnClickListener(continueButtonListener)
+        continue_button.setOnClickListener {
+            userHasPermissions()
+        }
     }
 
     private fun setAllListeners() {
@@ -77,5 +70,34 @@ class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun enoughPreferences(userPreferencesSelected: ArrayList<String>): Boolean {
         return userPreferencesSelected.size > 2
+    }
+
+    private fun userHasPermissions() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), RequestCode.RC_PERMISSION_ACCESS_FINE_LOCATION)
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            for (i in 0 until userPreferencesSelected.size) {
+                val actualPreference = Category(userPreferencesSelected[i])
+                arrayOfPreferences.add(actualPreference)
+            }
+
+            val newUser = User(arrayOfPreferences, ArrayList(), intent.extras.get("USERNAME_TO_FIRESTORE") as String, ArrayList(), ArrayList())
+
+            db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).set(newUser).addOnSuccessListener {
+                goToMainPageActivity()
+            }
+        }
+    }
+
+    private fun goToMainPageActivity() {
+        val intent = Intent(applicationContext, MainPageActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 }

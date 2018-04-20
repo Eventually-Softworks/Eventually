@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.activities.AnEventActivity
 import com.evesoftworks.javier_t.eventually.dbmodel.Event
+import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.single_event.view.*
 
 
@@ -27,9 +29,13 @@ class EventsAdapter(val events: ArrayList<Event>): RecyclerView.Adapter<EventsAd
     }
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
+        val storageReference = FirebaseStorage.getInstance().reference.child("eventsphotos/${events[position].name}.jpg")
+
+        storageReference.downloadUrl.addOnSuccessListener {
+            Picasso.get().load(it).into(holder.constraint.singleevent_image)
+        }
         holder.constraint.singleevent_name.text = events[position].name
         holder.constraint.singleevent_category.text = events[position].category
-        //definir imagen
 
         holder.constraint.setOnClickListener({
             val intent = Intent(holder.constraint.context, AnEventActivity::class.java)

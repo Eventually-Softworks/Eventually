@@ -6,6 +6,7 @@ class RequestCode {
         val RC_GALLERY = 1
         val RC_CAMERA = 2
 
+        val RC_PERMISSION_ACCESS_FINE_LOCATION = 998
         val RC_PERMISSION_CAMERA = 999
     }
 }

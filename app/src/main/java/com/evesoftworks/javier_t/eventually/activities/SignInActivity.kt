@@ -73,11 +73,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
 
         mAuth.signInWithCredential(credential).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                if (userAlreadySetPreferences(FirebaseAuth.getInstance().currentUser!!)) {
-                    goToMainPageActivity()
-                } else {
-                    goToDataCompletionActivity()
-                }
+                userAlreadySetPreferences(FirebaseAuth.getInstance().currentUser!!)
             } else {
                 Toast.makeText(applicationContext, "Ha habido un error en el inicio de sesión", Toast.LENGTH_LONG).show()
             }
@@ -119,22 +115,27 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
         }
     }
 
-    private fun userAlreadySetPreferences(currentUser: FirebaseUser): Boolean {
+    private fun userAlreadySetPreferences(currentUser: FirebaseUser) {
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
-        var result = false
 
-        db.collection("Usuarios").document(currentUser.uid).get().addOnCompleteListener {
-            if (it.isSuccessful) {
-                result = true
+        db.collection("Usuarios").document(currentUser.uid).get().addOnSuccessListener {
+            if (it.exists()) {
+                goToMainPageActivity()
+            } else {
+                goToDataCompletionActivity()
             }
         }
-
-        return result
     }
 
     private fun goToDataCompletionActivity() {
         val intent = Intent(this, DataCompletionActivity::class.java)
         intent.putExtra("googleAccountDefaultName", mAccount.displayName)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun goToGridSelectionActivity() {
+        val intent = Intent(this, GridSelectionActivity::class.java)
         startActivity(intent)
         finish()
     }
