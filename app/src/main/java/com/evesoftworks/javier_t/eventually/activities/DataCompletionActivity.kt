@@ -148,6 +148,8 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
     private fun userHasPermissions() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.CAMERA), RequestCode.RC_PERMISSION_CAMERA)
+        } else {
+            showChooserDialog()
         }
     }
 
