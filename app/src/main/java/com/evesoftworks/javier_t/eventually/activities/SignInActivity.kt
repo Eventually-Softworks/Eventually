@@ -134,12 +134,6 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
         finish()
     }
 
-    private fun goToGridSelectionActivity() {
-        val intent = Intent(this, GridSelectionActivity::class.java)
-        startActivity(intent)
-        finish()
-    }
-
     private fun goToMainPageActivity() {
         val intent = Intent(this, MainPageActivity::class.java)
         startActivity(intent)

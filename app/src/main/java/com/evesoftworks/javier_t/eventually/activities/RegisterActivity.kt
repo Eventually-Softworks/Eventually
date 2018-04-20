@@ -71,5 +71,6 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, OnCompleteLi
         intent.putExtra("USER_EMAIL", et_name.text.toString())
         intent.putExtra("USER_PASSWORD", et_pass.toString())
         startActivity(intent)
+        finish()
     }
 }
