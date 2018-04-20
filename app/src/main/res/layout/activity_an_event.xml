@@ -24,12 +24,13 @@
             >
 
             <ImageView
+                android:id="@+id/aneventimage"
                 app:layout_collapseMode="parallax"
                 android:src="@drawable/eventually"
                 android:contentDescription="@string/app_name"
                 android:scaleType="centerCrop"
                 android:layout_width="match_parent"
-                android:layout_height="350dp" />
+                android:layout_height="350dp"/>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/aneventtoolbar"

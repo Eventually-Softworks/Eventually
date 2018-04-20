@@ -1,9 +1,9 @@
 package com.evesoftworks.javier_t.eventually.dbmodel
 
 class Category() {
-    lateinit var  preferenceName: String
+    lateinit var  name: String
 
-    constructor(preferenceName: String): this() {
-        this.preferenceName = preferenceName
+    constructor(name: String): this() {
+        this.name = name
     }
 }
