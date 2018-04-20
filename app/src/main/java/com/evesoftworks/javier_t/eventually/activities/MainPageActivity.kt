@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import android.support.design.widget.TabLayout
 import android.support.v7.app.AppCompatActivity
@@ -25,6 +26,7 @@ import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.adapters.SectionsPagerAdapter
 import com.evesoftworks.javier_t.eventually.fragments.GroupsFragment
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main_page.*
@@ -36,9 +38,10 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
     lateinit var profilePic: CircleImageView
     lateinit var profileDisplayName: TextView
     lateinit var profileEmail: TextView
+    lateinit var userData: ArrayList<String>
+    lateinit var bitmap: Bitmap
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
     private lateinit var mToggle: ActionBarDrawerToggle
-    var userData: ArrayList<String> = ArrayList()
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val id: Int = item.itemId
@@ -136,11 +139,24 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
     }
 
     private fun setDataWithCurrentUser() {
+        userData = ArrayList()
+
         FirebaseAuth.getInstance().currentUser?.let {
             Picasso.get().load(it.photoUrl).into(profilePic)
             profileDisplayName.text = it.displayName.toString()
             profileEmail.text = it.email.toString()
+
+            userData.add(it.displayName.toString())
+            userData.add(it.email.toString())
+
+            val db: FirebaseFirestore = FirebaseFirestore.getInstance()
+
+            db.collection("Usuarios").document(it.uid).get().addOnSuccessListener {
+                userData.add(it.getString("username")!!)
+            }
         }
+
+
     }
 
     private fun goToSignInActivity() {
@@ -155,7 +171,6 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
 
         if (count == 0) {
             super.onBackPressed()
-            //additional code
         } else {
             fragmentManager.popBackStack()
         }

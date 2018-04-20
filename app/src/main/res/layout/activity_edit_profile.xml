@@ -32,10 +32,12 @@
                 android:layout_gravity="center">
 
                 <de.hdodenhof.circleimageview.CircleImageView
+                    android:id="@+id/profile_my_pic"
                     app:layout_collapseMode="parallax"
                     android:layout_marginTop="50dp"
                     android:layout_width="240dp"
                     android:clickable="true"
+                    android:layout_gravity="center"
                     android:layout_height="170dp"
                     android:src="@mipmap/default_pic"
                     android:elevation="5dp"
@@ -46,6 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="32sp"
+                    android:layout_marginTop="8dp"
                     android:layout_gravity="center"
                     android:textStyle="bold"
                     android:text="Nombre"
@@ -60,7 +63,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="24sp"
-                    android:layout_marginTop="-20dp"
                     android:layout_gravity="center"
                     android:text="Nombre de usuario"
                     android:clickable="false"
