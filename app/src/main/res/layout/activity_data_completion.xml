@@ -55,7 +55,7 @@
                     android:id="@+id/data_completion_name"
                     android:layout_gravity="center"
                     android:layout_width="@dimen/et_width"
-                    android:inputType="textEmailAddress"
+                    android:inputType="text"
                     android:layout_height="wrap_content"
                     android:hint="@string/et_realname"/>
             </android.support.design.widget.TextInputLayout>
@@ -69,6 +69,7 @@
                     android:id="@+id/data_completion_username"
                     android:layout_gravity="center"
                     android:layout_width="@dimen/et_width"
+                    android:inputType="text"
                     android:layout_height="wrap_content"
                     android:hint="@string/et_username"/>
             </android.support.design.widget.TextInputLayout>
