@@ -18,7 +18,7 @@ class LauncherActivity : AppCompatActivity() {
     private fun userAlreadyHasProfile() {
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-        db.collection("PreferenciasUsuario").document(FirebaseAuth.getInstance().currentUser!!.uid).get().addOnSuccessListener {
+        db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).get().addOnSuccessListener {
             if (it.exists()) {
                 goToMainPageActivity()
             } else {

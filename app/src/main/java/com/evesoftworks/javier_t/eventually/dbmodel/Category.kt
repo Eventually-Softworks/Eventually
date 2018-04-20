@@ -1,4 +1,4 @@
-package com.evesoftworks.javier_t.eventually.databaseobjects
+package com.evesoftworks.javier_t.eventually.dbmodel
 
 class Category() {
     lateinit var  preferenceName: String

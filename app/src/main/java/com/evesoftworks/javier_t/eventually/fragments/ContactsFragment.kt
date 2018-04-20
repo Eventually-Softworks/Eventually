@@ -9,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.adapters.ContactsAdapter
-import com.evesoftworks.javier_t.eventually.databaseobjects.User
+import com.evesoftworks.javier_t.eventually.dbmodel.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_contacts.*
@@ -29,7 +29,7 @@ class ContactsFragment : Fragment() {
 
         val contacts = ArrayList<User>()
 
-        db.collection("PreferenciasUsuario").get().addOnCompleteListener{ task ->
+        db.collection("Usuarios").get().addOnCompleteListener{ task ->
             if (task.isSuccessful) {
                 for (document in task.result) {
                     val user: User = document.toObject(User::class.java)

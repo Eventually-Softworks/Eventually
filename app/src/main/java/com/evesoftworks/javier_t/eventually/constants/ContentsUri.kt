@@ -1,4 +1,4 @@
-package com.evesoftworks.javier_t.eventually.utils
+package com.evesoftworks.javier_t.eventually.constants
 
 class ContentsUri {
     companion object {

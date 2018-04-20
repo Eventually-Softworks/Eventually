@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.activities.AnEventActivity
-import com.evesoftworks.javier_t.eventually.databaseobjects.Event
+import com.evesoftworks.javier_t.eventually.dbmodel.Event
 import kotlinx.android.synthetic.main.single_event.view.*
 
 

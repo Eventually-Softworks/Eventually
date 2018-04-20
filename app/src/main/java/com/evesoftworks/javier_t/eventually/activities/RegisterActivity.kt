@@ -7,8 +7,6 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import com.evesoftworks.javier_t.eventually.R
-import com.evesoftworks.javier_t.eventually.databaseobjects.Location
-import com.evesoftworks.javier_t.eventually.databaseobjects.User
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult

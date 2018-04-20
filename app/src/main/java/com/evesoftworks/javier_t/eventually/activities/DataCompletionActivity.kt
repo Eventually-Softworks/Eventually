@@ -12,22 +12,17 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
-import android.widget.TextView
 import com.evesoftworks.javier_t.eventually.R
-import com.evesoftworks.javier_t.eventually.utils.ContentsUri
-import com.evesoftworks.javier_t.eventually.utils.RequestCode
-import com.evesoftworks.javier_t.eventually.utils.SignalCode
+import com.evesoftworks.javier_t.eventually.constants.ContentsUri
+import com.evesoftworks.javier_t.eventually.constants.RequestCode
+import com.evesoftworks.javier_t.eventually.constants.SignalCode
 import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_data_completion.*
-import kotlinx.android.synthetic.main.activity_register.*
 import kotlinx.android.synthetic.main.data_completion_toolbar.*
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -198,6 +193,7 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun goToGridSelectionActivity() {
         val intent = Intent(this, GridSelectionActivity::class.java)
+        intent.putExtra("USERNAME_TO_FIRESTORE", data_completion_username.text.toString())
         startActivity(intent)
         finish()
     }

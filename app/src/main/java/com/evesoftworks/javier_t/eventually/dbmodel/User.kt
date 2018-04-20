@@ -1,31 +1,30 @@
-package com.evesoftworks.javier_t.eventually.databaseobjects
+package com.evesoftworks.javier_t.eventually.dbmodel
 
 import android.os.Parcel
 import android.os.Parcelable
-import java.util.*
 import kotlin.collections.ArrayList
 
 class User (): Parcelable {
     var categories: ArrayList<Category> = ArrayList()
-    var firstName: String = ""
+    var username: String = ""
     var eventsLiked: ArrayList<Event> = ArrayList()
     var groups: ArrayList<Group> = ArrayList()
     var friends: ArrayList<User> = ArrayList()
 
     constructor(parcel: Parcel) : this() {
-        firstName = parcel.readString()
+        username = parcel.readString()
     }
 
-    constructor(categories: ArrayList<Category>, eventsLiked: ArrayList<Event>, firstName: String, friends: ArrayList<User>, groups: ArrayList<Group>): this() {
+    constructor(categories: ArrayList<Category>, eventsLiked: ArrayList<Event>, username: String, friends: ArrayList<User>, groups: ArrayList<Group>): this() {
         this.categories = categories
         this.eventsLiked = eventsLiked
-        this.firstName = firstName
+        this.username = username
         this.friends = friends
         this.groups = groups
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
-        parcel.writeString(firstName)
+        parcel.writeString(username)
     }
 
     override fun describeContents(): Int {

@@ -7,8 +7,8 @@ import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import com.evesoftworks.javier_t.eventually.R
-import com.evesoftworks.javier_t.eventually.databaseobjects.User
-import com.evesoftworks.javier_t.eventually.utils.RequestCode
+import com.evesoftworks.javier_t.eventually.dbmodel.User
+import com.evesoftworks.javier_t.eventually.constants.RequestCode
 import com.google.android.gms.auth.api.signin.*
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.OnCompleteListener
@@ -123,11 +123,8 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
         val db: FirebaseFirestore = FirebaseFirestore.getInstance()
         var result = false
 
-        db.collection("PreferenciasUsuario").document(currentUser.uid).get().addOnSuccessListener {
-            documentSnapshot ->
-            val user = documentSnapshot.toObject<User>(User::class.java)
-
-            if (user!!.categories.count() < 3) {
+        db.collection("Usuarios").document(currentUser.uid).get().addOnCompleteListener {
+            if (it.isSuccessful) {
                 result = true
             }
         }
@@ -138,12 +135,6 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
     private fun goToDataCompletionActivity() {
         val intent = Intent(this, DataCompletionActivity::class.java)
         intent.putExtra("googleAccountDefaultName", mAccount.displayName)
-        startActivity(intent)
-        finish()
-    }
-
-    private fun goToGridSelectionActivity() {
-        val intent = Intent(this, GridSelectionActivity::class.java)
         startActivity(intent)
         finish()
     }

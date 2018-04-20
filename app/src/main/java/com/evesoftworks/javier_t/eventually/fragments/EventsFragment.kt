@@ -1,22 +1,18 @@
 package com.evesoftworks.javier_t.eventually.fragments
 
 import android.content.Context
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
-import android.widget.TextView
 
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.adapters.EventSectionAdapter
-import com.evesoftworks.javier_t.eventually.adapters.EventsAdapter
-import com.evesoftworks.javier_t.eventually.databaseobjects.Event
-import com.evesoftworks.javier_t.eventually.databaseobjects.EventSection
-import com.evesoftworks.javier_t.eventually.databaseobjects.User
+import com.evesoftworks.javier_t.eventually.dbmodel.Event
+import com.evesoftworks.javier_t.eventually.dbmodel.EventSection
+import com.evesoftworks.javier_t.eventually.dbmodel.User
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore

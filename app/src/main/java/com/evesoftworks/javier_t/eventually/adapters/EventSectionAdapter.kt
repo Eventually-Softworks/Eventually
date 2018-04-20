@@ -6,7 +6,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.evesoftworks.javier_t.eventually.R
-import com.evesoftworks.javier_t.eventually.databaseobjects.EventSection
+import com.evesoftworks.javier_t.eventually.dbmodel.EventSection
 import kotlinx.android.synthetic.main.single_event_section.view.*
 
 

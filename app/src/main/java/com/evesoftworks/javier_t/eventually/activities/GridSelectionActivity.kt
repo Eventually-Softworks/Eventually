@@ -3,21 +3,21 @@ package com.evesoftworks.javier_t.eventually.activities
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.AppCompatButton
-import android.util.Log
 import android.view.View
 import android.widget.*
 import com.evesoftworks.javier_t.eventually.R
-import com.evesoftworks.javier_t.eventually.databaseobjects.Category
-import com.evesoftworks.javier_t.eventually.databaseobjects.User
+import com.evesoftworks.javier_t.eventually.dbmodel.Category
+import com.evesoftworks.javier_t.eventually.dbmodel.Event
+import com.evesoftworks.javier_t.eventually.dbmodel.Group
+import com.evesoftworks.javier_t.eventually.dbmodel.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.activity_grid_selection.*
 import kotlinx.android.synthetic.main.grid_toolbar.*
 
 class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
-    private var userPreferencesSelected: ArrayList<String> = ArrayList<String>()
-    private var arrayOfPreferences: ArrayList<Category> = ArrayList<Category>()
+    private var userPreferencesSelected: ArrayList<String> = ArrayList()
+    private var arrayOfPreferences: ArrayList<Category> = ArrayList()
     var db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     override fun onClick(view: View?) {
@@ -36,22 +36,19 @@ class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    /*private var continueButtonListener: View.OnClickListener = object: View.OnClickListener {
-        override fun onClick(view: View?) {
-            for (i in 0 until userPreferencesSelected.size) {
-                val actualPreference = Category(userPreferencesSelected[i])
-                arrayOfPreferences.add(actualPreference)
-            }
-
-            val newUser = User(arrayOfPreferences)
-
-            db.collection("PreferenciasUsuario").document(FirebaseAuth.getInstance().currentUser!!.uid).set(newUser)
-            val intent = Intent(applicationContext, MainPageActivity::class.java)
-            startActivity(intent)
-            finish()
+    private var continueButtonListener: View.OnClickListener = View.OnClickListener {
+        for (i in 0 until userPreferencesSelected.size) {
+            val actualPreference = Category(userPreferencesSelected[i])
+            arrayOfPreferences.add(actualPreference)
         }
 
-    }*/
+        val newUser = User(arrayOfPreferences, ArrayList(), intent.extras.get("USERNAME_TO_FIRESTORE") as String, ArrayList(), ArrayList())
+
+        db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).set(newUser)
+        val intent = Intent(applicationContext, MainPageActivity::class.java)
+        startActivity(intent)
+        finish()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,7 +57,7 @@ class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
         continue_button.visibility = View.GONE
 
         setAllListeners()
-        //continue_button.setOnClickListener(continueButtonListener)
+        continue_button.setOnClickListener(continueButtonListener)
     }
 
     private fun setAllListeners() {

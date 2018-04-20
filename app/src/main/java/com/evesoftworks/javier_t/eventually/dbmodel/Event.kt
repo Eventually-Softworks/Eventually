@@ -1,10 +1,9 @@
-package com.evesoftworks.javier_t.eventually.databaseobjects
+package com.evesoftworks.javier_t.eventually.dbmodel
 
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.android.gms.maps.model.LatLng
 import java.io.Serializable
-import java.sql.Timestamp
 
 class Event() : Parcelable, Serializable {
     lateinit var placeId: String

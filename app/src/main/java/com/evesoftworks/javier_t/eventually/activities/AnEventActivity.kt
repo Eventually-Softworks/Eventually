@@ -2,10 +2,9 @@ package com.evesoftworks.javier_t.eventually.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.design.widget.AppBarLayout
 import android.view.MenuItem
 import com.evesoftworks.javier_t.eventually.R
-import com.evesoftworks.javier_t.eventually.databaseobjects.Event
+import com.evesoftworks.javier_t.eventually.dbmodel.Event
 import com.google.android.gms.maps.*
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
