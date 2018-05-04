@@ -8,5 +8,5 @@
     android:layout_weight="1"
     android:background="@color/colorPrimary"
     app:popupTheme="@style/AppTheme.PopupOverlay"
-    app:title="Selecciona tus gustos">
+    app:title="Selecciona al menos 3 gustos">
 </android.support.v7.widget.Toolbar>

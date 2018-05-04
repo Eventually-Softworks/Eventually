@@ -7,173 +7,206 @@
     android:gravity="center"
     android:orientation="vertical"
     tools:context="com.evesoftworks.javier_t.eventually.activities.GridSelectionActivity">
+    
 
-    <android.support.design.widget.AppBarLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <include layout="@layout/grid_toolbar"/>
-    </android.support.design.widget.AppBarLayout>
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+            <include layout="@layout/grid_toolbar" />
+        </android.support.design.widget.AppBarLayout>
 
-    <TableLayout
-        android:id="@+id/tableLayout"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:layout_marginBottom="32dp"
-        android:layout_marginStart="8dp"
-        app:layout_constraintBottom_toBottomOf="@+id/continue_button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TableRow
+        <TableLayout
+            android:id="@+id/tableLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center">
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <ToggleButton
-                android:id="@+id/button_Cine"
-                android:layout_width="@dimen/bu_table_width"
-                android:layout_height="@dimen/bu_table_height"
-                android:background="@drawable/selector"
-                android:gravity="center"
-                android:textOff="@string/bu_cine"
-                android:textOn="@string/bu_cine"
-                android:textStyle="bold" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
-            <ToggleButton
-                android:id="@+id/button_Playa"
-                android:layout_width="@dimen/bu_table_width"
-                android:layout_height="@dimen/bu_table_height"
-                android:background="@drawable/selector"
-                android:gravity="center"
-                android:textOff="@string/bu_playa"
-                android:textOn="@string/bu_playa"
-                android:textStyle="bold" />
+                <ToggleButton
+                    android:id="@+id/button_Cine"
+                    android:layout_width="@dimen/bu_table_width"
+                    android:layout_height="@dimen/bu_table_height"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/selector"
+                    android:gravity="center"
+                    android:textColor="@color/toggle_colors"
+                    android:textOff="@string/bu_cine"
+                    android:textOn="@string/bu_cine"
+                    android:textStyle="bold" />
 
-            <ToggleButton
-                android:id="@+id/button_Moda"
-                android:layout_width="@dimen/bu_table_width"
-                android:layout_height="@dimen/bu_table_height"
-                android:background="@drawable/selector"
-                android:gravity="center"
-                android:textOff="@string/bu_moda"
-                android:textOn="@string/bu_moda"
-                android:textStyle="bold" />
-        </TableRow>
+                <ToggleButton
+                    android:id="@+id/button_Playa"
+                    android:layout_width="@dimen/bu_table_width"
+                    android:layout_height="@dimen/bu_table_height"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/selector"
+                    android:gravity="center"
+                    android:textColor="@color/toggle_colors"
+                    android:textOff="@string/bu_playa"
+                    android:textOn="@string/bu_playa"
+                    android:textStyle="bold" />
 
-        <TableRow
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center">
+                <ToggleButton
+                    android:id="@+id/button_Moda"
+                    android:layout_width="@dimen/bu_table_width"
+                    android:layout_height="@dimen/bu_table_height"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/selector"
+                    android:gravity="center"
+                    android:textColor="@color/toggle_colors"
+                    android:textOff="@string/bu_moda"
+                    android:textOn="@string/bu_moda"
+                    android:textStyle="bold" />
+            </TableRow>
 
-            <ToggleButton
-                android:id="@+id/button_Cultura"
-                android:layout_width="@dimen/bu_table_width"
-                android:layout_height="@dimen/bu_table_height"
-                android:background="@drawable/selector"
-                android:gravity="center"
-                android:textOff="@string/bu_cultura"
-                android:textOn="@string/bu_cultura"
-                android:textStyle="bold" />
+            <TableRow
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
-            <ToggleButton
-                android:id="@+id/button_Musica"
-                android:layout_width="@dimen/bu_table_width"
-                android:layout_height="@dimen/bu_table_height"
-                android:background="@drawable/selector"
-                android:gravity="center"
-                android:textOff="@string/bu_musica"
-                android:textOn="@string/bu_musica"
-                android:textStyle="bold" />
+                <ToggleButton
+                    android:id="@+id/button_Cultura"
+                    android:layout_width="@dimen/bu_table_width"
+                    android:layout_height="@dimen/bu_table_height"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/selector"
+                    android:gravity="center"
+                    android:textColor="@color/toggle_colors"
+                    android:textOff="@string/bu_cultura"
+                    android:textOn="@string/bu_cultura"
+                    android:textStyle="bold" />
 
-            <ToggleButton
-                android:id="@+id/button_Gastronomia"
-                android:layout_width="@dimen/bu_table_width"
-                android:layout_height="@dimen/bu_table_height"
-                android:background="@drawable/selector"
-                android:gravity="center"
-                android:textOff="@string/bu_gastronomia"
-                android:textOn="@string/bu_gastronomia"
-                android:textStyle="bold" />
+                <ToggleButton
+                    android:id="@+id/button_Musica"
+                    android:layout_width="@dimen/bu_table_width"
+                    android:layout_height="@dimen/bu_table_height"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/selector"
+                    android:gravity="center"
+                    android:textColor="@color/toggle_colors"
+                    android:textOff="@string/bu_musica"
+                    android:textOn="@string/bu_musica"
+                    android:textStyle="bold" />
 
-        </TableRow>
+                <ToggleButton
+                    android:id="@+id/button_Gastronomia"
+                    android:layout_width="@dimen/bu_table_width"
+                    android:layout_height="@dimen/bu_table_height"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/selector"
+                    android:gravity="center"
+                    android:textColor="@color/toggle_colors"
+                    android:textOff="@string/bu_gastronomia"
+                    android:textOn="@string/bu_gastronomia"
+                    android:textStyle="bold" />
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
+            </TableRow>
 
-            <ToggleButton
-                android:id="@+id/button_Cocteles"
-                android:layout_width="@dimen/bu_table_width"
-                android:layout_height="@dimen/bu_table_height"
-                android:background="@drawable/selector"
-                android:gravity="center"
-                android:textOff="@string/bu_cocteles"
-                android:textOn="@string/bu_cocteles"
-                android:textStyle="bold" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
-            <ToggleButton
-                android:id="@+id/button_Deportes"
-                android:layout_width="@dimen/bu_table_width"
-                android:layout_height="@dimen/bu_table_height"
-                android:background="@drawable/selector"
-                android:gravity="center"
-                android:textOff="@string/bu_deportes"
-                android:textOn="@string/bu_deportes"
-                android:textStyle="bold" />
+                <ToggleButton
+                    android:id="@+id/button_Cocteles"
+                    android:layout_width="@dimen/bu_table_width"
+                    android:layout_height="@dimen/bu_table_height"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/selector"
+                    android:gravity="center"
+                    android:textColor="@color/toggle_colors"
+                    android:textOff="@string/bu_cocteles"
+                    android:textOn="@string/bu_cocteles"
+                    android:textStyle="bold" />
 
-            <ToggleButton
-                android:id="@+id/button_Festivales"
-                android:layout_width="@dimen/bu_table_width"
-                android:layout_height="@dimen/bu_table_height"
-                android:background="@drawable/selector"
-                android:gravity="center"
-                android:textOff="@string/bu_festival"
-                android:textOn="@string/bu_festival"
-                android:textStyle="bold" />
+                <ToggleButton
+                    android:id="@+id/button_Deportes"
+                    android:layout_width="@dimen/bu_table_width"
+                    android:layout_height="@dimen/bu_table_height"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/selector"
+                    android:gravity="center"
+                    android:textColor="@color/toggle_colors"
+                    android:textOff="@string/bu_deportes"
+                    android:textOn="@string/bu_deportes"
+                    android:textStyle="bold" />
 
-        </TableRow>
+                <ToggleButton
+                    android:id="@+id/button_Festivales"
+                    android:layout_width="@dimen/bu_table_width"
+                    android:layout_height="@dimen/bu_table_height"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/selector"
+                    android:gravity="center"
+                    android:textColor="@color/toggle_colors"
+                    android:textOff="@string/bu_festival"
+                    android:textOn="@string/bu_festival"
+                    android:textStyle="bold" />
+
+            </TableRow>
 
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center">
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
 
-            <ToggleButton
-                android:id="@+id/button_Clubes"
-                android:layout_width="@dimen/bu_table_width"
-                android:layout_height="@dimen/bu_table_height"
-                android:background="@drawable/selector"
-                android:gravity="center"
-                android:textOff="@string/bu_clubes"
-                android:textOn="@string/bu_clubes"
-                android:textStyle="bold" />
+                <ToggleButton
+                    android:id="@+id/button_Clubes"
+                    android:layout_width="@dimen/bu_table_width"
+                    android:layout_height="@dimen/bu_table_height"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/selector"
+                    android:gravity="center"
+                    android:textColor="@color/toggle_colors"
+                    android:textOff="@string/bu_clubes"
+                    android:textOn="@string/bu_clubes"
+                    android:textStyle="bold" />
 
-            <ToggleButton
-                android:id="@+id/button_Expos"
-                android:layout_width="@dimen/bu_table_width"
-                android:layout_height="@dimen/bu_table_height"
-                android:background="@drawable/selector"
-                android:gravity="center"
-                android:textOff="@string/bu_expos"
-                android:textOn="@string/bu_expos"
-                android:textStyle="bold" />
+                <ToggleButton
+                    android:id="@+id/button_Expos"
+                    android:layout_width="@dimen/bu_table_width"
+                    android:layout_height="@dimen/bu_table_height"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/selector"
+                    android:gravity="center"
+                    android:textColor="@color/toggle_colors"
+                    android:textOff="@string/bu_expos"
+                    android:textOn="@string/bu_expos"
+                    android:textStyle="bold" />
 
-            <ToggleButton
-                android:id="@+id/button_EnGrupo"
-                android:layout_width="@dimen/bu_table_width"
-                android:layout_height="@dimen/bu_table_height"
-                android:background="@drawable/selector"
-                android:gravity="center"
-                android:textOff="@string/bu_grupo"
-                android:textOn="@string/bu_grupo"
-                android:textStyle="bold" />
-        </TableRow>
-    </TableLayout>
+                <ToggleButton
+                    android:id="@+id/button_EnGrupo"
+                    android:layout_width="@dimen/bu_table_width"
+                    android:layout_height="@dimen/bu_table_height"
+                    android:layout_margin="1dp"
+                    android:background="@drawable/selector"
+                    android:gravity="center"
+                    android:textColor="@color/toggle_colors"
+                    android:textOff="@string/bu_grupo"
+                    android:textOn="@string/bu_grupo"
+                    android:textStyle="bold" />
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/continue_button"

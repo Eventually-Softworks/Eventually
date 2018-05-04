@@ -4,7 +4,7 @@
     <item android:drawable="@color/primaryButton"
         android:state_checked="true" />
     <!-- When not selected, use white-->
-    <item android:drawable="@color/dark"
+    <item android:drawable="@android:color/white"
         android:state_checked="false"/>
 
 </selector>
