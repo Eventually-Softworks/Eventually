@@ -23,10 +23,10 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.SignInActivity"
-            android:launchMode="singleTask">
-        </activity>
+            android:launchMode="singleTask"/>
         <activity android:name=".activities.RegisterActivity" />
-        <activity android:name=".activities.GridSelectionActivity" />
+        <activity android:name=".activities.GridSelectionActivity">
+        </activity>
         <activity
             android:name=".activities.MainPageActivity"
             android:label="@string/title_activity_main_page"
