@@ -19,6 +19,7 @@
         android:textSize="12sp"
         android:textStyle="bold"
         android:maxLines="1"
+        android:ellipsize="end"
         app:layout_constraintBottom_toTopOf="@+id/singleevent_category"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"

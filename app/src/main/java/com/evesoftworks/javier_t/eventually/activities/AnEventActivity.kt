@@ -1,5 +1,6 @@
 package com.evesoftworks.javier_t.eventually.activities
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
@@ -24,9 +25,12 @@ import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_an_event.*
 import kotlinx.android.synthetic.main.activity_data_completion.*
+import java.net.URI
+import java.util.*
 
 class AnEventActivity : AppCompatActivity(), OnMapReadyCallback {
     lateinit var supportMapFragment: SupportMapFragment
+
     lateinit var mGeoDataClient: GeoDataClient
     lateinit var mPlaceDetectionClient: PlaceDetectionClient
     lateinit var event: Event
@@ -46,6 +50,8 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback {
                 .build()
 
         googleMap.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
+        googleMap.uiSettings.isZoomControlsEnabled = true
+        googleMap.uiSettings.setAllGesturesEnabled(false)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

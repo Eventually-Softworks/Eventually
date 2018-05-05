@@ -6,4 +6,5 @@
     <color name="primaryButton">#d81b60</color>
     <color name="textButton">#FFFFFF</color>
     <color name="dark">#424242</color>
+    <color name="divider_gray">#ededed</color>
 </resources>
