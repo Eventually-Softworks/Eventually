@@ -14,7 +14,7 @@ import com.evesoftworks.javier_t.eventually.R
  * A simple [Fragment] subclass.
  * Activities that contain this fragment must implement the
  * [GroupsFragment.OnFragmentInteractionListener] interface
- * to handle interaction events.
+ * to handle interaction lovedEvents.
  * Use the [GroupsFragment.newInstance] factory method to
  * create an instance of this fragment.
  */

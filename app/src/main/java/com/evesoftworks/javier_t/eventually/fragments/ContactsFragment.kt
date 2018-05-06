@@ -23,6 +23,8 @@ class ContactsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        retrieveCurrentUserPreferences()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -30,8 +32,6 @@ class ContactsFragment : Fragment() {
 
         contacts = ArrayList()
         adapter = ContactsAdapter(contacts)
-
-        retrieveCurrentUserPreferences()
 
         swipe_refresh_contacts.setOnRefreshListener {
             refreshContent()

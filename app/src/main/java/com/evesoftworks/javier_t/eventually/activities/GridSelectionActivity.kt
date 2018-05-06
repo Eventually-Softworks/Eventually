@@ -85,7 +85,7 @@ class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
                 arrayOfPreferences.add(userPreferencesSelected[i])
             }
 
-            val newUser = User(arrayOfPreferences, ArrayList(), intent.extras.get("USERNAME_TO_FIRESTORE") as String, ArrayList(), ArrayList(), FirebaseAuth.getInstance().currentUser!!.uid)
+            val newUser = User(arrayOfPreferences, ArrayList(), ArrayList(), intent.extras.get("USERNAME_TO_FIRESTORE") as String, ArrayList(), ArrayList(), FirebaseAuth.getInstance().currentUser!!.uid)
 
             db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).set(newUser).addOnSuccessListener {
                 goToMainPageActivity()

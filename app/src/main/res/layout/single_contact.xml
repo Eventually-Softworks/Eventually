@@ -17,7 +17,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="8dp"
             android:elevation="5dp"
-            android:src="@color/colorPrimary"
+            android:src="@mipmap/default_pic"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

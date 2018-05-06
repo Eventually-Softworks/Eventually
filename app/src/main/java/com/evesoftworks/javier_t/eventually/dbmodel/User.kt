@@ -8,6 +8,7 @@ class User (): Parcelable {
     var categories: ArrayList<String> = ArrayList()
     var username: String = ""
     var eventsLiked: ArrayList<Event> = ArrayList()
+    var eventsAssisting: ArrayList<Event> = ArrayList()
     var groups: ArrayList<Group> = ArrayList()
     var friends: ArrayList<User> = ArrayList()
     var photoId: String = ""
@@ -16,9 +17,10 @@ class User (): Parcelable {
         username = parcel.readString()
     }
 
-    constructor(categories: ArrayList<String>, eventsLiked: ArrayList<Event>, username: String, friends: ArrayList<User>, groups: ArrayList<Group>, photoId: String): this() {
+    constructor(categories: ArrayList<String>, eventsLiked: ArrayList<Event>, eventsAssisting: ArrayList<Event>, username: String, friends: ArrayList<User>, groups: ArrayList<Group>, photoId: String): this() {
         this.categories = categories
         this.eventsLiked = eventsLiked
+        this.eventsAssisting = eventsAssisting
         this.username = username
         this.friends = friends
         this.groups = groups
