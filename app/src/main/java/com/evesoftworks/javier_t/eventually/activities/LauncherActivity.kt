@@ -29,7 +29,12 @@ class LauncherActivity : AppCompatActivity() {
 
     private fun userIsHere() {
         if (FirebaseAuth.getInstance().currentUser != null) {
-            userAlreadyHasProfile()
+            if (!FirebaseAuth.getInstance().currentUser!!.isEmailVerified) {
+                FirebaseAuth.getInstance().signOut()
+                goToSignInActivity()
+            } else {
+                userAlreadyHasProfile()
+            }
         } else {
             goToSignInActivity()
         }

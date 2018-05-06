@@ -1,8 +1,10 @@
 package com.evesoftworks.javier_t.eventually.activities
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
@@ -11,14 +13,16 @@ import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import kotlinx.android.synthetic.main.activity_register.*
 
 class RegisterActivity : AppCompatActivity(), View.OnClickListener, OnCompleteListener<AuthResult> {
     lateinit var mAuth: FirebaseAuth
+    lateinit var mAuthStateLisener: FirebaseAuth.AuthStateListener
 
     override fun onComplete(task: Task<AuthResult>) {
         if (task.isSuccessful) {
-            goToDataCompletionActivity()
+            sendVerificationEmail()
         } else {
             Toast.makeText(this, task.exception.toString(), Toast.LENGTH_LONG).show()
         }
@@ -60,6 +64,11 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, OnCompleteLi
         register_button.setOnClickListener(this)
         register_text.setOnClickListener(this)
 
+        mAuthStateLisener = FirebaseAuth.AuthStateListener {
+            if (it.currentUser != null) {
+                sendVerificationEmail()
+            }
+        }
     }
 
     private fun register(mail: String, password: String) {
@@ -72,5 +81,57 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, OnCompleteLi
         intent.putExtra("USER_PASSWORD", et_pass.toString())
         startActivity(intent)
         finish()
+    }
+
+    private fun sendVerificationEmail() {
+        val user = mAuth.currentUser
+
+        user!!.sendEmailVerification().addOnCompleteListener {
+            if (it.isSuccessful) {
+                showEmailVerificationDialog()
+            } else {
+                showEmailResendVerificationDialog()
+            }
+        }
+    }
+
+    private fun showEmailVerificationDialog() {
+        AlertDialog.Builder(this)
+                .setTitle(getString(R.string.action_verification_email))
+                .setMessage(getString(R.string.send_verification_email))
+                .setPositiveButton(getString(R.string.logout_ok), { _, _ ->
+                    checkIfEmailVerified()
+                }).show()
+    }
+
+    private fun showEmailResendVerificationDialog() {
+        AlertDialog.Builder(this)
+                .setTitle(getString(R.string.action_verification_email))
+                .setMessage(getString(R.string.resend_verification_email))
+                .setPositiveButton(getString(R.string.verification_send), { _, _ ->
+                    sendVerificationEmail()
+                })
+                .setNegativeButton(getString(R.string.logout_cancel), null).show()
+    }
+
+    private fun showEmailSendVerificationDialogIfUserIsNotVerified() {
+        AlertDialog.Builder(this)
+                .setTitle(getString(R.string.action_verification_email))
+                .setMessage(getString(R.string.send_verification_email_if_not_verified))
+                .setPositiveButton(getString(R.string.verification_send_if_not_verified), { _, _ ->
+                    sendVerificationEmail()
+                }).show()
+    }
+
+    private fun checkIfEmailVerified() {
+        val user = mAuth.currentUser
+
+        user!!.reload().addOnSuccessListener {
+            if (user.isEmailVerified) {
+                goToDataCompletionActivity()
+            } else {
+                showEmailSendVerificationDialogIfUserIsNotVerified()
+            }
+        }
     }
 }
