@@ -20,6 +20,7 @@ import com.google.firebase.firestore.GeoPoint
 import kotlinx.android.synthetic.main.fragment_events.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class EventsFragment : Fragment() {
     var events: ArrayList<Event> = ArrayList<Event>()
@@ -58,6 +59,7 @@ class EventsFragment : Fragment() {
                     val eventDate: Date? = document.getDate("eventDate")
                     var latLng: LatLng? = null
                     var dateToString: String? = null
+                    val tags: String = document.get("tags").toString()
 
                     geoPoint?.let {
                         latLng = LatLng(it.latitude, it.longitude)
@@ -70,7 +72,7 @@ class EventsFragment : Fragment() {
                         dateToString = simpleDateFormat.format(it)
                     }
 
-                    val event = Event(document.getString("category")!!, latLng!!, document.getString("name")!!, document.getString("description")!!, document.getString("placeId")!!, dateToString!!)
+                    val event = Event(document.getString("category")!!, latLng!!, document.getString("name")!!, document.getString("description")!!, document.getString("placeId")!!, dateToString!!, tags.split(","))
                     events.add(event)
                 }
 

@@ -1,27 +1,24 @@
 package com.evesoftworks.javier_t.eventually.activities
 
+
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
-import android.support.design.widget.TabLayout
-import android.support.v7.app.AppCompatActivity
-
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.design.widget.TabLayout
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewAnimationUtils
 import android.widget.TextView
-
-
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.adapters.SectionsPagerAdapter
 import com.evesoftworks.javier_t.eventually.fragments.GroupsFragment
@@ -39,7 +36,6 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
     lateinit var profileDisplayName: TextView
     lateinit var profileEmail: TextView
     lateinit var userData: ArrayList<String>
-    lateinit var bitmap: Bitmap
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
     private lateinit var mToggle: ActionBarDrawerToggle
 
@@ -133,7 +129,6 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
         val searchItem: MenuItem? = menu?.findItem(R.id.action_search)
         val mSearchView: SearchView = searchItem?.actionView as SearchView
         mSearchView.queryHint = getString(R.string.search_event_hint)
-
 
         return true
     }
