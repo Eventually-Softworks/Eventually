@@ -11,6 +11,7 @@ class Event() : Parcelable, Serializable {
     lateinit var placeId: String
     lateinit var category: String
     lateinit var name: String
+    lateinit var description: String
     lateinit var latLng: LatLng
     lateinit var eventDate: String
 
@@ -18,14 +19,16 @@ class Event() : Parcelable, Serializable {
         placeId = parcel.readString()
         category = parcel.readString()
         name = parcel.readString()
+        description = parcel.readString()
         latLng = parcel.readParcelable(LatLng::class.java.classLoader)
         eventDate = parcel.readString()
     }
 
-    constructor(category: String, latLng: LatLng, name: String, placeId: String, eventDate: String) : this() {
+    constructor(category: String, latLng: LatLng, name: String, description: String, placeId: String, eventDate: String) : this() {
         this.category = category
         this.latLng = latLng
         this.name = name
+        this.description = description
         this.placeId = placeId
         this.eventDate = eventDate
     }
@@ -34,6 +37,7 @@ class Event() : Parcelable, Serializable {
         parcel.writeString(placeId)
         parcel.writeString(category)
         parcel.writeString(name)
+        parcel.writeString(description)
         parcel.writeParcelable(latLng, flags)
         parcel.writeString(eventDate)
     }

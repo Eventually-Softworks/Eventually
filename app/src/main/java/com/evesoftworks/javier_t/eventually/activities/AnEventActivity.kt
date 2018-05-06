@@ -74,6 +74,8 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback {
 
         aneventname.text = event.name
         aneventtime.text = event.eventDate
+        aneventdescription.text = event.description
+
         setPlacePhoto()
     }
 

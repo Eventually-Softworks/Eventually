@@ -69,7 +69,7 @@ class EventsFragment : Fragment() {
                         dateToString = simpleDateFormat.format(it)
                     }
 
-                    val event = Event(document.getString("category")!!, latLng!!, document.getString("name")!!, document.getString("placeId")!!, dateToString!!)
+                    val event = Event(document.getString("category")!!, latLng!!, document.getString("name")!!, document.getString("description")!!, document.getString("placeId")!!, dateToString!!)
                     events.add(event)
                 }
 
