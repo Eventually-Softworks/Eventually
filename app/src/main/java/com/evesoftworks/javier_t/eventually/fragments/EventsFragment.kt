@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.adapters.EventSectionAdapter
 import com.evesoftworks.javier_t.eventually.dbmodel.Event
@@ -18,6 +17,8 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.GeoPoint
 import kotlinx.android.synthetic.main.fragment_events.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class EventsFragment : Fragment() {
     var events: ArrayList<Event> = ArrayList<Event>()
@@ -53,13 +54,22 @@ class EventsFragment : Fragment() {
             if (task.isSuccessful) {
                 for (document in task.result) {
                     val geoPoint: GeoPoint? = document.getGeoPoint("latLng")
+                    val eventDate: Date? = document.getDate("eventDate")
                     var latLng: LatLng? = null
+                    var dateToString: String? = null
 
                     geoPoint?.let {
-                        latLng = LatLng(geoPoint.latitude, geoPoint.longitude)
+                        latLng = LatLng(it.latitude, it.longitude)
                     }
 
-                    val event = Event(document.getString("category")!!, latLng!!, document.getString("name")!!, document.getString("placeId")!!)
+                    eventDate?.let {
+                        val spanishLocale = Locale("es", "ES")
+                        val simpleDateFormat = SimpleDateFormat("dd MMMM yyy HH:mm", spanishLocale)
+                        simpleDateFormat.timeZone = SimpleTimeZone(0, "GMT+2")
+                        dateToString = simpleDateFormat.format(it)
+                    }
+
+                    val event = Event(document.getString("category")!!, latLng!!, document.getString("name")!!, document.getString("placeId")!!, dateToString!!)
                     events.add(event)
                 }
 

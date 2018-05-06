@@ -73,6 +73,7 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback {
         supportMapFragment.getMapAsync(this)
 
         aneventname.text = event.name
+        aneventtime.text = event.eventDate
         setPlacePhoto()
     }
 

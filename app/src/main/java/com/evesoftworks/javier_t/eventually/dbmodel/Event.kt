@@ -3,26 +3,31 @@ package com.evesoftworks.javier_t.eventually.dbmodel
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.android.gms.maps.model.LatLng
+import com.google.firebase.Timestamp
 import java.io.Serializable
+import java.util.*
 
 class Event() : Parcelable, Serializable {
     lateinit var placeId: String
     lateinit var category: String
     lateinit var name: String
     lateinit var latLng: LatLng
-
-    constructor(category: String, latLng: LatLng, name: String, placeId: String) : this() {
-        this.category = category
-        this.latLng = latLng
-        this.name = name
-        this.placeId = placeId
-    }
+    lateinit var eventDate: String
 
     constructor(parcel: Parcel) : this() {
         placeId = parcel.readString()
         category = parcel.readString()
         name = parcel.readString()
         latLng = parcel.readParcelable(LatLng::class.java.classLoader)
+        eventDate = parcel.readString()
+    }
+
+    constructor(category: String, latLng: LatLng, name: String, placeId: String, eventDate: String) : this() {
+        this.category = category
+        this.latLng = latLng
+        this.name = name
+        this.placeId = placeId
+        this.eventDate = eventDate
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -30,6 +35,7 @@ class Event() : Parcelable, Serializable {
         parcel.writeString(category)
         parcel.writeString(name)
         parcel.writeParcelable(latLng, flags)
+        parcel.writeString(eventDate)
     }
 
     override fun describeContents(): Int {
