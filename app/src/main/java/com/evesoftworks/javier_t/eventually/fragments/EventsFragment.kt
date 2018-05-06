@@ -4,6 +4,7 @@ import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,7 +66,7 @@ class EventsFragment : Fragment() {
                     eventDate?.let {
                         val spanishLocale = Locale("es", "ES")
                         val simpleDateFormat = SimpleDateFormat("dd MMMM yyy HH:mm", spanishLocale)
-                        simpleDateFormat.timeZone = SimpleTimeZone(0, "GMT+2")
+                        simpleDateFormat.timeZone = TimeZone.getTimeZone("Europe/Madrid")
                         dateToString = simpleDateFormat.format(it)
                     }
 
