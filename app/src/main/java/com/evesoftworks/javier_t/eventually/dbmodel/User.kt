@@ -5,7 +5,7 @@ import android.os.Parcelable
 import kotlin.collections.ArrayList
 
 class User (): Parcelable {
-    var categories: ArrayList<Category> = ArrayList()
+    var categories: ArrayList<String> = ArrayList()
     var username: String = ""
     var eventsLiked: ArrayList<Event> = ArrayList()
     var groups: ArrayList<Group> = ArrayList()
@@ -16,7 +16,7 @@ class User (): Parcelable {
         username = parcel.readString()
     }
 
-    constructor(categories: ArrayList<Category>, eventsLiked: ArrayList<Event>, username: String, friends: ArrayList<User>, groups: ArrayList<Group>, photoId: String): this() {
+    constructor(categories: ArrayList<String>, eventsLiked: ArrayList<Event>, username: String, friends: ArrayList<User>, groups: ArrayList<Group>, photoId: String): this() {
         this.categories = categories
         this.eventsLiked = eventsLiked
         this.username = username

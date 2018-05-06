@@ -16,7 +16,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_contacts.*
 
 class ContactsFragment : Fragment() {
-    lateinit var user: User
+    var currentUserPreferences: ArrayList<String> = ArrayList()
     lateinit var contacts: ArrayList<User>
     lateinit var adapter: ContactsAdapter
     val db = FirebaseFirestore.getInstance()
@@ -31,8 +31,7 @@ class ContactsFragment : Fragment() {
         contacts = ArrayList()
         adapter = ContactsAdapter(contacts)
 
-        prepareUsers()
-        adapter.notifyDataSetChanged()
+        retrieveCurrentUserPreferences()
 
         swipe_refresh_contacts.setOnRefreshListener {
             refreshContent()
@@ -55,13 +54,25 @@ class ContactsFragment : Fragment() {
 
     private fun prepareUsers() {
         contacts.clear()
+        var coincidences = 0
 
-        db.collection("Usuarios").get().addOnCompleteListener{ task ->
+        db.collection("Usuarios").get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (document in task.result) {
                     if (document.id != FirebaseAuth.getInstance().currentUser!!.uid) {
                         val user: User = document.toObject(User::class.java)
-                        contacts.add(user)
+
+                        for (i in 0 until currentUserPreferences.size) {
+                            for (j in 0 until user.categories.size) {
+                                if (user.categories[j].contains(currentUserPreferences[i])) {
+                                    coincidences++
+                                }
+                            }
+                        }
+
+                        if (coincidences > 0) {
+                            contacts.add(user)
+                        }
                     }
                 }
 
@@ -74,6 +85,17 @@ class ContactsFragment : Fragment() {
                 contacts_recycler.addItemDecoration(ContactsItemDivider(activity!!.applicationContext))
 
                 swipe_refresh_contacts.isRefreshing = false
+            }
+        }
+    }
+
+    private fun retrieveCurrentUserPreferences() {
+        db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                val user = it.result.toObject(User::class.java)
+                currentUserPreferences = user!!.categories
+
+                prepareUsers()
             }
         }
     }

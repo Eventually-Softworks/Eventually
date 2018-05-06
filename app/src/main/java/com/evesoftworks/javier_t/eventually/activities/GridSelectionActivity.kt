@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.grid_toolbar.*
 
 class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
     private var userPreferencesSelected: ArrayList<String> = ArrayList()
-    private var arrayOfPreferences: ArrayList<Category> = ArrayList()
+    private var arrayOfPreferences: ArrayList<String> = ArrayList()
     var db: FirebaseFirestore = FirebaseFirestore.getInstance()
 
     override fun onClick(view: View?) {
@@ -82,8 +82,7 @@ class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             for (i in 0 until userPreferencesSelected.size) {
-                val actualPreference = Category(userPreferencesSelected[i])
-                arrayOfPreferences.add(actualPreference)
+                arrayOfPreferences.add(userPreferencesSelected[i])
             }
 
             val newUser = User(arrayOfPreferences, ArrayList(), intent.extras.get("USERNAME_TO_FIRESTORE") as String, ArrayList(), ArrayList(), FirebaseAuth.getInstance().currentUser!!.uid)

@@ -31,7 +31,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_main_page">MainPageActivity</string>
     <string name="tab_text_1">Eventos</string>
-    <string name="tab_text_2">Contactos</string>
+    <string name="tab_text_2">Coincidencias</string>
     <string name="tab_text_3">Grupos</string>
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="my_events">Mis eventos</string>
