@@ -8,7 +8,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.dbmodel.User
+import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.single_contact.view.*
+import kotlinx.android.synthetic.main.single_event.view.*
 
 class ContactsAdapter(val contacts: ArrayList<User>): RecyclerView.Adapter<ContactsAdapter.Companion.ContactViewHolder>() {
 
@@ -26,7 +29,11 @@ class ContactsAdapter(val contacts: ArrayList<User>): RecyclerView.Adapter<Conta
     }
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
-        // definir imagen
+        val storageReference = FirebaseStorage.getInstance().reference.child("usersprofilepics/${contacts[position].photoId}")
+
+        storageReference.downloadUrl.addOnSuccessListener {
+            Picasso.get().load(it).into(holder.cardView.contact_image)
+        }
         holder.cardView.contact_username.text = contacts[position].username
         holder.cardView.contact_friends.text = "${contacts[position].friends.count()} amigos"
 

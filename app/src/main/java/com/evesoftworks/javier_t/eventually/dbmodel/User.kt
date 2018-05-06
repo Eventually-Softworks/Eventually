@@ -10,21 +10,24 @@ class User (): Parcelable {
     var eventsLiked: ArrayList<Event> = ArrayList()
     var groups: ArrayList<Group> = ArrayList()
     var friends: ArrayList<User> = ArrayList()
+    var photoId: String = ""
 
     constructor(parcel: Parcel) : this() {
         username = parcel.readString()
     }
 
-    constructor(categories: ArrayList<Category>, eventsLiked: ArrayList<Event>, username: String, friends: ArrayList<User>, groups: ArrayList<Group>): this() {
+    constructor(categories: ArrayList<Category>, eventsLiked: ArrayList<Event>, username: String, friends: ArrayList<User>, groups: ArrayList<Group>, photoId: String): this() {
         this.categories = categories
         this.eventsLiked = eventsLiked
         this.username = username
         this.friends = friends
         this.groups = groups
+        this.photoId = photoId
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(username)
+        parcel.writeString(photoId)
     }
 
     override fun describeContents(): Int {
@@ -40,6 +43,4 @@ class User (): Parcelable {
             return arrayOfNulls(size)
         }
     }
-
-
 }

@@ -3,7 +3,6 @@ package com.evesoftworks.javier_t.eventually.fragments
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -18,8 +17,9 @@ import kotlinx.android.synthetic.main.fragment_contacts.*
 
 class ContactsFragment : Fragment() {
     lateinit var user: User
+    lateinit var contacts: ArrayList<User>
+    lateinit var adapter: ContactsAdapter
     val db = FirebaseFirestore.getInstance()
-    val mAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,28 +28,16 @@ class ContactsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        contacts = ArrayList()
+        adapter = ContactsAdapter(contacts)
 
-        val contacts = ArrayList<User>()
+        prepareUsers()
+        adapter.notifyDataSetChanged()
 
-        db.collection("Usuarios").get().addOnCompleteListener{ task ->
-            if (task.isSuccessful) {
-                for (document in task.result) {
-                    val user: User = document.toObject(User::class.java)
-                    contacts.add(user)
-                }
-
-                contacts_recycler.setHasFixedSize(true)
-
-                val layoutManager = LinearLayoutManager(activity?.applicationContext, LinearLayoutManager.VERTICAL, false)
-                contacts_recycler.layoutManager = layoutManager
-
-                val adapter = ContactsAdapter(contacts)
-
-                contacts_recycler.adapter = adapter
-                contacts_recycler.addItemDecoration(ContactsItemDivider(activity!!.applicationContext))
-
-            }
+        swipe_refresh_contacts.setOnRefreshListener {
+            refreshContent()
         }
+        swipe_refresh_contacts.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -58,5 +46,35 @@ class ContactsFragment : Fragment() {
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+    }
+
+    private fun refreshContent() {
+        prepareUsers()
+        adapter.notifyDataSetChanged()
+    }
+
+    private fun prepareUsers() {
+        contacts.clear()
+
+        db.collection("Usuarios").get().addOnCompleteListener{ task ->
+            if (task.isSuccessful) {
+                for (document in task.result) {
+                    if (document.id != FirebaseAuth.getInstance().currentUser!!.uid) {
+                        val user: User = document.toObject(User::class.java)
+                        contacts.add(user)
+                    }
+                }
+
+                contacts_recycler.setHasFixedSize(true)
+
+                val layoutManager = LinearLayoutManager(activity?.applicationContext, LinearLayoutManager.VERTICAL, false)
+                contacts_recycler.layoutManager = layoutManager
+
+                contacts_recycler.adapter = adapter
+                contacts_recycler.addItemDecoration(ContactsItemDivider(activity!!.applicationContext))
+
+                swipe_refresh_contacts.isRefreshing = false
+            }
+        }
     }
 }
