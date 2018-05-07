@@ -39,8 +39,6 @@ class EventsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         recyclerView.setHasFixedSize(true)
-
-        lovedEvents = ArrayList()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -54,7 +52,7 @@ class EventsFragment : Fragment() {
     private fun getLovedEvents() {
         lovedEvents.clear()
 
-        db.collection("Eventos").limit(10).orderBy("eventDate").get().addOnCompleteListener{ task ->
+        db.collection("Eventos").orderBy("eventDate").limit(10).get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (document in task.result) {
                     val geoPoint: GeoPoint? = document.getGeoPoint("latLng")
@@ -97,7 +95,7 @@ class EventsFragment : Fragment() {
     private fun getUpcomingEvents() {
         upcomingEvents.clear()
 
-        db.collection("Eventos").limit(10).orderBy("eventDate").get().addOnCompleteListener{ task ->
+        db.collection("Eventos").orderBy("eventDate").limit(10).get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (document in task.result) {
                     val geoPoint: GeoPoint? = document.getGeoPoint("latLng")
@@ -138,16 +136,12 @@ class EventsFragment : Fragment() {
         }
     }
 
-    private fun getSuggestedEvents() {
-
-    }
-
     private fun createLovedEventsSection() {
-        sections.add(EventSection("Te encantarán", lovedEvents))
+        sections.add(EventSection("A tu gusto", lovedEvents))
     }
 
     private fun createUpcomingEventsSection() {
-        sections.add(EventSection("Próximamente", upcomingEvents))
+        sections.add(EventSection("Llegan en breves", upcomingEvents))
     }
 
     private fun retrieveCurrentUserPreferences() {

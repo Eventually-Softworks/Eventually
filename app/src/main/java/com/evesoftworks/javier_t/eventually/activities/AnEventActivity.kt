@@ -1,20 +1,20 @@
 package com.evesoftworks.javier_t.eventually.activities
 
-import android.content.Intent
-import android.graphics.Bitmap
-import android.net.Uri
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.provider.MediaStore
-import android.util.Log
+import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
+import android.view.View
+import android.widget.ImageView
 import com.evesoftworks.javier_t.eventually.R
-import com.evesoftworks.javier_t.eventually.dbmodel.Category
 import com.evesoftworks.javier_t.eventually.dbmodel.Event
+import com.evesoftworks.javier_t.eventually.dbmodel.User
 import com.google.android.gms.location.places.GeoDataClient
 import com.google.android.gms.location.places.PlaceDetectionClient
 import com.google.android.gms.location.places.Places
-import com.google.android.gms.maps.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -23,19 +23,33 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
+import com.varunest.sparkbutton.SparkEventListener
 import kotlinx.android.synthetic.main.activity_an_event.*
-import kotlinx.android.synthetic.main.activity_data_completion.*
-import java.net.URI
 import java.util.*
+import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
-class AnEventActivity : AppCompatActivity(), OnMapReadyCallback {
+class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListener {
     lateinit var supportMapFragment: SupportMapFragment
-
     lateinit var mGeoDataClient: GeoDataClient
     lateinit var mPlaceDetectionClient: PlaceDetectionClient
     lateinit var event: Event
+    lateinit var eventsLikedToPush: ArrayList<String>
+    lateinit var eventsAssistingToPush: ArrayList<String>
     lateinit var storageReference: StorageReference
-    lateinit var bitmap: Bitmap
+    val db = FirebaseFirestore.getInstance()
+
+    override fun onClick(view: View?) {
+        when (view!!.id) {
+            R.id.fab_event_share -> {
+
+            }
+
+            R.id.assistance_button -> {
+
+            }
+        }
+    }
 
     override fun onMapReady(googleMap: GoogleMap?) {
         val currentLocLatLng = LatLng(event.latLng.latitude, event.latLng.longitude)
@@ -62,7 +76,10 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback {
         mPlaceDetectionClient = Places.getPlaceDetectionClient(this)
 
         val bundle = intent.extras
-        event = bundle.getParcelable<Event>("anEvent")
+        event = bundle.getParcelable("anEvent")
+
+        checkIfEventIsAlreadyInFavourites(event.name)
+        retrieveEventsListFromCurrentUser()
 
         aneventtoolbar.title = event.name
         setSupportActionBar(aneventtoolbar)
@@ -75,6 +92,21 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback {
         aneventname.text = event.name
         aneventtime.text = event.eventDate
         aneventdescription.text = event.description
+
+        spark_fav.setEventListener(object: SparkEventListener{
+            override fun onEventAnimationEnd(button: ImageView?, buttonState: Boolean) {}
+
+            override fun onEventAnimationStart(button: ImageView?, buttonState: Boolean) {}
+
+            override fun onEvent(button: ImageView?, buttonState: Boolean) {
+                actionsToEventsLikedList(buttonState)
+                spark_fav.playAnimation()
+                spark_fav.isChecked = buttonState
+            }
+        })
+
+        fab_event_share.setOnClickListener(this)
+        assistance_button.setOnClickListener(this)
 
         setPlacePhoto()
     }
@@ -90,25 +122,64 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback {
         return true
     }
 
-    /*private fun getPlacePhotos() {
-        mGeoDataClient.getPlacePhotos(event.placeId).addOnCompleteListener {
-            val photos = it.result
-            val photoMetadataBuffer = photos.photoMetadata
-            val photoMetadata = photoMetadataBuffer.get(0)
-
-            mGeoDataClient.getPhoto(photoMetadata).addOnCompleteListener {
-                val photo = it.result
-                bitmap = photo.bitmap
-                setPlacePhoto()
-            }
-        }
-    }*/
-
     private fun setPlacePhoto() {
         storageReference = FirebaseStorage.getInstance().reference.child("eventsphotos/${event.name}.jpg")
 
         storageReference.downloadUrl.addOnSuccessListener {
             Picasso.get().load(it).into(aneventimage)
         }
+    }
+
+    private fun checkIfEventIsAlreadyInFavourites(eventName: String): Boolean {
+        var result = false
+
+        db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                val user = it.result.toObject(User::class.java)
+
+                for (event in user!!.eventsLiked) {
+                    if (event == eventName) {
+                        result = true
+                        spark_fav.isChecked = true
+                    }
+                }
+            }
+        }
+
+        return result
+    }
+
+    private fun retrieveEventsListFromCurrentUser() {
+        db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                val user = it.result.toObject(User::class.java)
+                eventsLikedToPush = user!!.eventsLiked
+                eventsAssistingToPush = user.eventsAssisting
+            }
+        }
+    }
+
+    private fun actionsToEventsLikedList(state: Boolean) {
+        if (state) {
+            eventsLikedToPush.add(event.name)
+        } else {
+            eventsLikedToPush.remove(event.name)
+        }
+
+        performUpdate("eventsLiked", eventsLikedToPush)
+    }
+
+    private fun actionsToEventsAsssistingList(state: Boolean) {
+        if (state) {
+            eventsAssistingToPush.add(event.name)
+        } else {
+            eventsAssistingToPush.remove(event.name)
+        }
+
+        performUpdate("eventsAssisting", eventsAssistingToPush)
+    }
+
+    private fun performUpdate(eventField: String, eventList: ArrayList<String>) {
+        db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).update(eventField, eventList)
     }
 }

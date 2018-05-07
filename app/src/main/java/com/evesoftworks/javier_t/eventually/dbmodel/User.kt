@@ -7,17 +7,17 @@ import kotlin.collections.ArrayList
 class User (): Parcelable {
     var categories: ArrayList<String> = ArrayList()
     var username: String = ""
-    var eventsLiked: ArrayList<Event> = ArrayList()
-    var eventsAssisting: ArrayList<Event> = ArrayList()
-    var groups: ArrayList<Group> = ArrayList()
-    var friends: ArrayList<User> = ArrayList()
+    var eventsLiked: ArrayList<String> = ArrayList()
+    var eventsAssisting: ArrayList<String> = ArrayList()
+    var groups: ArrayList<String> = ArrayList()
+    var friends: ArrayList<String> = ArrayList()
     var photoId: String = ""
 
     constructor(parcel: Parcel) : this() {
         username = parcel.readString()
     }
 
-    constructor(categories: ArrayList<String>, eventsLiked: ArrayList<Event>, eventsAssisting: ArrayList<Event>, username: String, friends: ArrayList<User>, groups: ArrayList<Group>, photoId: String): this() {
+    constructor(categories: ArrayList<String>, eventsLiked: ArrayList<String>, eventsAssisting: ArrayList<String>, username: String, friends: ArrayList<String>, groups: ArrayList<String>, photoId: String): this() {
         this.categories = categories
         this.eventsLiked = eventsLiked
         this.eventsAssisting = eventsAssisting

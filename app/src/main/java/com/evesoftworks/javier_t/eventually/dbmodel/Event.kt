@@ -5,7 +5,7 @@ import android.os.Parcelable
 import com.google.android.gms.maps.model.LatLng
 import java.io.Serializable
 
-class Event() : Parcelable, Serializable {
+class Event() : Parcelable {
     lateinit var placeId: String
     lateinit var category: String
     lateinit var name: String
