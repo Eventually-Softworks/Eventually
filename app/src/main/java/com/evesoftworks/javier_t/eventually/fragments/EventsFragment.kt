@@ -72,7 +72,7 @@ class EventsFragment : Fragment() {
                         dateToString = simpleDateFormat.format(it)
                     }
 
-                    val event = Event(document.getString("category")!!, latLng!!, document.getString("name")!!, document.getString("description")!!, document.getString("placeId")!!, dateToString!!, tags.split(","))
+                    val event = Event(document.getString("eventId")!!, document.getString("category")!!, latLng!!, document.getString("name")!!, document.getString("description")!!, document.getString("placeId")!!, dateToString!!, tags.split(","))
 
                     for (i in 0 until currentUserPreferences.size) {
                         if (event.category == currentUserPreferences[i]) {
@@ -115,7 +115,7 @@ class EventsFragment : Fragment() {
                         dateToString = simpleDateFormat.format(it)
                     }
 
-                    val event = Event(document.getString("category")!!, latLng!!, document.getString("name")!!, document.getString("description")!!, document.getString("placeId")!!, dateToString!!, tags.split(","))
+                    val event = Event(document.getString("eventId")!!, document.getString("category")!!, latLng!!, document.getString("name")!!, document.getString("description")!!, document.getString("placeId")!!, dateToString!!, tags.split(","))
                     val currentTime = Calendar.getInstance().timeInMillis
 
                     val diff = eventDate!!.time - currentTime

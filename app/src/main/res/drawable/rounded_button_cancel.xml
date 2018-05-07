@@ -9,7 +9,8 @@
         android:topLeftRadius="30dp"
         android:topRightRadius="30dp" />
 
-    <solid android:color="@color/colorAccent"/>
+    <solid android:color="@android:color/white"/>
+    <stroke android:color="@color/colorPrimary" android:width="2dp"/>
 
     <padding
         android:bottom="0dp"

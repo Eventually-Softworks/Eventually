@@ -1,6 +1,5 @@
 package com.evesoftworks.javier_t.eventually.activities
 
-import android.content.Context
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -10,6 +9,7 @@ import android.widget.ImageView
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.dbmodel.Event
 import com.evesoftworks.javier_t.eventually.dbmodel.User
+import com.evesoftworks.javier_t.eventually.interfaces.TaskResultCallback
 import com.google.android.gms.location.places.GeoDataClient
 import com.google.android.gms.location.places.PlaceDetectionClient
 import com.google.android.gms.location.places.Places
@@ -29,11 +29,13 @@ import com.varunest.sparkbutton.SparkEventListener
 import kotlinx.android.synthetic.main.activity_an_event.*
 import kotlin.collections.ArrayList
 
-class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListener {
+class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListener, TaskResultCallback {
     lateinit var supportMapFragment: SupportMapFragment
     lateinit var mGeoDataClient: GeoDataClient
     lateinit var mPlaceDetectionClient: PlaceDetectionClient
     lateinit var event: Event
+    var assistingFound: Boolean = false
+    var taskResultCallback: TaskResultCallback = this
     lateinit var eventsLikedToPush: ArrayList<String>
     lateinit var eventsAssistingToPush: ArrayList<String>
     lateinit var storageReference: StorageReference
@@ -46,8 +48,21 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickLis
             }
 
             R.id.assistance_button -> {
-                actionsToEventsAsssistingList(checkIfEventIsAlreadyInAssistance(event.name))
+                checkIfEventIsAlreadyInFavouritesAndAssistance(event.eventId)
+                actionsToEventsAsssistingList(assistingFound)
             }
+        }
+    }
+
+    override fun onTaskResultGiven(boolean: Boolean) {
+        if (boolean) {
+            assistance_button.background = ContextCompat.getDrawable(this, R.drawable.rounded_button_cancel)
+            assistance_button.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+            assistance_button.text = getString(R.string.assistance_cancel)
+        } else {
+            assistance_button.background = ContextCompat.getDrawable(this, R.drawable.rounded_button)
+            assistance_button.setTextColor(ContextCompat.getColor(this, android.R.color.white))
+            assistance_button.text = getString(R.string.event_assist)
         }
     }
 
@@ -72,15 +87,15 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickLis
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_an_event)
 
+        retrieveEventsListFromCurrentUser()
+
         mGeoDataClient = Places.getGeoDataClient(this)
         mPlaceDetectionClient = Places.getPlaceDetectionClient(this)
 
         val bundle = intent.extras
         event = bundle.getParcelable("anEvent")
 
-        checkIfEventIsAlreadyInFavourites(event.name)
-        updateAssistanceButton(event.name)
-        retrieveEventsListFromCurrentUser()
+        checkIfEventIsAlreadyInFavouritesAndAssistance(event.eventId)
 
         aneventtoolbar.title = event.name
         setSupportActionBar(aneventtoolbar)
@@ -94,7 +109,7 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickLis
         aneventtime.text = event.eventDate
         aneventdescription.text = event.description
 
-        spark_fav.setEventListener(object: SparkEventListener{
+        spark_fav.setEventListener(object : SparkEventListener {
             override fun onEventAnimationEnd(button: ImageView?, buttonState: Boolean) {}
 
             override fun onEventAnimationStart(button: ImageView?, buttonState: Boolean) {}
@@ -131,36 +146,26 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickLis
         }
     }
 
-    private fun checkIfEventIsAlreadyInFavourites(eventName: String) {
+    private fun checkIfEventIsAlreadyInFavouritesAndAssistance(eventId: String) {
         db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).get().addOnCompleteListener {
             if (it.isSuccessful) {
                 val user = it.result.toObject(User::class.java)
 
                 for (event in user!!.eventsLiked) {
-                    if (event == eventName) {
+                    if (event == eventId) {
                         spark_fav.isChecked = true
                     }
                 }
-            }
-        }
-    }
 
-    private fun checkIfEventIsAlreadyInAssistance(eventName: String): Boolean {
-        var result = false
-
-        db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).get().addOnCompleteListener {
-            if (it.isSuccessful) {
-                val user = it.result.toObject(User::class.java)
-
-                for (event in user!!.eventsAssisting) {
-                    if (event == eventName) {
-                        result = true
+                for (event in user.eventsAssisting) {
+                    if (event == eventId) {
+                        assistingFound = true
                     }
                 }
+
+                taskResultCallback.onTaskResultGiven(assistingFound)
             }
         }
-
-        return result
     }
 
     private fun retrieveEventsListFromCurrentUser() {
@@ -175,23 +180,20 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickLis
 
     private fun actionsToEventsLikedList(state: Boolean) {
         if (state) {
-            eventsLikedToPush.add(event.name)
+            eventsLikedToPush.add(event.eventId)
         } else {
-            eventsLikedToPush.remove(event.name)
+            eventsLikedToPush.remove(event.eventId)
         }
 
         performUpdate("eventsLiked", eventsLikedToPush)
     }
 
     private fun actionsToEventsAsssistingList(state: Boolean) {
-        if (!state) {
-            assistance_button.background = ContextCompat.getDrawable(this, R.drawable.rounded_button_cancel)
-            assistance_button.text = getString(R.string.assistance_cancel)
-            eventsAssistingToPush.add(event.name)
+        if (state) {
+            eventsAssistingToPush.remove(event.eventId)
+            assistingFound = false
         } else {
-            assistance_button.background = ContextCompat.getDrawable(this, R.drawable.rounded_button)
-            assistance_button.text = getString(R.string.event_assist)
-            eventsAssistingToPush.remove(event.name)
+            eventsAssistingToPush.add(event.eventId)
         }
 
         performUpdate("eventsAssisting", eventsAssistingToPush)
@@ -199,15 +201,5 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickLis
 
     private fun performUpdate(eventField: String, eventList: ArrayList<String>) {
         db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).update(eventField, eventList)
-    }
-
-    private fun updateAssistanceButton(eventName: String) {
-        if (checkIfEventIsAlreadyInAssistance(eventName)) {
-            assistance_button.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent))
-            assistance_button.text = getString(R.string.assistance_cancel)
-        } else {
-            assistance_button.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
-            assistance_button.text = getString(R.string.event_assist)
-        }
     }
 }

@@ -123,7 +123,7 @@
                         android:layout_marginTop="12dp"
                         app:sparkbutton_activeImage="@drawable/ic_dark_favorite"
                         app:sparkbutton_inActiveImage="@drawable/ic_favorite"
-                        app:sparkbutton_iconSize="40dp"
+                        app:sparkbutton_iconSize="25dp"
                         app:sparkbutton_primaryColor="@color/colorAccent"
                         app:sparkbutton_secondaryColor="@color/colorPrimary"/>
 

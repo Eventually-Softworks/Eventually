@@ -6,6 +6,7 @@ import com.google.android.gms.maps.model.LatLng
 import java.io.Serializable
 
 class Event() : Parcelable {
+    lateinit var eventId: String
     lateinit var placeId: String
     lateinit var category: String
     lateinit var name: String
@@ -15,15 +16,18 @@ class Event() : Parcelable {
     lateinit var tags: List<String>
 
     constructor(parcel: Parcel) : this() {
+        eventId = parcel.readString()
         placeId = parcel.readString()
         category = parcel.readString()
         name = parcel.readString()
         description = parcel.readString()
         latLng = parcel.readParcelable(LatLng::class.java.classLoader)
         eventDate = parcel.readString()
+        tags = parcel.createStringArrayList()
     }
 
-    constructor(category: String, latLng: LatLng, name: String, description: String, placeId: String, eventDate: String, tags: List<String>) : this() {
+    constructor(eventId: String, category: String, latLng: LatLng, name: String, description: String, placeId: String, eventDate: String, tags: List<String>) : this() {
+        this.eventId = eventId
         this.category = category
         this.latLng = latLng
         this.name = name
@@ -34,12 +38,14 @@ class Event() : Parcelable {
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(eventId)
         parcel.writeString(placeId)
         parcel.writeString(category)
         parcel.writeString(name)
         parcel.writeString(description)
         parcel.writeParcelable(latLng, flags)
         parcel.writeString(eventDate)
+        parcel.writeStringList(tags)
     }
 
     override fun describeContents(): Int {
@@ -55,6 +61,4 @@ class Event() : Parcelable {
             return arrayOfNulls(size)
         }
     }
-
-
 }
