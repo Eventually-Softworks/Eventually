@@ -61,6 +61,7 @@
     <string name="my_profile">Mi perfil</string>
     <string name="et_realname">nombre</string>
     <string name="et_username">nombre de usuario</string>
-    <string name="event_assist">Voy a asistir</string>
+    <string name="event_assist">Confirmar asistencia</string>
     <string name="more_button">Mostrar más</string>
+    <string name="assistance_cancel">Cancelar asistencia</string>
 </resources>

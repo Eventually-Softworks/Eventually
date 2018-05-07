@@ -1,6 +1,8 @@
 package com.evesoftworks.javier_t.eventually.activities
 
+import android.content.Context
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
@@ -25,9 +27,7 @@ import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
 import com.varunest.sparkbutton.SparkEventListener
 import kotlinx.android.synthetic.main.activity_an_event.*
-import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.collections.HashMap
 
 class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListener {
     lateinit var supportMapFragment: SupportMapFragment
@@ -46,7 +46,7 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickLis
             }
 
             R.id.assistance_button -> {
-
+                actionsToEventsAsssistingList(checkIfEventIsAlreadyInAssistance(event.name))
             }
         }
     }
@@ -79,6 +79,7 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickLis
         event = bundle.getParcelable("anEvent")
 
         checkIfEventIsAlreadyInFavourites(event.name)
+        updateAssistanceButton(event.name)
         retrieveEventsListFromCurrentUser()
 
         aneventtoolbar.title = event.name
@@ -130,17 +131,30 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickLis
         }
     }
 
-    private fun checkIfEventIsAlreadyInFavourites(eventName: String): Boolean {
-        var result = false
-
+    private fun checkIfEventIsAlreadyInFavourites(eventName: String) {
         db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).get().addOnCompleteListener {
             if (it.isSuccessful) {
                 val user = it.result.toObject(User::class.java)
 
                 for (event in user!!.eventsLiked) {
                     if (event == eventName) {
-                        result = true
                         spark_fav.isChecked = true
+                    }
+                }
+            }
+        }
+    }
+
+    private fun checkIfEventIsAlreadyInAssistance(eventName: String): Boolean {
+        var result = false
+
+        db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                val user = it.result.toObject(User::class.java)
+
+                for (event in user!!.eventsAssisting) {
+                    if (event == eventName) {
+                        result = true
                     }
                 }
             }
@@ -170,9 +184,13 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickLis
     }
 
     private fun actionsToEventsAsssistingList(state: Boolean) {
-        if (state) {
+        if (!state) {
+            assistance_button.background = ContextCompat.getDrawable(this, R.drawable.rounded_button_cancel)
+            assistance_button.text = getString(R.string.assistance_cancel)
             eventsAssistingToPush.add(event.name)
         } else {
+            assistance_button.background = ContextCompat.getDrawable(this, R.drawable.rounded_button)
+            assistance_button.text = getString(R.string.event_assist)
             eventsAssistingToPush.remove(event.name)
         }
 
@@ -181,5 +199,15 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickLis
 
     private fun performUpdate(eventField: String, eventList: ArrayList<String>) {
         db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).update(eventField, eventList)
+    }
+
+    private fun updateAssistanceButton(eventName: String) {
+        if (checkIfEventIsAlreadyInAssistance(eventName)) {
+            assistance_button.setBackgroundColor(ContextCompat.getColor(this, R.color.colorAccent))
+            assistance_button.text = getString(R.string.assistance_cancel)
+        } else {
+            assistance_button.setBackgroundColor(ContextCompat.getColor(this, R.color.colorPrimary))
+            assistance_button.text = getString(R.string.event_assist)
+        }
     }
 }
