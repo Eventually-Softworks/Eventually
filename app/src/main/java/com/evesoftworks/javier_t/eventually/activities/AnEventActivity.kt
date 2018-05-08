@@ -147,7 +147,7 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickLis
     }
 
     private fun setPlacePhoto() {
-        storageReference = FirebaseStorage.getInstance().reference.child("eventsphotos/${event.name}.jpg")
+        storageReference = FirebaseStorage.getInstance().reference.child("eventsphotos/${event.eventId}.jpg")
 
         storageReference.downloadUrl.addOnSuccessListener {
             Picasso.get().load(it).into(aneventimage)
