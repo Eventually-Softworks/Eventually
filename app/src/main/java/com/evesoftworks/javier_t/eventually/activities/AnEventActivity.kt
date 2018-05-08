@@ -1,5 +1,7 @@
 package com.evesoftworks.javier_t.eventually.activities
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -9,7 +11,8 @@ import android.widget.ImageView
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.dbmodel.Event
 import com.evesoftworks.javier_t.eventually.dbmodel.User
-import com.evesoftworks.javier_t.eventually.interfaces.TaskResultCallback
+import com.evesoftworks.javier_t.eventually.interfaces.OnEventStateChangedListener
+import com.evesoftworks.javier_t.eventually.interfaces.OnRetrieveFirebaseDataListener
 import com.google.android.gms.location.places.GeoDataClient
 import com.google.android.gms.location.places.PlaceDetectionClient
 import com.google.android.gms.location.places.Places
@@ -21,30 +24,43 @@ import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.dynamiclinks.DynamicLink
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.squareup.picasso.Picasso
 import com.varunest.sparkbutton.SparkEventListener
 import kotlinx.android.synthetic.main.activity_an_event.*
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.collections.ArrayList
 
-class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListener, TaskResultCallback {
+class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListener, OnEventStateChangedListener, OnRetrieveFirebaseDataListener {
     lateinit var supportMapFragment: SupportMapFragment
+
     lateinit var mGeoDataClient: GeoDataClient
     lateinit var mPlaceDetectionClient: PlaceDetectionClient
     lateinit var event: Event
+    var dynamicLink: String? = null
     var assistingFound: Boolean = false
-    var taskResultCallback: TaskResultCallback = this
+    var onEventStateChangedListener: OnEventStateChangedListener = this
+    var onRetrieveFirebaseDataListener: OnRetrieveFirebaseDataListener = this
     lateinit var eventsLikedToPush: ArrayList<String>
     lateinit var eventsAssistingToPush: ArrayList<String>
     lateinit var storageReference: StorageReference
     val db = FirebaseFirestore.getInstance()
-
     override fun onClick(view: View?) {
         when (view!!.id) {
             R.id.fab_event_share -> {
-
+                dynamicLink?.let {
+                    val intent = Intent()
+                    intent.action = Intent.ACTION_SEND
+                    intent.putExtra(Intent.EXTRA_TEXT, "¿Te vienes conmigo? $it")
+                    intent.type = "text/plain"
+                    startActivity(intent)
+                }
             }
 
             R.id.assistance_button -> {
@@ -52,6 +68,10 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickLis
                 actionsToEventsAsssistingList(assistingFound)
             }
         }
+    }
+
+    override fun onRetrieved() {
+        prepareData()
     }
 
     override fun onTaskResultGiven(boolean: Boolean) {
@@ -93,21 +113,11 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickLis
         mPlaceDetectionClient = Places.getPlaceDetectionClient(this)
 
         val bundle = intent.extras
-        event = bundle.getParcelable("anEvent")
+        checkFromWheresEventInfoComing(bundle)
 
-        checkIfEventIsAlreadyInFavouritesAndAssistance(event.eventId)
-
-        aneventtoolbar.title = event.name
         setSupportActionBar(aneventtoolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
-
-        supportMapFragment = map as SupportMapFragment
-        supportMapFragment.getMapAsync(this)
-
-        aneventname.text = event.name
-        aneventtime.text = event.eventDate
-        aneventdescription.text = event.description
 
         spark_fav.setEventListener(object : SparkEventListener {
             override fun onEventAnimationEnd(button: ImageView?, buttonState: Boolean) {}
@@ -123,8 +133,6 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickLis
 
         fab_event_share.setOnClickListener(this)
         assistance_button.setOnClickListener(this)
-
-        setPlacePhoto()
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -163,7 +171,7 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickLis
                     }
                 }
 
-                taskResultCallback.onTaskResultGiven(assistingFound)
+                onEventStateChangedListener.onTaskResultGiven(assistingFound)
             }
         }
     }
@@ -201,5 +209,67 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickLis
 
     private fun performUpdate(eventField: String, eventList: ArrayList<String>) {
         db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).update(eventField, eventList)
+    }
+
+    private fun generateDynamicLink() {
+        FirebaseDynamicLinks.getInstance().createDynamicLink()
+                .setLink(Uri.parse("https://evedb-98c72.firebaseapp.com/${event.eventId}"))
+                .setDynamicLinkDomain("jh248.app.goo.gl")
+                .setAndroidParameters(DynamicLink.AndroidParameters.Builder()
+                        .setFallbackUrl(Uri.parse("https://evedb-98c72.firebaseapp.com"))
+                        .build())
+                .buildShortDynamicLink().addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        dynamicLink = it.result.shortLink.toString()
+                    }
+                }
+    }
+
+    private fun prepareData() {
+        generateDynamicLink()
+        checkIfEventIsAlreadyInFavouritesAndAssistance(event.eventId)
+        aneventtoolbar.title = event.name
+        aneventname.text = event.name
+        aneventtime.text = event.eventDate
+        aneventdescription.text = event.description
+        setPlacePhoto()
+        supportMapFragment = map as SupportMapFragment
+        supportMapFragment.getMapAsync(this)
+    }
+
+    private fun checkFromWheresEventInfoComing(bundle: Bundle) {
+        if (bundle.get("DYN_LINK") != null) {
+            val eventId: String = bundle.getString("DYN_LINK")
+
+            db.collection("Eventos").document(eventId).get().addOnCompleteListener {
+                if (it.isSuccessful) {
+                    val document = it.result
+
+                    val geoPoint: GeoPoint? = document.getGeoPoint("latLng")
+                    val eventDate: Date? = document.getDate("eventDate")
+                    var latLng: LatLng? = null
+                    var dateToString: String? = null
+                    val tags: String = document.get("tags").toString()
+
+                    geoPoint?.let {
+                        latLng = LatLng(it.latitude, it.longitude)
+                    }
+
+                    eventDate?.let {
+                        val spanishLocale = Locale("es", "ES")
+                        val simpleDateFormat = SimpleDateFormat("dd MMMM yyy HH:mm", spanishLocale)
+                        simpleDateFormat.timeZone = TimeZone.getTimeZone("Europe/Madrid")
+                        dateToString = simpleDateFormat.format(it)
+                    }
+
+                    event = Event(document.getString("eventId")!!, document.getString("category")!!, latLng!!, document.getString("name")!!, document.getString("description")!!, document.getString("placeId")!!, dateToString!!, tags.split(","))
+
+                    onRetrieveFirebaseDataListener.onRetrieved()
+                }
+            }
+        } else {
+            event = bundle.getParcelable("anEvent")
+            prepareData()
+        }
     }
 }

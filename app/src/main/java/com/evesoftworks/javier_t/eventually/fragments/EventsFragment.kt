@@ -26,7 +26,7 @@ class EventsFragment : Fragment() {
     var lovedEvents: ArrayList<Event> = ArrayList()
     var upcomingEvents: ArrayList<Event> = ArrayList()
     var currentUserPreferences: ArrayList<String> = ArrayList()
-    var suggestedEvents: ArrayList<Event> = ArrayList()
+    var favouritesEvents: ArrayList<Event> = ArrayList()
     var sections: ArrayList<EventSection> = ArrayList()
     val db = FirebaseFirestore.getInstance()
 
@@ -120,7 +120,7 @@ class EventsFragment : Fragment() {
 
                     val diff = eventDate!!.time - currentTime
 
-                    if (diff / (24 * 60 * 60 * 1000) < 4) {
+                    if (diff / (24 * 60 * 60 * 1000) in 0..4) {
                         upcomingEvents.add(event)
                     }
                 }
@@ -134,6 +134,10 @@ class EventsFragment : Fragment() {
                 createUpcomingEventsSection()
             }
         }
+    }
+
+    private fun getEventsInFavourites() {
+
     }
 
     private fun createLovedEventsSection() {

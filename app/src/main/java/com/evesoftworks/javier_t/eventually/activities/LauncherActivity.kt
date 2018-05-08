@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.evesoftworks.javier_t.eventually.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
 import com.google.firebase.firestore.FirebaseFirestore
 
 class LauncherActivity : AppCompatActivity() {
@@ -12,7 +13,7 @@ class LauncherActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launcher)
-        userIsHere()
+        userComesFromDynamicLink()
     }
 
     private fun userAlreadyHasProfile() {
@@ -37,6 +38,25 @@ class LauncherActivity : AppCompatActivity() {
             }
         } else {
             goToSignInActivity()
+        }
+    }
+
+    private fun userComesFromDynamicLink() {
+        FirebaseDynamicLinks.getInstance().getDynamicLink(intent).addOnCompleteListener {
+            if (it.isSuccessful) {
+                if (it.result != null) {
+                    val eventId = it.result.link.lastPathSegment
+                    val intent = Intent(this, AnEventActivity::class.java)
+                    intent.putExtra("DYN_LINK", eventId)
+
+                    startActivity(intent)
+                    finish()
+                } else {
+                    userIsHere()
+                }
+            } else {
+                userIsHere()
+            }
         }
     }
 

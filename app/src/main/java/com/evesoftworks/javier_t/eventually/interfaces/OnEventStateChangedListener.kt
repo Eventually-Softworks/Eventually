@@ -1,5 +1,5 @@
 package com.evesoftworks.javier_t.eventually.interfaces
 
-interface TaskResultCallback {
+interface OnEventStateChangedListener {
     fun onTaskResultGiven(boolean: Boolean)
 }
