@@ -95,6 +95,11 @@ class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun goToMainPageActivity() {
         val intent = Intent(applicationContext, MainPageActivity::class.java)
+
+        if (this.intent.extras.get("DYN_LINK") != null) {
+            intent.putExtra("DYN_LINK", this.intent.extras.getString("DYN_LINK"))
+        }
+
         startActivity(intent)
         finish()
     }

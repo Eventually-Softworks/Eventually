@@ -3,6 +3,7 @@ package com.evesoftworks.javier_t.eventually.fragments
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +20,7 @@ class ContactsFragment : Fragment() {
     var currentUserPreferences: ArrayList<String> = ArrayList()
     lateinit var contacts: ArrayList<User>
     lateinit var adapter: ContactsAdapter
+    lateinit var swipeRefreshLayout: SwipeRefreshLayout
     val db = FirebaseFirestore.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,13 +32,13 @@ class ContactsFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
+        swipeRefreshLayout = activity!!.findViewById(R.id.swipe_refresh_contacts)
+
         contacts = ArrayList()
         adapter = ContactsAdapter(contacts)
 
-        swipe_refresh_contacts.setOnRefreshListener {
-            refreshContent()
-        }
-        swipe_refresh_contacts.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent)
+        swipeRefreshLayout.setOnRefreshListener { refreshContent() }
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -49,7 +51,6 @@ class ContactsFragment : Fragment() {
 
     private fun refreshContent() {
         prepareUsers()
-        adapter.notifyDataSetChanged()
     }
 
     private fun prepareUsers() {
@@ -63,8 +64,10 @@ class ContactsFragment : Fragment() {
                         val user: User = document.toObject(User::class.java)
 
                         for (i in 0 until currentUserPreferences.size) {
+                            coincidences = 0
+
                             for (j in 0 until user.categories.size) {
-                                if (user.categories[j].contains(currentUserPreferences[i])) {
+                                if (currentUserPreferences.contains(user.categories[j])) {
                                     coincidences++
                                 }
                             }
@@ -84,7 +87,7 @@ class ContactsFragment : Fragment() {
                 contacts_recycler.adapter = adapter
                 contacts_recycler.addItemDecoration(ContactsItemDivider(activity!!.applicationContext))
 
-                swipe_refresh_contacts.isRefreshing = false
+                swipeRefreshLayout.isRefreshing = false
             }
         }
     }

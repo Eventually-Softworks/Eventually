@@ -29,7 +29,7 @@ class EventsAdapter(val events: ArrayList<Event>): RecyclerView.Adapter<EventsAd
     }
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
-        val storageReference = FirebaseStorage.getInstance().reference.child("eventsphotos/${events[position].name}.jpg")
+        val storageReference = FirebaseStorage.getInstance().reference.child("eventsphotos/${events[position].eventId}.jpg")
 
         storageReference.downloadUrl.addOnSuccessListener {
             Picasso.get().load(it).into(holder.constraint.singleevent_image)

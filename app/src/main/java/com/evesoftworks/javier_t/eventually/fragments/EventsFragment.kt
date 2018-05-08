@@ -3,6 +3,7 @@ package com.evesoftworks.javier_t.eventually.fragments
 import android.content.Context
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -27,6 +28,7 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot> {
     lateinit var adapterToListen: EventSectionAdapter
     var upcomingEvents: ArrayList<Event> = ArrayList()
     lateinit var docRef: Query
+    lateinit var swipeRefreshLayout: SwipeRefreshLayout
     var currentUserPreferences: ArrayList<String> = ArrayList()
     var favouritesEvents: ArrayList<Event> = ArrayList()
     var favouritesEventsToQuery: ArrayList<String> = ArrayList()
@@ -43,12 +45,13 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot> {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         recyclerView.setHasFixedSize(true)
+
+        swipeRefreshLayout = activity!!.findViewById(R.id.swipe_refresh_events)
+
         adapterToListen = EventSectionAdapter(sections)
 
-        swipe_refresh_events.setOnRefreshListener {
-            refreshContent()
-        }
-        swipe_refresh_events.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent)
+        swipeRefreshLayout.setOnRefreshListener { refreshContent() }
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent)
 
     }
 
@@ -235,7 +238,7 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot> {
                 getUpcomingEvents()
                 getEventsInFavourites(favouritesEventsToQuery)
 
-                swipe_refresh_events.isRefreshing = false
+                swipeRefreshLayout.isRefreshing = false
             }
         }
     }

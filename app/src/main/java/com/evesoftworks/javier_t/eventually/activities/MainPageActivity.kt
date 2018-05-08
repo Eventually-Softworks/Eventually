@@ -85,6 +85,9 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_page)
 
+        val bundle = intent.extras
+        continueActivityFlowIfTheresDynamicLink(bundle)
+
         container.offscreenPageLimit = 3;
         setSupportActionBar(toolbar)
         mSectionsPagerAdapter = SectionsPagerAdapter(supportFragmentManager)
@@ -223,5 +226,13 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
         }
 
         anim.start()
+    }
+
+    private fun continueActivityFlowIfTheresDynamicLink(bundle: Bundle?) {
+        if (bundle?.get("DYN_LINK") != null) {
+            val intent = Intent(this, AnEventActivity::class.java)
+            intent.putExtra("DYN_LINK", bundle.getString("DYN_LINK"))
+            startActivity(intent)
+        }
     }
 }
