@@ -31,8 +31,8 @@
             android:name=".activities.MainPageActivity"
             android:label="@string/title_activity_main_page"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.EditProfileActivity" />
-        <activity android:name=".activities.AnEventActivity" />
+        <activity android:name=".activities.UserProfileActivity" android:parentActivityName=".activities.MainPageActivity"/>
+        <activity android:name=".activities.AnEventActivity" android:parentActivityName=".activities.MainPageActivity"/>
         <activity android:name=".activities.LauncherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

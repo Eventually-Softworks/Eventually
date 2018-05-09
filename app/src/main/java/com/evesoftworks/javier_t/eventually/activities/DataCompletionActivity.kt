@@ -57,6 +57,8 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
             data_completion_name.setText(FirebaseAuth.getInstance().currentUser!!.displayName)
         }
 
+        data_completion_profile_pic.setImageResource(R.mipmap.default_pic)
+
         data_completion_profile_pic.setOnClickListener(this)
         fab_to_grid.setOnClickListener(this)
     }
@@ -74,13 +76,13 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
 
             SignalCode.SC_PROFILE_PICTURE_SET_WITH_CAMERA -> {
                 storageReference.putBytes(convertBitmapToByteArray(bitmap)).addOnSuccessListener {
-                    updateProfileRequest(it.downloadUrl, data_completion_name.text.toString())
+                    updateProfileRequest(it.uploadSessionUri, data_completion_name.text.toString())
                 }
             }
 
             SignalCode.SC_PROFILE_PICTURE_SET_WITH_GALLERY -> {
                 storageReference.putFile(selectedImageUri!!).addOnSuccessListener {
-                    updateProfileRequest(it.downloadUrl, data_completion_name.text.toString())
+                    updateProfileRequest(it.uploadSessionUri, data_completion_name.text.toString())
                 }
             }
         }
@@ -196,10 +198,11 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
     private fun goToGridSelectionActivity() {
         val intent = Intent(this, GridSelectionActivity::class.java)
 
-        if (this.intent.extras.get("DYN_LINK") != null) {
+        if (this.intent.extras?.get("DYN_LINK") != null) {
             intent.putExtra("DYN_LINK", this.intent.extras.getString("DYN_LINK"))
         }
 
+        intent.putExtra("DISPLAYNAME_TO_FIRESTORE", data_completion_name.text.toString())
         intent.putExtra("USERNAME_TO_FIRESTORE", data_completion_username.text.toString())
         startActivity(intent)
         finish()

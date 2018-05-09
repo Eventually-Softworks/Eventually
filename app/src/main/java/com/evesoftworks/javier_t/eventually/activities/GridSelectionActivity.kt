@@ -72,9 +72,7 @@ class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun userHasPermissions() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), RequestCode.RC_PERMISSION_ACCESS_FINE_LOCATION)
-        }
+        ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), RequestCode.RC_PERMISSION_ACCESS_FINE_LOCATION)
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -85,18 +83,20 @@ class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
                 arrayOfPreferences.add(userPreferencesSelected[i])
             }
 
-            val newUser = User(arrayOfPreferences, ArrayList(), ArrayList(), intent.extras.get("USERNAME_TO_FIRESTORE") as String, ArrayList(), ArrayList(), FirebaseAuth.getInstance().currentUser!!.uid)
+            val newUser = User(arrayOfPreferences, intent.extras.getString("DISPLAYNAME_TO_FIRESTORE"), ArrayList(), ArrayList(), intent.extras.getString("USERNAME_TO_FIRESTORE"), ArrayList(), ArrayList(), FirebaseAuth.getInstance().currentUser!!.uid)
 
             db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).set(newUser).addOnSuccessListener {
                 goToMainPageActivity()
             }
+        } else {
+            userHasPermissions()
         }
     }
 
     private fun goToMainPageActivity() {
         val intent = Intent(applicationContext, MainPageActivity::class.java)
 
-        if (this.intent.extras.get("DYN_LINK") != null) {
+        if (this.intent.extras?.get("DYN_LINK") != null) {
             intent.putExtra("DYN_LINK", this.intent.extras.getString("DYN_LINK"))
         }
 

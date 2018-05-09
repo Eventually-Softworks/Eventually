@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.fragment_contacts.*
 
 class ContactsFragment : Fragment() {
     var currentUserPreferences: ArrayList<String> = ArrayList()
+    var currentContacts: ArrayList<String> = ArrayList()
     lateinit var contacts: ArrayList<User>
     lateinit var adapter: ContactsAdapter
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
@@ -73,6 +74,14 @@ class ContactsFragment : Fragment() {
                             }
                         }
 
+                        for (myContact in currentContacts) {
+                            if (myContact == user.photoId) {
+                                for (theirContact in user.friends) {
+
+                                }
+                            }
+                        }
+
                         if (coincidences > 0) {
                             contacts.add(user)
                         }
@@ -97,6 +106,7 @@ class ContactsFragment : Fragment() {
             if (it.isSuccessful) {
                 val user = it.result.toObject(User::class.java)
                 currentUserPreferences = user!!.categories
+                currentContacts = user.friends
 
                 prepareUsers()
             }

@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
     android:orientation="vertical"
-    tools:context="com.evesoftworks.javier_t.eventually.activities.EditProfileActivity">
+    tools:context="com.evesoftworks.javier_t.eventually.activities.UserProfileActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar_layout"
@@ -34,7 +34,6 @@
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/profile_my_pic"
                     app:layout_collapseMode="parallax"
-                    android:layout_marginTop="50dp"
                     android:layout_width="240dp"
                     android:clickable="true"
                     android:layout_gravity="center"
@@ -42,7 +41,7 @@
                     android:src="@mipmap/default_pic"
                     android:elevation="5dp"
                     android:focusable="true" />
-                
+
                 <EditText
                     android:id="@+id/profile_my_name"
                     android:layout_width="wrap_content"
@@ -93,29 +92,65 @@
         android:clipToPadding="false"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.v7.widget.CardView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            app:cardElevation="5dp"
-            app:cardUseCompatPadding="true">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp">
 
-                <TextView
-                    android:id="@+id/aneventname"
-                    android:padding="12dp"
-                    android:textSize="20sp"
-                    android:layout_marginTop="12dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorPrimary"
-                    android:text="TO DO"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content" />
-            </LinearLayout>
-        </android.support.v7.widget.CardView>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/preferences_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:text="@string/tastes" />
+                    <TextView
+                        android:id="@+id/preferences_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="10dp"
+                        android:text="@string/tastes" />
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent" android:layout_height="240dp"
+                android:layout_margin="8dp">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/assistance_title"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorPrimaryDark"
+                        android:text="@string/confirmed_assistance_events" />
+
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/confirmed_assistance_recycle"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_below="@+id/assistance_title"
+                        android:layout_marginTop="0dp"/>
+                </RelativeLayout>
+            </android.support.v7.widget.CardView>
+        </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

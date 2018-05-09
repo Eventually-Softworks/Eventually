@@ -131,7 +131,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
         val intent = Intent(this, DataCompletionActivity::class.java)
         intent.putExtra("googleAccountDefaultName", mAccount.displayName)
 
-        if (this.intent.extras.get("DYN_LINK") != null) {
+        if (this.intent.extras?.get("DYN_LINK") != null) {
             intent.putExtra("DYN_LINK", this.intent.extras.getString("DYN_LINK"))
         }
 
@@ -142,7 +142,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
     private fun goToMainPageActivity() {
         val intent = Intent(this, MainPageActivity::class.java)
 
-        if (this.intent.extras.get("DYN_LINK") != null) {
+        if (this.intent.extras?.get("DYN_LINK") != null) {
             intent.putExtra("DYN_LINK", this.intent.extras.getString("DYN_LINK"))
         }
 

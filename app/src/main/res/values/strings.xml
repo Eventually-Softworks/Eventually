@@ -64,4 +64,6 @@
     <string name="event_assist">Confirmar asistencia</string>
     <string name="more_button">Mostrar más</string>
     <string name="assistance_cancel">Cancelar asistencia</string>
+    <string name="confirmed_assistance_events">Eventos con asistencia confirmada</string>
+    <string name="tastes">Gustos</string>
 </resources>

@@ -6,14 +6,13 @@ import android.widget.TextView
 import com.evesoftworks.javier_t.eventually.R
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_edit_profile.*
+import kotlinx.android.synthetic.main.activity_user_profile.*
 import kotlinx.android.synthetic.main.edit_profile_toolbar.*
-import kotlinx.android.synthetic.main.header_drawer.*
 
-class EditProfileActivity : AppCompatActivity() {
+class UserProfileActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_edit_profile)
+        setContentView(R.layout.activity_user_profile)
 
         setSupportActionBar(editToolbar)
         editToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
