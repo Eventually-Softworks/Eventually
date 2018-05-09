@@ -29,7 +29,7 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:ellipsize="end"
-            android:textColor="@android:color/black"
+            android:textStyle="bold"
             android:text="Username"
             android:textAllCaps="true"
             android:textSize="20sp"
