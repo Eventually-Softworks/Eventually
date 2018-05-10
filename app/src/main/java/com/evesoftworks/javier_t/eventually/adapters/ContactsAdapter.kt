@@ -7,11 +7,13 @@ import android.view.View
 import android.view.ViewGroup
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.dbmodel.User
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.single_contact.view.*
 
-class ContactsAdapter(val contacts: ArrayList<User>) : RecyclerView.Adapter<ContactsAdapter.Companion.ContactViewHolder>() {
+class ContactsAdapter(val suggestions: ArrayList<User>) : RecyclerView.Adapter<ContactsAdapter.Companion.ContactViewHolder>() {
+    val db = FirebaseFirestore.getInstance()
 
     companion object {
         class ContactViewHolder(val cardView: CardView) : RecyclerView.ViewHolder(cardView)
@@ -23,20 +25,20 @@ class ContactsAdapter(val contacts: ArrayList<User>) : RecyclerView.Adapter<Cont
     }
 
     override fun getItemCount(): Int {
-        return contacts.size
+        return suggestions.size
     }
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
-        val storageReference = FirebaseStorage.getInstance().reference.child("usersprofilepics/${contacts[position].photoId}")
+        val storageReference = FirebaseStorage.getInstance().reference.child("usersprofilepics/${suggestions[position].photoId}")
 
         storageReference.downloadUrl.addOnSuccessListener {
             Picasso.get().load(it).into(holder.cardView.contact_image)
         }
 
-        holder.cardView.contact_display_name.text = contacts[position].displayName
-        holder.cardView.contact_username.text = contacts[position].username
+        holder.cardView.contact_display_name.text = suggestions[position].displayName
+        holder.cardView.contact_username.text = suggestions[position].username
 
-        if (contacts[position].isMatched) {
+        if (suggestions[position].isMatched) {
             holder.cardView.match_text.visibility = View.VISIBLE
         } else {
             holder.cardView.match_text.visibility = View.GONE
@@ -46,7 +48,7 @@ class ContactsAdapter(val contacts: ArrayList<User>) : RecyclerView.Adapter<Cont
             /*val intent = Intent(holder.cardView.context, ContactProfileActivity::class.java)
             val bundle = Bundle()
 
-            bundle.putParcelable("aContact", contacts[position])
+            bundle.putParcelable("aContact", suggestions[position])
             intent.putExtras(bundle)
             holder.cardView.context.startActivity(intent)*/
         })

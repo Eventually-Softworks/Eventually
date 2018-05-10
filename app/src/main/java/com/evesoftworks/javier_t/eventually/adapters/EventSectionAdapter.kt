@@ -29,5 +29,7 @@ class EventSectionAdapter(val sectionArray: ArrayList<EventSection>): RecyclerVi
         holder.cardView.eventRecycle.adapter = EventsAdapter(sectionArray[position].events)
         holder.cardView.eventRecycle.setHasFixedSize(true)
         holder.cardView.eventRecycle.layoutManager = LinearLayoutManager(holder.cardView.context, LinearLayoutManager.HORIZONTAL, false)
+
+     //   sectionArray[position].
     }
 }

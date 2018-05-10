@@ -39,7 +39,6 @@ import kotlin.collections.ArrayList
 
 class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListener, OnEventStateChangedListener, OnRetrieveFirebaseDataListener {
     lateinit var supportMapFragment: SupportMapFragment
-
     lateinit var mGeoDataClient: GeoDataClient
     lateinit var mPlaceDetectionClient: PlaceDetectionClient
     lateinit var event: Event
@@ -51,6 +50,7 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickLis
     lateinit var eventsAssistingToPush: ArrayList<String>
     lateinit var storageReference: StorageReference
     val db = FirebaseFirestore.getInstance()
+
     override fun onClick(view: View?) {
         when (view!!.id) {
             R.id.fab_event_share -> {

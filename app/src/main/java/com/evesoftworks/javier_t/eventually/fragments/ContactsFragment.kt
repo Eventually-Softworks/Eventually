@@ -11,15 +11,17 @@ import android.view.ViewGroup
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.adapters.ContactsAdapter
 import com.evesoftworks.javier_t.eventually.dbmodel.User
+import com.evesoftworks.javier_t.eventually.interfaces.OnRetrieveFirebaseDataListener
 import com.evesoftworks.javier_t.eventually.utils.ContactsItemDivider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.android.synthetic.main.fragment_contacts.*
 
-class ContactsFragment : Fragment() {
+class ContactsFragment : Fragment(), OnRetrieveFirebaseDataListener {
     var currentUserPreferences: ArrayList<String> = ArrayList()
+    val onRetrieveFirebaseDataListener = this
     var currentContacts: ArrayList<String> = ArrayList()
-    lateinit var contacts: ArrayList<User>
+    lateinit var suggestions: ArrayList<User>
     lateinit var adapter: ContactsAdapter
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
     val db = FirebaseFirestore.getInstance()
@@ -30,13 +32,38 @@ class ContactsFragment : Fragment() {
         retrieveCurrentUserPreferences()
     }
 
+    override fun onRetrieved() {
+
+        for (singleUser in suggestions) {
+            for (possibleCoincidence in singleUser.friends) {
+                if (possibleCoincidence == FirebaseAuth.getInstance().currentUser!!.uid) {
+                    for (finalCoincidence in currentContacts) {
+                        if (finalCoincidence == singleUser.photoId) {
+                            singleUser.isMatched = true
+                        }
+                    }
+                }
+            }
+        }
+
+        contacts_recycler.setHasFixedSize(true)
+
+        val layoutManager = LinearLayoutManager(activity?.applicationContext, LinearLayoutManager.VERTICAL, false)
+        contacts_recycler.layoutManager = layoutManager
+
+        contacts_recycler.adapter = adapter
+        contacts_recycler.addItemDecoration(ContactsItemDivider(activity!!.applicationContext))
+
+        swipeRefreshLayout.isRefreshing = false
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
         swipeRefreshLayout = activity!!.findViewById(R.id.swipe_refresh_contacts)
 
-        contacts = ArrayList()
-        adapter = ContactsAdapter(contacts)
+        suggestions = ArrayList()
+        adapter = ContactsAdapter(suggestions)
 
         swipeRefreshLayout.setOnRefreshListener { refreshContent() }
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent)
@@ -55,7 +82,7 @@ class ContactsFragment : Fragment() {
     }
 
     private fun prepareUsers() {
-        contacts.clear()
+        suggestions.clear()
         var coincidences = 0
 
         db.collection("Usuarios").get().addOnCompleteListener { task ->
@@ -74,29 +101,13 @@ class ContactsFragment : Fragment() {
                             }
                         }
 
-                        for (myContact in currentContacts) {
-                            if (myContact == user.photoId) {
-                                for (theirContact in user.friends) {
-
-                                }
-                            }
-                        }
-
                         if (coincidences > 0) {
-                            contacts.add(user)
+                            suggestions.add(user)
                         }
                     }
                 }
 
-                contacts_recycler.setHasFixedSize(true)
-
-                val layoutManager = LinearLayoutManager(activity?.applicationContext, LinearLayoutManager.VERTICAL, false)
-                contacts_recycler.layoutManager = layoutManager
-
-                contacts_recycler.adapter = adapter
-                contacts_recycler.addItemDecoration(ContactsItemDivider(activity!!.applicationContext))
-
-                swipeRefreshLayout.isRefreshing = false
+                onRetrieveFirebaseDataListener.onRetrieved()
             }
         }
     }
