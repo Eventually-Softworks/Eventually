@@ -1,11 +1,14 @@
 package com.evesoftworks.javier_t.eventually.adapters
 
+import android.content.Intent
+import android.os.Bundle
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.evesoftworks.javier_t.eventually.R
+import com.evesoftworks.javier_t.eventually.activities.UserProfileActivity
 import com.evesoftworks.javier_t.eventually.dbmodel.User
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -45,12 +48,12 @@ class ContactsAdapter(val suggestions: ArrayList<User>) : RecyclerView.Adapter<C
         }
 
         holder.cardView.setOnClickListener({
-            /*val intent = Intent(holder.cardView.context, ContactProfileActivity::class.java)
+            val intent = Intent(holder.cardView.context, UserProfileActivity::class.java)
             val bundle = Bundle()
-
             bundle.putParcelable("aContact", suggestions[position])
             intent.putExtras(bundle)
-            holder.cardView.context.startActivity(intent)*/
+
+            holder.cardView.context.startActivity(intent)
         })
     }
 }

@@ -2,7 +2,10 @@ package com.evesoftworks.javier_t.eventually.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.constraint.ConstraintSet
 import android.support.v7.widget.LinearLayoutManager
+import android.view.View
+import android.widget.RelativeLayout
 import android.widget.TextView
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.adapters.EventsAdapter
@@ -10,23 +13,27 @@ import com.evesoftworks.javier_t.eventually.dbmodel.Event
 import com.evesoftworks.javier_t.eventually.dbmodel.EventSection
 import com.evesoftworks.javier_t.eventually.dbmodel.User
 import com.evesoftworks.javier_t.eventually.interfaces.OnRetrieveFirebaseDataListener
+import com.google.android.gms.flags.IFlagProvider
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.GeoPoint
+import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_user_profile.*
 import kotlinx.android.synthetic.main.edit_profile_toolbar.*
 import java.text.SimpleDateFormat
 import java.util.*
+import kotlin.collections.ArrayList
 
 class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener {
     val db = FirebaseFirestore.getInstance()
     val onRetrieveFirebaseDataListener = this
     var confirmedAssistanceEvents: ArrayList<Event> = ArrayList()
     lateinit var adapter: EventsAdapter
+    var anUserPreferences: ArrayList<String> = ArrayList()
+    var anUserEventsAssisting: ArrayList<String> = ArrayList()
     var confirmedAssistanceEventsId: ArrayList<String> = ArrayList()
-    var sections: ArrayList<EventSection> = ArrayList()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -39,22 +46,71 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener 
 
         editToolbar.setNavigationOnClickListener { finish() }
 
-        getUserInfo()
-        retrieveConfirmedAssistanceEventsId()
+        prepareUserProfile()
+
     }
 
     override fun onRetrieved() {
+        if (anUserPreferences.isNotEmpty()) {
+            val stringBuilder = StringBuilder()
+
+            for (preference in anUserPreferences) {
+                when (preference) {
+                    anUserPreferences.last() -> stringBuilder.append(" y $preference")
+                    anUserPreferences.first() -> stringBuilder.append(preference)
+                    else -> stringBuilder.append(", $preference")
+                }
+            }
+
+            confirmedAssistanceEventsId = anUserEventsAssisting
+
+            preferences_title.text = stringBuilder.toString()
+        }
+
         getConfirmedAssistanceEvents()
     }
 
-    private fun getUserInfo() {
-        val retrievedUserData = intent.extras
-        val arrayOfUserData = retrievedUserData.getStringArrayList("USERDATA")
+    private fun retrievePreferencesFromAnUser(displayName: String) {
+        db.collection("Usuarios").whereEqualTo("displayName", displayName).get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                val user = it.result.documents[0].toObject(User::class.java)
+                anUserPreferences = user!!.categories
+                anUserEventsAssisting = user.eventsAssisting
 
-        Picasso.get().load(FirebaseAuth.getInstance().currentUser!!.photoUrl).into(profile_my_pic)
-        profile_my_name.setText(arrayOfUserData[0], TextView.BufferType.EDITABLE)
-        profile_my_email.setText(arrayOfUserData[1], TextView.BufferType.EDITABLE)
-        profile_my_username.setText(arrayOfUserData[2], TextView.BufferType.EDITABLE)
+                onRetrieveFirebaseDataListener.onRetrieved()
+            }
+        }
+    }
+
+    private fun prepareUserProfile() {
+        val retrievedUserData = intent.extras
+
+        if (retrievedUserData.getParcelable<User>("aContact") != null) {
+            val userData = retrievedUserData.getParcelable<User>("aContact")
+            val storageReference = FirebaseStorage.getInstance().reference.child("usersprofilepics/${userData.photoId}")
+
+            storageReference.downloadUrl.addOnCompleteListener {
+                if (it.isSuccessful) {
+                    Picasso.get().load(it.result).into(profile_my_pic)
+                }
+            }
+
+            profile_my_name.setText(userData.displayName, TextView.BufferType.EDITABLE)
+            profile_my_email.visibility = View.GONE
+            profile_my_username.setText(userData.username, TextView.BufferType.EDITABLE)
+
+            retrievePreferencesFromAnUser(userData.displayName)
+            getConfirmedAssistanceEvents()
+        } else {
+            val currentUserData = retrievedUserData.getStringArrayList("USERDATA")
+
+            Picasso.get().load(FirebaseAuth.getInstance().currentUser!!.photoUrl).into(profile_my_pic)
+            profile_my_name.setText(currentUserData[0], TextView.BufferType.EDITABLE)
+            profile_my_email.setText(currentUserData[1], TextView.BufferType.EDITABLE)
+            profile_my_username.setText(currentUserData[2], TextView.BufferType.EDITABLE)
+
+            retrieveConfirmedAssistanceEventsId()
+        }
     }
 
     private fun userIsEditing() {
