@@ -3,6 +3,7 @@ package com.evesoftworks.javier_t.eventually.activities
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AlertDialog
 import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
@@ -28,8 +29,11 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
 
     override fun onComplete(task: Task<AuthResult>) {
         if (task.isSuccessful) {
-            goToMainPageActivity()
-        } else Toast.makeText(this, task.exception.toString(), Toast.LENGTH_LONG).show()
+            userAlreadySetPreferences(mAuth.currentUser!!)
+        } else {
+            Toast.makeText(this, task.exception.toString(), Toast.LENGTH_LONG).show()
+            mAuth.signOut()
+        }
     }
 
     override fun onClick(p0: View?) {
@@ -120,7 +124,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
 
         db.collection("Usuarios").document(currentUser.uid).get().addOnSuccessListener {
             if (it.exists()) {
-                goToMainPageActivity()
+                checkIfEmailVerified()
             } else {
                 goToDataCompletionActivity()
             }
@@ -148,5 +152,57 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
 
         startActivity(intent)
         finish()
+    }
+
+    private fun showEmailVerificationDialog() {
+        AlertDialog.Builder(this)
+                .setTitle(getString(R.string.action_verification_email))
+                .setMessage(getString(R.string.send_verification_email))
+                .setPositiveButton(getString(R.string.logout_ok), { _, _ ->
+                    checkIfEmailVerified()
+                }).show()
+    }
+
+    private fun showEmailResendVerificationDialog() {
+        AlertDialog.Builder(this)
+                .setTitle(getString(R.string.action_verification_email))
+                .setMessage(getString(R.string.resend_verification_email))
+                .setPositiveButton(getString(R.string.verification_send), { _, _ ->
+                    sendVerificationEmail()
+                })
+                .setNegativeButton(getString(R.string.logout_cancel), null).show()
+    }
+
+    private fun showEmailSendVerificationDialogIfUserIsNotVerified() {
+        AlertDialog.Builder(this)
+                .setTitle(getString(R.string.action_verification_email))
+                .setMessage(getString(R.string.send_verification_email_if_not_verified))
+                .setPositiveButton(getString(R.string.verification_send_if_not_verified), { _, _ ->
+                    sendVerificationEmail()
+                }).show()
+    }
+
+    private fun checkIfEmailVerified() {
+        val user = mAuth.currentUser
+
+        user!!.reload().addOnSuccessListener {
+            if (user.isEmailVerified) {
+                goToMainPageActivity()
+            } else {
+                showEmailSendVerificationDialogIfUserIsNotVerified()
+            }
+        }
+    }
+
+    private fun sendVerificationEmail() {
+        val user = mAuth.currentUser
+
+        user!!.sendEmailVerification().addOnCompleteListener {
+            if (it.isSuccessful) {
+                showEmailVerificationDialog()
+            } else {
+                showEmailResendVerificationDialog()
+            }
+        }
     }
 }
