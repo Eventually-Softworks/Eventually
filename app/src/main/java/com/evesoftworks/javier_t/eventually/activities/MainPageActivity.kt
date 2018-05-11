@@ -13,8 +13,6 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.SearchView
-import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewAnimationUtils
@@ -23,25 +21,23 @@ import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.adapters.SectionsPagerAdapter
 import com.evesoftworks.javier_t.eventually.fragments.GroupsFragment
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.*
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main_page.*
 import kotlinx.android.synthetic.main.app_bar.*
-import kotlinx.android.synthetic.main.header_drawer.*
 import kotlinx.android.synthetic.main.tabs_layout.*
 
 class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
     lateinit var header: View
-
     lateinit var profilePic: CircleImageView
-
     lateinit var profileDisplayName: TextView
     lateinit var profileEmail: TextView
     lateinit var userData: ArrayList<String>
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
     private lateinit var mToggle: ActionBarDrawerToggle
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val id: Int = item.itemId
 
@@ -67,7 +63,7 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
             }
 
             R.id.feedback -> {
-
+                goToFeedbackActivity()
             }
 
             R.id.log_out -> {
@@ -77,6 +73,11 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
 
         main_content.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun goToFeedbackActivity() {
+        val intent = Intent(this, FeedbackActivity::class.java)
+        startActivity(intent)
     }
 
     override fun onResume() {

@@ -56,18 +56,13 @@
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/sign_in_button"
         android:layout_width="@dimen/et_width"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
+        android:elevation="6dp"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/margin_from_button"
-        android:backgroundTint="@color/colorPrimary"
+        android:background="@drawable/rounded_button"
         android:text="@string/sign_in"
         android:textColor="@color/textButton" />
-
-    <com.shobhitpuri.custombuttons.GoogleSignInButton
-        android:id="@+id/google_sign_in_button"
-        android:layout_width="@dimen/et_width"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/register_text"
@@ -84,17 +79,10 @@
         android:textColor="@color/colorPrimary"
         android:textStyle="bold"/>
 
-    <android.support.v7.widget.AppCompatButton
-        android:id="@+id/omitir"
-        android:layout_width="wrap_content"
-        android:layout_height="23dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:background="@android:color/transparent"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="end"
-        android:text="@string/guest"
-        android:textAllCaps="false"
-        android:textColor="@color/colorPrimary" />
+    <com.shobhitpuri.custombuttons.GoogleSignInButton
+        android:id="@+id/google_sign_in_button"
+        android:layout_width="@dimen/et_width"
+        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"/>
 </LinearLayout>

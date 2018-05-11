@@ -9,10 +9,11 @@
 
     <permission
         android:name="com.pkg.map.permission.MAPS_RECEIVE"
-        android:protectionLevel="signature" >
-    </permission>
+        android:protectionLevel="signature"></permission>
 
-    <uses-feature android:glEsVersion="0x00030001" android:required="true" />
+    <uses-feature
+        android:glEsVersion="0x00030001"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -23,16 +24,19 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".activities.SignInActivity"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask" />
         <activity android:name=".activities.RegisterActivity" />
-        <activity android:name=".activities.GridSelectionActivity">
-        </activity>
+        <activity android:name=".activities.GridSelectionActivity"></activity>
         <activity
             android:name=".activities.MainPageActivity"
             android:label="@string/title_activity_main_page"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activities.UserProfileActivity" android:parentActivityName=".activities.MainPageActivity"/>
-        <activity android:name=".activities.AnEventActivity" android:parentActivityName=".activities.MainPageActivity"/>
+        <activity
+            android:name=".activities.UserProfileActivity"
+            android:parentActivityName=".activities.MainPageActivity" />
+        <activity
+            android:name=".activities.AnEventActivity"
+            android:parentActivityName=".activities.MainPageActivity" />
         <activity android:name=".activities.LauncherActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,11 +44,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.DataCompletionActivity"/>
+        <activity android:name=".activities.DataCompletionActivity" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB4mbjP61r2U864DhVdr6H3ckNftQMRqMA"/>
+            android:value="AIzaSyB4mbjP61r2U864DhVdr6H3ckNftQMRqMA" />
+
+        <activity android:name=".activities.FeedbackActivity"></activity>
     </application>
 
 </manifest>

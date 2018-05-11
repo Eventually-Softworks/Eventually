@@ -73,8 +73,9 @@
         android:layout_marginTop="@dimen/margin_from_button"
         android:text="@string/register"
         android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimary"
+        android:layout_height="40dp"
+        android:elevation="6dp"
+        android:background="@drawable/rounded_button"
         android:textColor="@color/textButton"/>
 
     <android.support.v7.widget.AppCompatButton
