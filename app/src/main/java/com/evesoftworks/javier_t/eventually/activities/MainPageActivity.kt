@@ -116,24 +116,7 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
             return true
         }
 
-        when (item.itemId) {
-            R.id.action_search -> {
-                circleReveal(R.id.toolbar, 1, true, true)
-                return true
-            }
-        }
-
         return super.onOptionsItemSelected(item)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu_searching, menu)
-
-        val searchItem: MenuItem? = menu?.findItem(R.id.action_search)
-        val mSearchView: SearchView = searchItem?.actionView as SearchView
-        mSearchView.queryHint = getString(R.string.search_event_hint)
-
-        return true
     }
 
     private fun setDataWithCurrentUser() {

@@ -2,18 +2,17 @@ package com.evesoftworks.javier_t.eventually.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.constraint.ConstraintSet
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.SearchView
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import android.widget.RelativeLayout
 import android.widget.TextView
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.adapters.EventsAdapter
 import com.evesoftworks.javier_t.eventually.dbmodel.Event
-import com.evesoftworks.javier_t.eventually.dbmodel.EventSection
 import com.evesoftworks.javier_t.eventually.dbmodel.User
 import com.evesoftworks.javier_t.eventually.interfaces.OnRetrieveFirebaseDataListener
-import com.google.android.gms.flags.IFlagProvider
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -41,13 +40,34 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener 
 
         adapter = EventsAdapter(confirmedAssistanceEvents)
 
-        setSupportActionBar(editToolbar)
-        editToolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        setSupportActionBar(profile_toolbar)
+        profile_toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
 
-        editToolbar.setNavigationOnClickListener { finish() }
+        profile_toolbar.setNavigationOnClickListener { finish() }
 
         prepareUserProfile()
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_edit -> {
+                return true
+            }
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val retrievedUserData = intent.extras
+
+        if (retrievedUserData.getParcelable<User>("aContact") == null) {
+            menuInflater.inflate(R.menu.menu_edit_profile, menu)
+            return true
+        }
+
+        return false
     }
 
     override fun onRetrieved() {
@@ -95,12 +115,12 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener 
                 }
             }
 
+            profile_toolbar.title = "Perfil de ${userData.displayName}"
             profile_my_name.setText(userData.displayName, TextView.BufferType.EDITABLE)
             profile_my_email.visibility = View.GONE
             profile_my_username.setText(userData.username, TextView.BufferType.EDITABLE)
 
             retrievePreferencesFromAnUser(userData.displayName)
-            getConfirmedAssistanceEvents()
         } else {
             val currentUserData = retrievedUserData.getStringArrayList("USERDATA")
 
@@ -108,6 +128,7 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener 
             profile_my_name.setText(currentUserData[0], TextView.BufferType.EDITABLE)
             profile_my_email.setText(currentUserData[1], TextView.BufferType.EDITABLE)
             profile_my_username.setText(currentUserData[2], TextView.BufferType.EDITABLE)
+            interested_button.visibility = View.GONE
 
             retrieveConfirmedAssistanceEventsId()
         }

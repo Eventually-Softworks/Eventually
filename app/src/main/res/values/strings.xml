@@ -66,4 +66,6 @@
     <string name="assistance_cancel">Cancelar asistencia</string>
     <string name="confirmed_assistance_events">Eventos con asistencia confirmada</string>
     <string name="tastes">Gustos</string>
+    <string name="follow_text">Me interesa</string>
+    <string name="title_edit_profile">Editar perfil</string>
 </resources>
