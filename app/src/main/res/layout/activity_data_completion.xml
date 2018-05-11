@@ -49,6 +49,7 @@
                     android:id="@+id/data_completion_name"
                     android:layout_width="@dimen/et_width"
                     android:layout_height="wrap_content"
+                    android:maxLength="20"
                     android:layout_gravity="center"
                     android:hint="@string/et_realname"
                     android:inputType="text" />
@@ -62,6 +63,7 @@
                 <EditText
                     android:id="@+id/data_completion_username"
                     android:layout_width="@dimen/et_width"
+                    android:maxLength="20"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:hint="@string/et_username"

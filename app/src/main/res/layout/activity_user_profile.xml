@@ -2,7 +2,7 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/editlayout"
+    android:id="@+id/user_profile_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="false"
@@ -14,6 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
+        android:translationZ="2dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <include layout="@layout/edit_profile_toolbar" />
@@ -53,7 +54,9 @@
                 android:clickable="false"
                 android:cursorVisible="false"
                 android:focusable="false"
-                android:focusableInTouchMode="false"
+                android:maxLines="1"
+                android:inputType="textNoSuggestions"
+                android:maxLength="20"
                 android:text="Nombre"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -65,9 +68,11 @@
                 android:layout_gravity="center"
                 android:backgroundTint="@android:color/transparent"
                 android:clickable="false"
+                android:maxLines="1"
+                android:inputType="textNoSuggestions"
+                android:maxLength="20"
                 android:cursorVisible="false"
                 android:focusable="false"
-                android:focusableInTouchMode="false"
                 android:text="Nombre de usuario"
                 android:textSize="18sp" />
 
@@ -81,7 +86,7 @@
                 android:clickable="false"
                 android:cursorVisible="false"
                 android:focusable="false"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:focusableInTouchMode="false"
                 android:text="Email" />
         </LinearLayout>
@@ -173,5 +178,17 @@
         android:background="@drawable/rounded_button"
         android:elevation="6dp"
         android:text="@string/follow_text"
+        android:textColor="@color/textButton" />
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/finish_editing_button"
+        android:layout_width="240dp"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/rounded_button"
+        android:elevation="6dp"
+        android:translationZ="4dp"
+        android:text="@string/finish_editting"
         android:textColor="@color/textButton" />
 </android.support.design.widget.CoordinatorLayout>

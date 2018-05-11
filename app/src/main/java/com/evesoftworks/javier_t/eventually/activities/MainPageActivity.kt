@@ -23,7 +23,8 @@ import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.adapters.SectionsPagerAdapter
 import com.evesoftworks.javier_t.eventually.fragments.GroupsFragment
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.*
+import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main_page.*
@@ -33,13 +34,14 @@ import kotlinx.android.synthetic.main.tabs_layout.*
 
 class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
     lateinit var header: View
+
     lateinit var profilePic: CircleImageView
+
     lateinit var profileDisplayName: TextView
     lateinit var profileEmail: TextView
     lateinit var userData: ArrayList<String>
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
     private lateinit var mToggle: ActionBarDrawerToggle
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val id: Int = item.itemId
 
@@ -75,6 +77,11 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
 
         main_content.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    override fun onResume() {
+        super.onResume()
+        setDataWithCurrentUser()
     }
 
     private fun goToUserProfileActivity() {
@@ -132,7 +139,7 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
         userData = ArrayList()
 
         FirebaseAuth.getInstance().currentUser?.let {
-            Picasso.get().load(it.photoUrl).into(profilePic)
+            val storageReference = FirebaseStorage.getInstance().reference.child("usersprofilepics/${it.uid}")
             profileDisplayName.text = it.displayName.toString()
             profileEmail.text = it.email.toString()
 
@@ -143,9 +150,9 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
 
             db.collection("Usuarios").document(it.uid).get().addOnSuccessListener {
                 userData.add(it.getString("username")!!)
+                storageReference.downloadUrl.addOnCompleteListener { Picasso.get().load(it.result).into(profilePic) }
             }
         }
-
 
     }
 
