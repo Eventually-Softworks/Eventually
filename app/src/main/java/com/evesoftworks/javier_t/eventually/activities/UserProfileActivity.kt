@@ -3,7 +3,6 @@ package com.evesoftworks.javier_t.eventually.activities
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -31,6 +30,7 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener 
     var confirmedAssistanceEvents: ArrayList<Event> = ArrayList()
     lateinit var adapter: EventsAdapter
     var anUserPreferences: ArrayList<String> = ArrayList()
+    var currentUserPreferences: ArrayList<String> = ArrayList()
     var anUserEventsAssisting: ArrayList<String> = ArrayList()
     var confirmedAssistanceEventsId: ArrayList<String> = ArrayList()
 
@@ -71,9 +71,9 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener 
     }
 
     override fun onRetrieved() {
-        if (anUserPreferences.isNotEmpty()) {
-            val stringBuilder = StringBuilder()
+        val stringBuilder = StringBuilder()
 
+        if (anUserPreferences.isNotEmpty()) {
             for (preference in anUserPreferences) {
                 when (preference) {
                     anUserPreferences.last() -> stringBuilder.append(" y $preference")
@@ -83,9 +83,17 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener 
             }
 
             confirmedAssistanceEventsId = anUserEventsAssisting
-
-            preferences_title.text = stringBuilder.toString()
+        } else {
+            for (myPreference in currentUserPreferences) {
+                when (myPreference) {
+                    currentUserPreferences.last() -> stringBuilder.append(" y $myPreference")
+                    currentUserPreferences.first() -> stringBuilder.append(myPreference)
+                    else -> stringBuilder.append(", $myPreference")
+                }
+            }
         }
+
+        preferences_title.text = stringBuilder.toString()
 
         getConfirmedAssistanceEvents()
     }
@@ -128,9 +136,10 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener 
             profile_my_name.setText(currentUserData[0], TextView.BufferType.EDITABLE)
             profile_my_email.setText(currentUserData[1], TextView.BufferType.EDITABLE)
             profile_my_username.setText(currentUserData[2], TextView.BufferType.EDITABLE)
+
             interested_button.visibility = View.GONE
 
-            retrieveConfirmedAssistanceEventsId()
+            retrieveInfoAboutCurrentUsersEventsIdAndPreferences()
         }
     }
 
@@ -178,11 +187,12 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener 
         }
     }
 
-    private fun retrieveConfirmedAssistanceEventsId() {
+    private fun retrieveInfoAboutCurrentUsersEventsIdAndPreferences() {
         db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).get().addOnCompleteListener {
             if (it.isSuccessful) {
                 val user = it.result.toObject(User::class.java)
                 confirmedAssistanceEventsId = user!!.eventsAssisting
+                currentUserPreferences = user.categories
 
                 onRetrieveFirebaseDataListener.onRetrieved()
             }

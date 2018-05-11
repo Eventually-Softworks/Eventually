@@ -34,7 +34,7 @@
     <string name="tab_text_2">Sugerencias</string>
     <string name="tab_text_3">Grupos</string>
     <string name="section_format">Hello World from section: %1$d</string>
-    <string name="my_events">Mis eventos</string>
+    <string name="my_events">Agenda</string>
     <string name="log_out">Cerrar sesión</string>
     <string name="share_friends">Invitar a amigos</string>
     <string name="feedback">Feedback</string>

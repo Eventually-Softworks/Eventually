@@ -28,6 +28,7 @@ import com.squareup.picasso.Picasso
 import de.hdodenhof.circleimageview.CircleImageView
 import kotlinx.android.synthetic.main.activity_main_page.*
 import kotlinx.android.synthetic.main.app_bar.*
+import kotlinx.android.synthetic.main.header_drawer.*
 import kotlinx.android.synthetic.main.tabs_layout.*
 
 class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
@@ -48,9 +49,7 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
             }
 
             R.id.my_profile -> {
-                val intent = Intent(this, UserProfileActivity::class.java)
-                intent.putExtra("USERDATA", userData)
-                startActivity(intent)
+                goToUserProfileActivity()
             }
 
             R.id.action_settings -> {
@@ -76,6 +75,12 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
 
         main_content.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun goToUserProfileActivity() {
+        val intent = Intent(this, UserProfileActivity::class.java)
+        intent.putExtra("USERDATA", userData)
+        startActivity(intent)
     }
 
     override fun onFragmentInteraction(uri: Uri) {}
@@ -104,6 +109,10 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         navigation_drawer.setNavigationItemSelectedListener(this)
+
+        profilePic.setOnClickListener {
+            goToUserProfileActivity()
+        }
 
         setDataWithCurrentUser()
 
