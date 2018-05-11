@@ -3,6 +3,7 @@ package com.evesoftworks.javier_t.eventually.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
@@ -229,6 +230,7 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickLis
         generateDynamicLink()
         checkIfEventIsAlreadyInFavouritesAndAssistance(event.eventId)
         aneventtoolbar.title = event.name
+        collapsing_an_event.title = event.name
         aneventname.text = event.name
         aneventtime.text = event.eventDate
         aneventdescription.text = event.description
