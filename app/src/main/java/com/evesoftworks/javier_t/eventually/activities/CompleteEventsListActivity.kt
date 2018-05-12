@@ -3,6 +3,7 @@ package com.evesoftworks.javier_t.eventually.activities
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
+import android.view.MenuItem
 import android.widget.Toast
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.adapters.CompleteEventsAdapter
@@ -198,5 +199,16 @@ class CompleteEventsListActivity : AppCompatActivity(), OnRetrieveFirebaseDataWi
                 swipe_refresh_complete.isRefreshing = false
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+
+        return true
     }
 }
