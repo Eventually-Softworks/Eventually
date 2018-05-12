@@ -1,6 +1,7 @@
 package com.evesoftworks.javier_t.eventually.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
@@ -14,12 +15,13 @@ import com.evesoftworks.javier_t.eventually.dbmodel.User
 import com.evesoftworks.javier_t.eventually.interfaces.OnRetrieveFirebaseDataListener
 import com.evesoftworks.javier_t.eventually.utils.ContactsItemDivider
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.*
 import kotlinx.android.synthetic.main.fragment_contacts.*
 
-class ContactsFragment : Fragment(), OnRetrieveFirebaseDataListener {
+class ContactsFragment : Fragment(), OnRetrieveFirebaseDataListener, EventListener<QuerySnapshot> {
     var currentUserPreferences: ArrayList<String> = ArrayList()
     val onRetrieveFirebaseDataListener = this
+    lateinit var docRef: Query
     var currentContacts: ArrayList<String> = ArrayList()
     lateinit var suggestions: ArrayList<User>
     lateinit var adapter: ContactsAdapter
@@ -28,8 +30,25 @@ class ContactsFragment : Fragment(), OnRetrieveFirebaseDataListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         retrieveCurrentUserPreferences()
+        docRef = db.collection("Usuarios").whereEqualTo("photoId", FirebaseAuth.getInstance().currentUser!!.uid)
+        docRef.addSnapshotListener(this)
+    }
+
+    override fun onEvent(querySnapshot: QuerySnapshot?, firebaseFirestoreException: FirebaseFirestoreException?) {
+        if (firebaseFirestoreException != null) {
+            return
+        }
+
+        for (documentChanges in querySnapshot!!.documentChanges) {
+            when (documentChanges.type) {
+                DocumentChange.Type.ADDED -> {}
+                DocumentChange.Type.MODIFIED -> {
+                    retrieveCurrentUserPreferences()
+                }
+                DocumentChange.Type.REMOVED -> {}
+            }
+        }
     }
 
     override fun onRetrieved() {
@@ -78,11 +97,12 @@ class ContactsFragment : Fragment(), OnRetrieveFirebaseDataListener {
     }
 
     private fun refreshContent() {
-        prepareUsers()
+        retrieveCurrentUserPreferences()
     }
 
     private fun prepareUsers() {
         suggestions.clear()
+
         var coincidences = 0
 
         db.collection("Usuarios").get().addOnCompleteListener { task ->

@@ -64,13 +64,14 @@
     <string name="assistance_cancel">Cancelar asistencia</string>
     <string name="confirmed_assistance_events">Eventos con asistencia confirmada</string>
     <string name="tastes">Gustos</string>
-    <string name="follow_text">Me interesa</string>
+    <string name="follow_text">Seguir</string>
     <string name="title_edit_profile">Editar perfil</string>
     <string name="finish_editting">Finalizar edición</string>
     <string name="feedback_title">¡Te tenemos en cuenta!</string>
     <string name="feedback_description">Puedes dejar tu opinión sobre la aplicación, enviar una sugerencia, notificar un error o formular cualquier duda.</string>
     <string name="short_comment">Escribe un comentario corto</string>
     <string name="button_send_feedback">Enviar</string>
+    <string name="cancel_following">Dejar de seguir</string>
 
     <string-array name="feedback_choices">
         <item>Duda sobre la aplicación</item>

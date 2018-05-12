@@ -14,7 +14,6 @@ import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
-import android.text.method.KeyListener
 import android.view.*
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
@@ -25,6 +24,7 @@ import com.evesoftworks.javier_t.eventually.constants.RequestCode
 import com.evesoftworks.javier_t.eventually.constants.SignalCode
 import com.evesoftworks.javier_t.eventually.dbmodel.Event
 import com.evesoftworks.javier_t.eventually.dbmodel.User
+import com.evesoftworks.javier_t.eventually.interfaces.OnEventStateChangedListener
 import com.evesoftworks.javier_t.eventually.interfaces.OnRetrieveFirebaseDataListener
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
@@ -33,7 +33,6 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.GeoPoint
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_data_completion.*
 import kotlinx.android.synthetic.main.activity_user_profile.*
 import kotlinx.android.synthetic.main.edit_profile_toolbar.*
 import java.io.ByteArrayOutputStream
@@ -43,14 +42,18 @@ import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
 
-class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener {
+class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener, OnEventStateChangedListener {
     val db = FirebaseFirestore.getInstance()
     val onRetrieveFirebaseDataListener = this
     lateinit var bitmap: Bitmap
+    lateinit var currentlySeeingUser: User
+    var followedFound: Boolean = false
     var signalCode: Int = -1
     var selectedImageUri: Uri? = null
     var confirmedAssistanceEvents: ArrayList<Event> = ArrayList()
     lateinit var adapter: EventsAdapter
+    var onEventStateChangedListener: OnEventStateChangedListener = this
+    lateinit var followedUsersToPush: ArrayList<String>
     var anUserPreferences: ArrayList<String> = ArrayList()
     var currentUserPreferences: ArrayList<String> = ArrayList()
     var anUserEventsAssisting: ArrayList<String> = ArrayList()
@@ -72,6 +75,18 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener 
 
         disableControls()
 
+    }
+
+    override fun onTaskResultGiven(boolean: Boolean) {
+        if (boolean) {
+            interested_button.background = ContextCompat.getDrawable(this, R.drawable.rounded_button_cancel)
+            interested_button.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+            interested_button.text = getString(R.string.cancel_following)
+        } else {
+            interested_button.background = ContextCompat.getDrawable(this, R.drawable.rounded_button)
+            interested_button.setTextColor(ContextCompat.getColor(this, android.R.color.white))
+            interested_button.text = getString(R.string.follow_text)
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
@@ -171,8 +186,9 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener 
         val retrievedUserData = intent.extras
 
         if (retrievedUserData.getParcelable<User>("aContact") != null) {
-            val userData = retrievedUserData.getParcelable<User>("aContact")
-            val storageReference = FirebaseStorage.getInstance().reference.child("usersprofilepics/${userData.photoId}")
+            retrieveFollowedUsers()
+            currentlySeeingUser = retrievedUserData.getParcelable<User>("aContact")
+            val storageReference = FirebaseStorage.getInstance().reference.child("usersprofilepics/${currentlySeeingUser.photoId}")
 
             storageReference.downloadUrl.addOnCompleteListener {
                 if (it.isSuccessful) {
@@ -180,12 +196,18 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener 
                 }
             }
 
-            profile_toolbar.title = "Perfil de ${userData.displayName}"
-            profile_my_name.setText(userData.displayName, TextView.BufferType.EDITABLE)
+            profile_toolbar.title = "Perfil de ${currentlySeeingUser.displayName}"
+            profile_my_name.setText(currentlySeeingUser.displayName, TextView.BufferType.EDITABLE)
             profile_my_email.visibility = View.GONE
-            profile_my_username.setText(userData.username, TextView.BufferType.EDITABLE)
+            profile_my_username.setText(currentlySeeingUser.username, TextView.BufferType.EDITABLE)
 
-            retrievePreferencesFromAnUser(userData.displayName)
+            checkIfUserIsAlreadyInCurrentUserFollowed(currentlySeeingUser.photoId)
+
+            retrievePreferencesFromAnUser(currentlySeeingUser.displayName)
+            interested_button.setOnClickListener {
+                checkIfUserIsAlreadyInCurrentUserFollowed(currentlySeeingUser.photoId)
+                actionsToFollowedUsers(followedFound)
+            }
         } else {
             val currentUserData = retrievedUserData.getStringArrayList("USERDATA")
             val storageReference = FirebaseStorage.getInstance().reference.child("usersprofilepics/${FirebaseAuth.getInstance().currentUser!!.uid}")
@@ -203,7 +225,7 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener 
 
             interested_button.visibility = View.GONE
 
-            retrieveInfoAboutCurrentUsersEventsIdAndPreferences()
+            retrieveInfoAboutCurrentUser()
         }
     }
 
@@ -378,7 +400,7 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener 
         }
     }
 
-    private fun retrieveInfoAboutCurrentUsersEventsIdAndPreferences() {
+    private fun retrieveInfoAboutCurrentUser() {
         db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).get().addOnCompleteListener {
             if (it.isSuccessful) {
                 val user = it.result.toObject(User::class.java)
@@ -388,5 +410,46 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener 
                 onRetrieveFirebaseDataListener.onRetrieved()
             }
         }
+    }
+
+    private fun retrieveFollowedUsers() {
+        db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                val user = it.result.toObject(User::class.java)
+                followedUsersToPush = user!!.friends
+            }
+        }
+    }
+
+    private fun checkIfUserIsAlreadyInCurrentUserFollowed(userId: String) {
+        db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).get().addOnCompleteListener {
+            if (it.isSuccessful) {
+                val user = it.result.toObject(User::class.java)
+
+                for (followed in user!!.friends) {
+                    if (followed == userId) {
+                        followedFound = true
+                    }
+                }
+
+                onEventStateChangedListener.onTaskResultGiven(followedFound)
+            }
+        }
+    }
+
+    private fun actionsToFollowedUsers(state: Boolean) {
+
+        if (state) {
+            followedUsersToPush.remove(currentlySeeingUser.photoId)
+            followedFound = false
+        } else {
+            followedUsersToPush.add(currentlySeeingUser.photoId)
+        }
+
+        performUpdate("friends", followedUsersToPush)
+    }
+
+    private fun performUpdate(followedField: String, followedUsersToPush: ArrayList<String>) {
+        db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).update(followedField, followedUsersToPush)
     }
 }

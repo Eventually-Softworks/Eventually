@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -28,6 +29,7 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot> {
     lateinit var adapterToListen: EventSectionAdapter
     var upcomingEvents: ArrayList<Event> = ArrayList()
     lateinit var docRef: Query
+    lateinit var recyclerView: RecyclerView
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
     var currentUserPreferences: ArrayList<String> = ArrayList()
     var favouritesEvents: ArrayList<Event> = ArrayList()
@@ -44,8 +46,9 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot> {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        recyclerView.setHasFixedSize(true)
+        recyclerView = activity!!.findViewById(R.id.recyclerView)
 
+        recyclerView.setHasFixedSize(true)
         swipeRefreshLayout = activity!!.findViewById(R.id.swipe_refresh_events)
 
         adapterToListen = EventSectionAdapter(sections)
