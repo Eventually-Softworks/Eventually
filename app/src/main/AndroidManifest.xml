@@ -33,6 +33,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.UserProfileActivity"
+            android:windowSoftInputMode="stateHidden"
             android:parentActivityName=".activities.MainPageActivity" />
         <activity
             android:name=".activities.AnEventActivity"

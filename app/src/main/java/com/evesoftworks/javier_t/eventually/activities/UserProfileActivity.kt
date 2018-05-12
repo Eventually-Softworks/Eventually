@@ -2,6 +2,7 @@ package com.evesoftworks.javier_t.eventually.activities
 
 import android.Manifest
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -14,10 +15,9 @@ import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
 import android.text.method.KeyListener
-import android.view.Menu
-import android.view.MenuItem
-import android.view.View
-import android.view.WindowManager
+import android.view.*
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.adapters.EventsAdapter
@@ -69,6 +69,8 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener 
         profile_toolbar.setNavigationOnClickListener { finish() }
 
         prepareUserProfile()
+
+        disableControls()
 
     }
 
@@ -213,23 +215,17 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener 
         profile_my_pic.alpha = 0.7f
         profile_my_pic.setOnClickListener { userHasPermissions() }
 
-        profile_my_name.apply {
-            isEnabled = true
-            isClickable = true
-            isCursorVisible = true
-            isFocusable = true
-            isFocusableInTouchMode = true
-            setTextIsSelectable(true)
-            showSoftInputOnFocus = true
-        }
+        profile_my_name.isEnabled = true
+        profile_my_username.isEnabled = true
+        profile_my_username.setOnEditorActionListener { v, actionId, event ->
 
-        profile_my_username.apply {
-            isEnabled = true
-            isClickable = true
-            isCursorVisible = true
-            isFocusable = true
-            isFocusableInTouchMode = true
-            setTextIsSelectable(true)
+            if (actionId == EditorInfo.IME_ACTION_GO || actionId == EditorInfo.IME_ACTION_DONE) {
+                val imm = applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(v.windowToken, 0)
+                true
+            } else {
+                false
+            }
         }
 
         finish_editing_button.visibility = View.VISIBLE
@@ -335,17 +331,8 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener 
         profile_my_pic.alpha = 1f
         profile_my_pic.setOnClickListener(null)
 
-        profile_my_name.isClickable = false
-        profile_my_name.isCursorVisible = false
-        profile_my_name.isFocusable = false
-        profile_my_name.isFocusableInTouchMode = false
-        profile_my_name.setTextIsSelectable(false)
-
-        profile_my_username.isClickable = false
-        profile_my_username.isCursorVisible = false
-        profile_my_username.isFocusable = false
-        profile_my_username.isFocusableInTouchMode = false
-        profile_my_username.setTextIsSelectable(false)
+        profile_my_name.isEnabled = false
+        profile_my_username.isEnabled = false
 
         finish_editing_button.visibility = View.GONE
         finish_editing_button.setOnClickListener(null)

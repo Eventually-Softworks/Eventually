@@ -46,15 +46,12 @@
 
             <EditText
                 android:id="@+id/profile_my_name"
+                android:textColor="@android:color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="8dp"
                 android:backgroundTint="@android:color/transparent"
-                android:clickable="false"
-                android:cursorVisible="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
                 android:maxLines="1"
                 android:inputType="textNoSuggestions"
                 android:maxLength="20"
@@ -68,13 +65,11 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:backgroundTint="@android:color/transparent"
-                android:clickable="false"
                 android:maxLines="1"
                 android:inputType="textNoSuggestions"
                 android:maxLength="20"
-                android:cursorVisible="false"
-                android:focusable="false"
-                android:focusableInTouchMode="false"
+                android:imeOptions="actionGo"
+                android:textColor="@android:color/white"
                 android:text="Nombre de usuario"
                 android:textSize="18sp" />
 
