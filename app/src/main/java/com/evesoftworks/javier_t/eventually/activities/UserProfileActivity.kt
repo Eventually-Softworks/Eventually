@@ -363,7 +363,7 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener,
     }
 
     private fun getConfirmedAssistanceEvents() {
-        db.collection("Eventos").orderBy("eventDate").get().addOnCompleteListener { task ->
+        db.collection("Eventos").whereGreaterThanOrEqualTo("eventDate", Calendar.getInstance().time).orderBy("eventDate").get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (document in task.result) {
                     val geoPoint: GeoPoint? = document.getGeoPoint("latLng")
@@ -384,17 +384,13 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener,
                     }
 
                     val event = Event(document.getString("eventId")!!, document.getString("category")!!, latLng!!, document.getString("name")!!, document.getString("description")!!, document.getString("placeId")!!, dateToString!!, tags.split(","))
-                    val currentTime = Calendar.getInstance().timeInMillis
 
-                    val diff = eventDate!!.time - currentTime
-
-                    if (diff / (24 * 60 * 60 * 1000) >= 0) {
-                        for (assistingEventId in confirmedAssistanceEventsId) {
-                            if (assistingEventId == event.eventId) {
-                                confirmedAssistanceEvents.add(event)
-                            }
+                    for (assistingEventId in confirmedAssistanceEventsId) {
+                        if (assistingEventId == event.eventId) {
+                            confirmedAssistanceEvents.add(event)
                         }
                     }
+
                 }
 
                 confirmed_assistance_recycle.setHasFixedSize(true)

@@ -92,7 +92,7 @@ class CompleteEventsListActivity : AppCompatActivity(), OnRetrieveFirebaseDataWi
     private fun retrieveAllLovedEvents() {
         lovedEvents.clear()
 
-        db.collection("Eventos").orderBy("eventDate").get().addOnCompleteListener { task ->
+        db.collection("Eventos").whereGreaterThanOrEqualTo("eventDate", Calendar.getInstance().time).orderBy("eventDate").get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (document in task.result) {
                     val geoPoint: GeoPoint? = document.getGeoPoint("latLng")
@@ -113,15 +113,10 @@ class CompleteEventsListActivity : AppCompatActivity(), OnRetrieveFirebaseDataWi
                     }
 
                     val event = Event(document.getString("eventId")!!, document.getString("category")!!, latLng!!, document.getString("name")!!, document.getString("description")!!, document.getString("placeId")!!, dateToString!!, tags.split(","))
-                    val currentTime = Calendar.getInstance().timeInMillis
 
-                    val diff = eventDate!!.time - currentTime
-
-                    if (diff / (24 * 60 * 60 * 1000) >= 0) {
-                        for (i in 0 until currentUserPreferences.size) {
-                            if (event.category == currentUserPreferences[i]) {
-                                lovedEvents.add(event)
-                            }
+                    for (i in 0 until currentUserPreferences.size) {
+                        if (event.category == currentUserPreferences[i]) {
+                            lovedEvents.add(event)
                         }
                     }
                 }
@@ -133,8 +128,12 @@ class CompleteEventsListActivity : AppCompatActivity(), OnRetrieveFirebaseDataWi
 
     private fun retrieveAllUpcomingEvents() {
         upcomingEvents.clear()
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DATE, 4)
 
-        db.collection("Eventos").orderBy("eventDate").get().addOnCompleteListener { task ->
+        val rangeDate = calendar.time
+
+        db.collection("Eventos").whereGreaterThanOrEqualTo("eventDate", Calendar.getInstance().time).whereLessThan("eventDate", rangeDate).orderBy("eventDate").get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (document in task.result) {
                     val geoPoint: GeoPoint? = document.getGeoPoint("latLng")
@@ -155,13 +154,8 @@ class CompleteEventsListActivity : AppCompatActivity(), OnRetrieveFirebaseDataWi
                     }
 
                     val event = Event(document.getString("eventId")!!, document.getString("category")!!, latLng!!, document.getString("name")!!, document.getString("description")!!, document.getString("placeId")!!, dateToString!!, tags.split(","))
-                    val currentTime = Calendar.getInstance().timeInMillis
 
-                    val diff = eventDate!!.time - currentTime
-
-                    if (diff / (24 * 60 * 60 * 1000) in 0..4) {
-                        upcomingEvents.add(event)
-                    }
+                    upcomingEvents.add(event)
                 }
 
                 onRetrieveFirebaseDataListener.onRetrieve(arrayList = upcomingEvents)
