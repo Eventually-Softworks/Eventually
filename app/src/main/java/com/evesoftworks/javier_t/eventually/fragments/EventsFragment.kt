@@ -14,21 +14,21 @@ import com.evesoftworks.javier_t.eventually.adapters.EventSectionAdapter
 import com.evesoftworks.javier_t.eventually.dbmodel.Event
 import com.evesoftworks.javier_t.eventually.dbmodel.EventSection
 import com.evesoftworks.javier_t.eventually.dbmodel.User
+import com.evesoftworks.javier_t.eventually.interfaces.OnRetrieveFirebaseDataListener
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
-import kotlinx.android.synthetic.main.fragment_events.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-class EventsFragment : Fragment(), EventListener<QuerySnapshot> {
+class EventsFragment : Fragment(), EventListener<QuerySnapshot>, OnRetrieveFirebaseDataListener {
     var lovedEvents: ArrayList<Event> = ArrayList()
-
     lateinit var adapterToListen: EventSectionAdapter
     var upcomingEvents: ArrayList<Event> = ArrayList()
     lateinit var docRef: Query
+    val onRetrieveFirebaseDataListener = this
     lateinit var recyclerView: RecyclerView
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
     var currentUserPreferences: ArrayList<String> = ArrayList()
@@ -42,6 +42,12 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot> {
         retrieveCurrentUserPreferencesAndFavourites()
         docRef = db.collection("Usuarios").whereEqualTo("photoId", FirebaseAuth.getInstance().currentUser!!.uid)
         docRef.addSnapshotListener(this)
+    }
+
+    override fun onRetrieved() {
+        createLovedEventsSection()
+        createUpcomingEventsSection()
+        createFavouritesEventsSection()
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -69,11 +75,13 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot> {
 
         for (documentChanges in querySnapshot!!.documentChanges) {
             when (documentChanges.type) {
-                DocumentChange.Type.ADDED -> {}
+                DocumentChange.Type.ADDED -> {
+                }
                 DocumentChange.Type.MODIFIED -> {
                     retrieveCurrentUserPreferencesAndFavourites()
                 }
-                DocumentChange.Type.REMOVED -> {}
+                DocumentChange.Type.REMOVED -> {
+                }
             }
         }
     }
@@ -89,7 +97,7 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot> {
     private fun getLovedEvents() {
         lovedEvents.clear()
 
-        db.collection("Eventos").orderBy("eventDate").limit(10).get().addOnCompleteListener { task ->
+        db.collection("Eventos").whereGreaterThanOrEqualTo("eventDate", Calendar.getInstance().time).orderBy("eventDate").limit(10).get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (document in task.result) {
                     val geoPoint: GeoPoint? = document.getGeoPoint("latLng")
@@ -110,17 +118,14 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot> {
                     }
 
                     val event = Event(document.getString("eventId")!!, document.getString("category")!!, latLng!!, document.getString("name")!!, document.getString("description")!!, document.getString("placeId")!!, dateToString!!, tags.split(","))
-                    val currentTime = Calendar.getInstance().timeInMillis
 
-                    val diff = eventDate!!.time - currentTime
 
-                    if (diff / (24 * 60 * 60 * 1000) < 0) {
-                        for (i in 0 until currentUserPreferences.size) {
-                            if (event.category == currentUserPreferences[i]) {
-                                lovedEvents.add(event)
-                            }
+                    for (i in 0 until currentUserPreferences.size) {
+                        if (event.category == currentUserPreferences[i]) {
+                            lovedEvents.add(event)
                         }
                     }
+
                 }
 
                 val layoutManager = LinearLayoutManager(activity?.applicationContext, LinearLayoutManager.VERTICAL, false)
@@ -128,16 +133,18 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot> {
 
                 val adapter = EventSectionAdapter(sections)
                 recyclerView.adapter = adapter
-
-                createLovedEventsSection()
             }
         }
     }
 
     private fun getUpcomingEvents() {
         upcomingEvents.clear()
+        val calendar = Calendar.getInstance()
+        calendar.add(Calendar.DATE, 4)
 
-        db.collection("Eventos").orderBy("eventDate").limit(10).get().addOnCompleteListener { task ->
+        val rangeDate = calendar.time
+
+        db.collection("Eventos").whereGreaterThanOrEqualTo("eventDate", Calendar.getInstance().time).whereLessThan("eventDate", rangeDate).orderBy("eventDate").limit(10).get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (document in task.result) {
                     val geoPoint: GeoPoint? = document.getGeoPoint("latLng")
@@ -158,13 +165,8 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot> {
                     }
 
                     val event = Event(document.getString("eventId")!!, document.getString("category")!!, latLng!!, document.getString("name")!!, document.getString("description")!!, document.getString("placeId")!!, dateToString!!, tags.split(","))
-                    val currentTime = Calendar.getInstance().timeInMillis
 
-                    val diff = eventDate!!.time - currentTime
-
-                    if (diff / (24 * 60 * 60 * 1000) in 0..4) {
-                        upcomingEvents.add(event)
-                    }
+                    upcomingEvents.add(event)
                 }
 
                 val layoutManager = LinearLayoutManager(activity?.applicationContext, LinearLayoutManager.VERTICAL, false)
@@ -172,8 +174,6 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot> {
 
                 val adapter = EventSectionAdapter(sections)
                 recyclerView.adapter = adapter
-
-                createUpcomingEventsSection()
             }
         }
     }
@@ -215,8 +215,6 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot> {
 
                 adapterToListen = EventSectionAdapter(sections)
                 recyclerView.adapter = adapterToListen
-
-                createFavouritesEventsSection()
             }
         }
     }
@@ -245,6 +243,8 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot> {
                 getLovedEvents()
                 getUpcomingEvents()
                 getEventsInFavourites(favouritesEventsToQuery)
+
+                onRetrieveFirebaseDataListener.onRetrieved()
 
                 swipeRefreshLayout.isRefreshing = false
             }

@@ -117,7 +117,7 @@ class CompleteEventsListActivity : AppCompatActivity(), OnRetrieveFirebaseDataWi
 
                     val diff = eventDate!!.time - currentTime
 
-                    if (diff / (24 * 60 * 60 * 1000) < 0) {
+                    if (diff / (24 * 60 * 60 * 1000) >= 0) {
                         for (i in 0 until currentUserPreferences.size) {
                             if (event.category == currentUserPreferences[i]) {
                                 lovedEvents.add(event)

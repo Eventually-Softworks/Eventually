@@ -388,7 +388,7 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener,
 
                     val diff = eventDate!!.time - currentTime
 
-                    if (diff / (24 * 60 * 60 * 1000) < 0) {
+                    if (diff / (24 * 60 * 60 * 1000) >= 0) {
                         for (assistingEventId in confirmedAssistanceEventsId) {
                             if (assistingEventId == event.eventId) {
                                 confirmedAssistanceEvents.add(event)
