@@ -33,8 +33,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".activities.UserProfileActivity"
-            android:windowSoftInputMode="stateHidden"
-            android:parentActivityName=".activities.MainPageActivity" />
+            android:parentActivityName=".activities.MainPageActivity"
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".activities.AnEventActivity"
             android:parentActivityName=".activities.MainPageActivity" />
@@ -52,8 +52,10 @@
             android:value="AIzaSyB4mbjP61r2U864DhVdr6H3ckNftQMRqMA" />
 
         <activity android:name=".activities.FeedbackActivity" />
-        <activity android:name=".activities.CompleteEventsListActivity"
-            android:parentActivityName=".activities.MainPageActivity"/>
+        <activity
+            android:name=".activities.CompleteEventsListActivity"
+            android:parentActivityName=".activities.MainPageActivity" />
+        <activity android:name=".activities.EventsScheduleActivity"></activity>
     </application>
 
 </manifest>

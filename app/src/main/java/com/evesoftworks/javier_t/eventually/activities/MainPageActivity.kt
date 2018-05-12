@@ -7,7 +7,6 @@ import android.content.DialogInterface
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.support.design.widget.NavigationView
 import android.support.design.widget.TabLayout
 import android.support.v4.view.GravityCompat
@@ -44,7 +43,7 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
 
         when (id) {
             R.id.my_events -> {
-
+                goToEventsScheduleActivity()
             }
 
             R.id.my_profile -> {
@@ -74,6 +73,11 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
 
         main_content.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun goToEventsScheduleActivity() {
+        val intent = Intent(this, EventsScheduleActivity::class.java)
+        startActivity(intent)
     }
 
     private fun goToFeedbackActivity() {
