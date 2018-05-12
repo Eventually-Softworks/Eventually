@@ -181,7 +181,7 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot>, OnRetrieveFireb
     private fun getEventsInFavourites(favouritesEventsToQuery: ArrayList<String>) {
         favouritesEvents.clear()
 
-        db.collection("Eventos").orderBy("eventDate").limit(10).get().addOnCompleteListener { task ->
+        db.collection("Eventos").orderBy("name").limit(10).get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (document in task.result) {
                     val geoPoint: GeoPoint? = document.getGeoPoint("latLng")

@@ -166,7 +166,7 @@ class CompleteEventsListActivity : AppCompatActivity(), OnRetrieveFirebaseDataWi
     private fun retrieveAllFavsEvents(favouriteEventsToQuery: ArrayList<String>) {
         favouriteEvents.clear()
 
-        db.collection("Eventos").orderBy("eventDate").get().addOnCompleteListener { task ->
+        db.collection("Eventos").orderBy("name").get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (document in task.result) {
                     val geoPoint: GeoPoint? = document.getGeoPoint("latLng")

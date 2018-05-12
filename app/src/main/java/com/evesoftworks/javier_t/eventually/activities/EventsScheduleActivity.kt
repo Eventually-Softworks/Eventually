@@ -14,20 +14,21 @@ import com.evesoftworks.javier_t.eventually.utils.RecyclerItemDivider
 import com.github.sundeepk.compactcalendarview.CompactCalendarView
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.GeoPoint
+import com.google.firebase.firestore.*
+import com.google.firebase.firestore.EventListener
 import kotlinx.android.synthetic.main.activity_events_schedule.*
 import kotlinx.android.synthetic.main.month_toolbar.*
 import kotlinx.android.synthetic.main.schedule_toolbar.*
 import java.text.SimpleDateFormat
 import java.util.*
 
-class EventsScheduleActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener, CompactCalendarView.CompactCalendarViewListener {
+class EventsScheduleActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener, CompactCalendarView.CompactCalendarViewListener, EventListener<QuerySnapshot> {
     val dateFormatForMonth = SimpleDateFormat("MMM yyyy", Locale.getDefault())
     var confirmedAssistanceEventsId: ArrayList<String> = ArrayList()
     var confirmedAssistanceEvents: ArrayList<Event> = ArrayList()
     val db = FirebaseFirestore.getInstance()
     val onRetrieveFirebaseDataListener = this
+    lateinit var docRef: Query
 
     override fun onRetrieved() {
         getConfirmedAssistanceEvents()
@@ -41,9 +42,28 @@ class EventsScheduleActivity : AppCompatActivity(), OnRetrieveFirebaseDataListen
         month_toolbar.title = dateFormatForMonth.format(firstDayOfNewMonth)
     }
 
+    override fun onEvent(querySnapshot: QuerySnapshot?, firebaseFirestoreException: FirebaseFirestoreException?) {
+        if (firebaseFirestoreException != null) {
+            return
+        }
+
+        for (documentChanges in querySnapshot!!.documentChanges) {
+            when (documentChanges.type) {
+                DocumentChange.Type.ADDED -> {}
+                DocumentChange.Type.MODIFIED -> {
+                    retrieveInfoAboutCurrentUser()
+                }
+                DocumentChange.Type.REMOVED -> {}
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_events_schedule)
+
+        docRef = db.collection("Usuarios").whereEqualTo("photoId", FirebaseAuth.getInstance().currentUser!!.uid)
+        docRef.addSnapshotListener(this)
 
         setSupportActionBar(schedule_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -77,7 +97,7 @@ class EventsScheduleActivity : AppCompatActivity(), OnRetrieveFirebaseDataListen
     }
 
     private fun addEventToCalendar(eventDate: Date) {
-        val compactEvent = com.github.sundeepk.compactcalendarview.domain.Event(Color.GREEN, eventDate.time)
+        val compactEvent = com.github.sundeepk.compactcalendarview.domain.Event(Color.WHITE, eventDate.time)
         compactcalendar_view.addEvent(compactEvent)
     }
 
