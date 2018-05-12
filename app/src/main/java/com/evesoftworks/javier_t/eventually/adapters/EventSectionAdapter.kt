@@ -36,7 +36,7 @@ class EventSectionAdapter(val sectionArray: ArrayList<EventSection>): RecyclerVi
         holder.cardView.show_more_button.setOnClickListener {
             val intent = Intent(holder.cardView.context, CompleteEventsListActivity::class.java)
             val bundle = Bundle()
-            bundle.putString("aCompleteEvent", sectionArray[position].title)
+            bundle.putString("sectionTitle", sectionArray[position].title)
             intent.putExtras(bundle)
 
             holder.cardView.context.startActivity(intent)

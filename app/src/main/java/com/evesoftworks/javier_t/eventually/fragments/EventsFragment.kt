@@ -217,15 +217,15 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot> {
     }
 
     private fun createLovedEventsSection() {
-        sections.add(EventSection("Seleccionados para ti", lovedEvents))
+        sections.add(EventSection(getString(R.string.selected_for_you), lovedEvents))
     }
 
     private fun createUpcomingEventsSection() {
-        sections.add(EventSection("Llegan en breves", upcomingEvents))
+        sections.add(EventSection(getString(R.string.upcoming_events), upcomingEvents))
     }
 
     private fun createFavouritesEventsSection() {
-        sections.add(EventSection("En tus favoritos", favouritesEvents))
+        sections.add(EventSection(getString(R.string.in_your_favs), favouritesEvents))
     }
 
     private fun retrieveCurrentUserPreferencesAndFavourites() {

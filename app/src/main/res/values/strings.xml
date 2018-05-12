@@ -72,6 +72,9 @@
     <string name="short_comment">Escribe un comentario corto</string>
     <string name="button_send_feedback">Enviar</string>
     <string name="cancel_following">Dejar de seguir</string>
+    <string name="selected_for_you">Seleccionados para ti</string>
+    <string name="upcoming_events">Llegan en breves</string>
+    <string name="in_your_favs">En tus favoritos</string>
 
     <string-array name="feedback_choices">
         <item>Duda sobre la aplicación</item>

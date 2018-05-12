@@ -52,7 +52,8 @@
             android:value="AIzaSyB4mbjP61r2U864DhVdr6H3ckNftQMRqMA" />
 
         <activity android:name=".activities.FeedbackActivity" />
-        <activity android:name=".activities.CompleteEventsListActivity"></activity>
+        <activity android:name=".activities.CompleteEventsListActivity"
+            android:parentActivityName=".activities.MainPageActivity"/>
     </application>
 
 </manifest>

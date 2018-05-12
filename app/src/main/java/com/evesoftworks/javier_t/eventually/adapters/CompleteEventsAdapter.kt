@@ -13,7 +13,6 @@ import com.evesoftworks.javier_t.eventually.dbmodel.Event
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.single_complete_event.view.*
-import kotlinx.android.synthetic.main.single_event.view.*
 
 class CompleteEventsAdapter(val events: ArrayList<Event>): RecyclerView.Adapter<CompleteEventsAdapter.Companion.CompleteEventViewHolder>() {
     companion object {
@@ -21,7 +20,7 @@ class CompleteEventsAdapter(val events: ArrayList<Event>): RecyclerView.Adapter<
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompleteEventViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.single_event, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.single_complete_event, parent, false)
         return CompleteEventViewHolder(v as CardView)
     }
 

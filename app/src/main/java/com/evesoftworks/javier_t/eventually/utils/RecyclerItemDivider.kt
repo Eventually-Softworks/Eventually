@@ -7,7 +7,7 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import com.evesoftworks.javier_t.eventually.R
 
-class ContactsItemDivider(context: Context): RecyclerView.ItemDecoration() {
+class RecyclerItemDivider(context: Context): RecyclerView.ItemDecoration() {
     var mDivider: Drawable = ContextCompat.getDrawable(context, R.drawable.line_divider)!!
 
     override fun onDrawOver(c: Canvas?, parent: RecyclerView?, state: RecyclerView.State?) {

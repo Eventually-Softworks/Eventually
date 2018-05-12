@@ -1,7 +1,6 @@
 package com.evesoftworks.javier_t.eventually.fragments
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
@@ -13,7 +12,7 @@ import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.adapters.ContactsAdapter
 import com.evesoftworks.javier_t.eventually.dbmodel.User
 import com.evesoftworks.javier_t.eventually.interfaces.OnRetrieveFirebaseDataListener
-import com.evesoftworks.javier_t.eventually.utils.ContactsItemDivider
+import com.evesoftworks.javier_t.eventually.utils.RecyclerItemDivider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.*
 import kotlinx.android.synthetic.main.fragment_contacts.*
@@ -71,7 +70,7 @@ class ContactsFragment : Fragment(), OnRetrieveFirebaseDataListener, EventListen
         contacts_recycler.layoutManager = layoutManager
 
         contacts_recycler.adapter = adapter
-        contacts_recycler.addItemDecoration(ContactsItemDivider(activity!!.applicationContext))
+        contacts_recycler.addItemDecoration(RecyclerItemDivider(activity!!.applicationContext))
 
         swipeRefreshLayout.isRefreshing = false
         adapter.setAllItemsEnabled(!swipeRefreshLayout.isRefreshing)

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import com.evesoftworks.javier_t.eventually.R
+import com.evesoftworks.javier_t.eventually.dbmodel.Event
 import com.evesoftworks.javier_t.eventually.interfaces.OnRetrieveFirebaseDataWithArgsListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
@@ -19,7 +20,7 @@ class LauncherActivity : AppCompatActivity(), OnRetrieveFirebaseDataWithArgsList
         userComesFromDynamicLink()
     }
 
-    override fun onRetrieve(args: String) {
+    override fun onRetrieve(args: String?, arrayList: ArrayList<Event>?) {
         val db = FirebaseFirestore.getInstance()
 
         if (FirebaseAuth.getInstance().currentUser != null) {
