@@ -18,13 +18,14 @@
             android:text="Title" />
 
         <TextView
+            android:id="@+id/show_more_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:textAllCaps="true"
             android:textColor="@color/colorPrimary"
             android:clickable="true"
-            android:background="?attr/selectableItemBackground"
+            android:background="?android:attr/selectableItemBackground"
             android:text="@string/more_button"
             android:layout_alignEnd="@+id/title"
             android:focusable="true" />
