@@ -217,7 +217,7 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot> {
     }
 
     private fun createLovedEventsSection() {
-        sections.add(EventSection("A tu gusto", lovedEvents))
+        sections.add(EventSection("Seleccionados para ti", lovedEvents))
     }
 
     private fun createUpcomingEventsSection() {

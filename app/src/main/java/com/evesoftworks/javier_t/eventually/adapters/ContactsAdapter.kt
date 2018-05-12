@@ -51,9 +51,9 @@ class ContactsAdapter(val suggestions: ArrayList<User>) : RecyclerView.Adapter<C
         holder.cardView.contact_username.text = suggestions[position].username
 
         if (suggestions[position].isMatched) {
-            holder.cardView.match_emoji.visibility = View.VISIBLE
+            holder.cardView.coincidence_icon.visibility = View.VISIBLE
         } else {
-            holder.cardView.match_emoji.visibility = View.GONE
+            holder.cardView.coincidence_icon.visibility = View.GONE
         }
 
         holder.cardView.setOnClickListener({
