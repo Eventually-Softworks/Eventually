@@ -74,6 +74,7 @@ class ContactsFragment : Fragment(), OnRetrieveFirebaseDataListener, EventListen
         contacts_recycler.addItemDecoration(ContactsItemDivider(activity!!.applicationContext))
 
         swipeRefreshLayout.isRefreshing = false
+        adapter.setAllItemsEnabled(!swipeRefreshLayout.isRefreshing)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -97,6 +98,7 @@ class ContactsFragment : Fragment(), OnRetrieveFirebaseDataListener, EventListen
     }
 
     private fun refreshContent() {
+        adapter.setAllItemsEnabled(!swipeRefreshLayout.isRefreshing)
         retrieveCurrentUserPreferences()
     }
 

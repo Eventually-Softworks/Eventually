@@ -239,7 +239,7 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener,
 
         profile_my_name.isEnabled = true
         profile_my_username.isEnabled = true
-        profile_my_username.setOnEditorActionListener { v, actionId, event ->
+        profile_my_username.setOnEditorActionListener { v, actionId, _ ->
 
             if (actionId == EditorInfo.IME_ACTION_GO || actionId == EditorInfo.IME_ACTION_DONE) {
                 val imm = applicationContext.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
