@@ -1,16 +1,14 @@
 package com.evesoftworks.javier_t.eventually.activities
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
-import android.widget.Toast
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.adapters.CompleteEventsAdapter
 import com.evesoftworks.javier_t.eventually.dbmodel.Event
 import com.evesoftworks.javier_t.eventually.dbmodel.User
-import com.evesoftworks.javier_t.eventually.interfaces.OnRetrieveFirebaseDataListener
 import com.evesoftworks.javier_t.eventually.interfaces.OnRetrieveFirebaseDataWithArgsListener
 import com.evesoftworks.javier_t.eventually.utils.RecyclerItemDivider
 import com.google.android.gms.maps.model.LatLng
@@ -115,10 +113,15 @@ class CompleteEventsListActivity : AppCompatActivity(), OnRetrieveFirebaseDataWi
                     }
 
                     val event = Event(document.getString("eventId")!!, document.getString("category")!!, latLng!!, document.getString("name")!!, document.getString("description")!!, document.getString("placeId")!!, dateToString!!, tags.split(","))
+                    val currentTime = Calendar.getInstance().timeInMillis
 
-                    for (i in 0 until currentUserPreferences.size) {
-                        if (event.category == currentUserPreferences[i]) {
-                            lovedEvents.add(event)
+                    val diff = eventDate!!.time - currentTime
+
+                    if (diff / (24 * 60 * 60 * 1000) < 0) {
+                        for (i in 0 until currentUserPreferences.size) {
+                            if (event.category == currentUserPreferences[i]) {
+                                lovedEvents.add(event)
+                            }
                         }
                     }
                 }

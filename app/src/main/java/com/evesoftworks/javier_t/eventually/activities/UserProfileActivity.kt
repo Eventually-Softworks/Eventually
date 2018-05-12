@@ -7,14 +7,16 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.view.*
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
@@ -382,10 +384,15 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener,
                     }
 
                     val event = Event(document.getString("eventId")!!, document.getString("category")!!, latLng!!, document.getString("name")!!, document.getString("description")!!, document.getString("placeId")!!, dateToString!!, tags.split(","))
+                    val currentTime = Calendar.getInstance().timeInMillis
 
-                    for (assistingEventId in confirmedAssistanceEventsId) {
-                        if (assistingEventId == event.eventId) {
-                            confirmedAssistanceEvents.add(event)
+                    val diff = eventDate!!.time - currentTime
+
+                    if (diff / (24 * 60 * 60 * 1000) < 0) {
+                        for (assistingEventId in confirmedAssistanceEventsId) {
+                            if (assistingEventId == event.eventId) {
+                                confirmedAssistanceEvents.add(event)
+                            }
                         }
                     }
                 }

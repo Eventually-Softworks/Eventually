@@ -163,6 +163,20 @@
         android:text="@string/event_assist"
         android:textColor="@color/textButton" />
 
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/old_event_button"
+        android:layout_width="240dp"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_button_old"
+        android:elevation="6dp"
+        android:clickable="false"
+        android:visibility="gone"
+        android:focusable="false"
+        android:text="@string/event_old"
+        android:textColor="@color/textButton" />
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_event_share"
         android:layout_width="wrap_content"

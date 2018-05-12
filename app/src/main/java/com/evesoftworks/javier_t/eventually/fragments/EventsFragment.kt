@@ -110,10 +110,15 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot> {
                     }
 
                     val event = Event(document.getString("eventId")!!, document.getString("category")!!, latLng!!, document.getString("name")!!, document.getString("description")!!, document.getString("placeId")!!, dateToString!!, tags.split(","))
+                    val currentTime = Calendar.getInstance().timeInMillis
 
-                    for (i in 0 until currentUserPreferences.size) {
-                        if (event.category == currentUserPreferences[i]) {
-                            lovedEvents.add(event)
+                    val diff = eventDate!!.time - currentTime
+
+                    if (diff / (24 * 60 * 60 * 1000) < 0) {
+                        for (i in 0 until currentUserPreferences.size) {
+                            if (event.category == currentUserPreferences[i]) {
+                                lovedEvents.add(event)
+                            }
                         }
                     }
                 }

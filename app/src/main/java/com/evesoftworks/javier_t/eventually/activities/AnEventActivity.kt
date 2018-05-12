@@ -3,15 +3,11 @@ package com.evesoftworks.javier_t.eventually.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.widget.CollapsingToolbarLayout
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.view.Gravity
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.ZoomControls
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.dbmodel.Event
 import com.evesoftworks.javier_t.eventually.dbmodel.User
@@ -39,7 +35,6 @@ import com.varunest.sparkbutton.SparkEventListener
 import kotlinx.android.synthetic.main.activity_an_event.*
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickListener, OnEventStateChangedListener, OnRetrieveFirebaseDataListener {
     lateinit var supportMapFragment: SupportMapFragment
@@ -232,6 +227,20 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickLis
 
     private fun prepareData() {
         generateDynamicLink()
+
+        val spanishLocale = Locale("es", "ES")
+        val simpleDateFormat = SimpleDateFormat("dd MMMM yyy HH:mm", spanishLocale)
+        simpleDateFormat.timeZone = TimeZone.getTimeZone("Europe/Madrid")
+        val eventDate = simpleDateFormat.parse(event.eventDate)
+
+        if (eventIsOld(eventDate)) {
+            assistance_button.visibility = View.GONE
+            fab_event_share.visibility = View.GONE
+            spark_fav.visibility = View.GONE
+            old_event_button.visibility = View.VISIBLE
+            assistance_button.text = getString(R.string.event_old)
+        }
+
         checkIfEventIsAlreadyInFavouritesAndAssistance(event.eventId)
         aneventtoolbar.title = event.name
         collapsing_an_event.title = event.name
@@ -241,6 +250,13 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickLis
         setPlacePhoto()
         supportMapFragment = map as SupportMapFragment
         supportMapFragment.getMapAsync(this)
+    }
+
+    private fun eventIsOld(eventDate: Date): Boolean {
+        val currentTime = Calendar.getInstance().timeInMillis
+        val diff = eventDate.time - currentTime
+
+        return diff / (24 * 60 * 60 * 1000) < 0
     }
 
     private fun checkFromWheresEventInfoComing(bundle: Bundle) {
