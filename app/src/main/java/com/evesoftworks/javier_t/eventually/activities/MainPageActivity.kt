@@ -58,7 +58,7 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
             R.id.share_friends -> {
                 val intent = Intent()
                 intent.action = Intent.ACTION_SEND
-                intent.putExtra(Intent.EXTRA_TEXT, "Descárgate Eventually, está genial! ;)")
+                intent.putExtra(Intent.EXTRA_TEXT, "¡Descárgate Eventually, está genial! ${Uri.parse("https://evedb-98c72.firebaseapp.com")}")
                 intent.type = "text/plain"
                 startActivity(intent)
             }

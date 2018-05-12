@@ -2,6 +2,7 @@ package com.evesoftworks.javier_t.eventually.activities
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
 import android.widget.Toast
@@ -30,16 +31,21 @@ class CompleteEventsListActivity : AppCompatActivity(), OnRetrieveFirebaseDataWi
     var favouritesEventsToQuery: ArrayList<String> = ArrayList()
     val db = FirebaseFirestore.getInstance()
     val onRetrieveFirebaseDataListener = this
+    lateinit var swipeRefreshLayout: SwipeRefreshLayout
+    lateinit var adapter: CompleteEventsAdapter
 
     override fun onRetrieve(args: String?, arrayList: ArrayList<Event>?) {
         arrayList?.let {
             val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
             complete_recycler.layoutManager = layoutManager
 
-            val adapter = CompleteEventsAdapter(it)
+            adapter = CompleteEventsAdapter(it)
             complete_recycler.adapter = adapter
 
             complete_recycler.addItemDecoration(RecyclerItemDivider(this))
+
+            swipeRefreshLayout.isRefreshing = false
+            adapter.setAllItemsEnabled(!swipeRefreshLayout.isRefreshing)
         }
     }
 
@@ -47,12 +53,22 @@ class CompleteEventsListActivity : AppCompatActivity(), OnRetrieveFirebaseDataWi
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_complete_events_list)
 
+        swipeRefreshLayout = findViewById(R.id.swipe_refresh_complete)
+        swipeRefreshLayout.setOnRefreshListener { refresh() }
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent)
+
+        adapter = CompleteEventsAdapter(favouriteEvents)
+
         setSupportActionBar(complete_events_list_toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
 
         retrieveCurrentUserPreferencesAndFavourites()
 
+    }
+
+    private fun refresh() {
+        retrieveCurrentUserPreferencesAndFavourites()
     }
 
     private fun checkEventSection() {
@@ -78,7 +94,7 @@ class CompleteEventsListActivity : AppCompatActivity(), OnRetrieveFirebaseDataWi
     private fun retrieveAllLovedEvents() {
         lovedEvents.clear()
 
-        db.collection("Eventos").orderBy("eventDate").limit(10).get().addOnCompleteListener { task ->
+        db.collection("Eventos").orderBy("eventDate").get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (document in task.result) {
                     val geoPoint: GeoPoint? = document.getGeoPoint("latLng")
@@ -153,7 +169,7 @@ class CompleteEventsListActivity : AppCompatActivity(), OnRetrieveFirebaseDataWi
     private fun retrieveAllFavsEvents(favouriteEventsToQuery: ArrayList<String>) {
         favouriteEvents.clear()
 
-        db.collection("Eventos").orderBy("eventDate").limit(10).get().addOnCompleteListener { task ->
+        db.collection("Eventos").orderBy("eventDate").get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (document in task.result) {
                     val geoPoint: GeoPoint? = document.getGeoPoint("latLng")
@@ -188,6 +204,8 @@ class CompleteEventsListActivity : AppCompatActivity(), OnRetrieveFirebaseDataWi
     }
 
     private fun retrieveCurrentUserPreferencesAndFavourites() {
+        adapter.setAllItemsEnabled(!swipeRefreshLayout.isRefreshing)
+
         db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).get().addOnCompleteListener {
             if (it.isSuccessful) {
                 val user = it.result.toObject(User::class.java)
@@ -195,8 +213,6 @@ class CompleteEventsListActivity : AppCompatActivity(), OnRetrieveFirebaseDataWi
                 favouritesEventsToQuery = user.eventsLiked
 
                 checkEventSection()
-
-                swipe_refresh_complete.isRefreshing = false
             }
         }
     }

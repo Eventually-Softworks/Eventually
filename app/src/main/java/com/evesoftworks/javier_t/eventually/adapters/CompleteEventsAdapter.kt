@@ -10,13 +10,24 @@ import android.view.ViewGroup
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.activities.AnEventActivity
 import com.evesoftworks.javier_t.eventually.dbmodel.Event
+import com.evesoftworks.javier_t.eventually.interfaces.RecyclerViewItemEnabler
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.single_complete_event.view.*
 
-class CompleteEventsAdapter(val events: ArrayList<Event>): RecyclerView.Adapter<CompleteEventsAdapter.Companion.CompleteEventViewHolder>() {
+class CompleteEventsAdapter(val events: ArrayList<Event>): RecyclerView.Adapter<CompleteEventsAdapter.Companion.CompleteEventViewHolder>(), RecyclerViewItemEnabler {
+    var mAllEnabled = false
+
     companion object {
         class CompleteEventViewHolder(val cardView: CardView) : RecyclerView.ViewHolder(cardView)
+    }
+
+    override fun getItemEnabled(position: Int): Boolean {
+        return true
+    }
+
+    override fun areAllItemsEnabled(): Boolean {
+        return mAllEnabled
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompleteEventViewHolder {
@@ -44,5 +55,10 @@ class CompleteEventsAdapter(val events: ArrayList<Event>): RecyclerView.Adapter<
             intent.putExtras(bundle)
             holderComplete.cardView.context.startActivity(intent)
         }
+    }
+
+    fun setAllItemsEnabled(enable: Boolean) {
+        mAllEnabled = enable
+        notifyItemRangeChanged(0, itemCount)
     }
 }
