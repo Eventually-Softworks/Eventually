@@ -14,7 +14,10 @@ class User (): Parcelable {
     var groups: ArrayList<String> = ArrayList()
     var friends: ArrayList<String> = ArrayList()
     var photoId: String = ""
-    @Exclude var isMatched: Boolean = false
+    @Exclude
+    var isMatched: Boolean = false
+    @Exclude
+    var isSelected: Boolean = false
 
     constructor(parcel: Parcel) : this() {
         username = parcel.readString()

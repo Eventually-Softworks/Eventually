@@ -55,7 +55,9 @@
         <activity
             android:name=".activities.CompleteEventsListActivity"
             android:parentActivityName=".activities.MainPageActivity" />
-        <activity android:name=".activities.EventsScheduleActivity"></activity>
+        <activity android:name=".activities.EventsScheduleActivity" />
+        <activity android:name=".activities.OneGroupActivity" />
+        <activity android:name=".activities.UserSelectionActivity"></activity>
     </application>
 
 </manifest>

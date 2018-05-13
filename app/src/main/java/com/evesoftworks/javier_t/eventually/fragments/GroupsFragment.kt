@@ -1,6 +1,7 @@
 package com.evesoftworks.javier_t.eventually.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
@@ -12,6 +13,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.evesoftworks.javier_t.eventually.R
+import com.evesoftworks.javier_t.eventually.activities.OneGroupActivity
 import com.evesoftworks.javier_t.eventually.adapters.GroupAdapter
 import com.evesoftworks.javier_t.eventually.dbmodel.Group
 import com.evesoftworks.javier_t.eventually.dbmodel.User
@@ -42,6 +44,15 @@ class GroupsFragment : Fragment(), OnRetrieveFirebaseDataListener {
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary, R.color.colorPrimaryDark, R.color.colorAccent)
         swipeRefreshLayout.setOnRefreshListener { refreshContent() }
 
+        fab_create_group.setOnClickListener { goToOneGroupActivity() }
+
+    }
+
+    private fun goToOneGroupActivity() {
+        val docId = db.collection("Grupos").document().id
+        val intent = Intent(activity?.applicationContext, OneGroupActivity::class.java)
+        intent.putExtra("collectionId", docId)
+        startActivity(intent)
     }
 
     override fun onRetrieved() {
@@ -71,6 +82,8 @@ class GroupsFragment : Fragment(), OnRetrieveFirebaseDataListener {
     }
 
     private fun retrieveCurrentGroups() {
+        currentGroups.clear()
+
         db.collection("Grupos").get().addOnCompleteListener {
             if (it.isSuccessful) {
                 for (document in it.result) {

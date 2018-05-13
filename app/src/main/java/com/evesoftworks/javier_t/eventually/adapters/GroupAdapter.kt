@@ -16,7 +16,7 @@ class GroupAdapter(val groups: ArrayList<Group>) : RecyclerView.Adapter<GroupAda
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GroupViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.single_event, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.single_group, parent, false)
         return GroupViewHolder(v as CardView)
     }
 
