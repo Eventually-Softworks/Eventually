@@ -76,6 +76,7 @@
     <string name="upcoming_events">Llegan en breves</string>
     <string name="in_your_favs">En tus favoritos</string>
     <string name="event_old">El evento ha finalizado</string>
+    <string name="group_name">Nombre del grupo</string>
 
     <string-array name="feedback_choices">
         <item>Duda sobre la aplicación</item>

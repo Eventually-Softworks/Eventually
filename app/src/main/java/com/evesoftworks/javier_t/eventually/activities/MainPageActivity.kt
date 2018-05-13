@@ -29,7 +29,7 @@ import kotlinx.android.synthetic.main.activity_main_page.*
 import kotlinx.android.synthetic.main.app_bar.*
 import kotlinx.android.synthetic.main.tabs_layout.*
 
-class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteractionListener, NavigationView.OnNavigationItemSelectedListener {
+class MainPageActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
     lateinit var header: View
     lateinit var profilePic: CircleImageView
     lateinit var profileDisplayName: TextView
@@ -95,8 +95,6 @@ class MainPageActivity : AppCompatActivity(), GroupsFragment.OnFragmentInteracti
         intent.putExtra("USERDATA", userData)
         startActivity(intent)
     }
-
-    override fun onFragmentInteraction(uri: Uri) {}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
