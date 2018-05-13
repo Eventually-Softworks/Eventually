@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.UserSelectionActivity">
 
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/checkable_creation_group"
+        android:layout_width="240dp"
+        android:layout_height="40dp"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_button"
+        android:elevation="6dp"
+        android:text="@string/group_creation"
+        android:textColor="@color/textButton" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/checkable_user_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 
-</android.support.constraint.ConstraintLayout>
+</android.support.design.widget.CoordinatorLayout>

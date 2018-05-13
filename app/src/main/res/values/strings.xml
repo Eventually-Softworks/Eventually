@@ -79,6 +79,7 @@
     <string name="group_name">Nombre del grupo</string>
     <string name="no_coincidences_title">No tienes coincidencias</string>
     <string name="no_coincidences_text">Necesitas al menos una coincidencia para poder crear un grupo</string>
+    <string name="group_creation">Crear grupo</string>
 
     <string-array name="feedback_choices">
         <item>Duda sobre la aplicación</item>

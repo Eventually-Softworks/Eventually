@@ -101,6 +101,7 @@ class OneGroupActivity : AppCompatActivity(), View.OnClickListener, OnRetrieveFi
         if (canCreateGroup) {
             val intent = Intent(this, UserSelectionActivity::class.java)
             intent.putExtra("prepareDocId", groupId)
+            intent.putParcelableArrayListExtra("selectableUsers", coincidences)
             startActivity(intent)
         } else {
             noCoincidencesDialog()

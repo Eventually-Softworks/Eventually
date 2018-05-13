@@ -19,13 +19,14 @@ import kotlinx.android.synthetic.main.single_contact.view.*
 
 class CheckableContactsAdapter(val users: ArrayList<User>) : RecyclerView.Adapter<CheckableContactsAdapter.Companion.ContactViewHolder>(), RecyclerViewItemEnabler {
     var mAllEnabled = false
+    var selectedUsers = ArrayList<User>()
 
     companion object {
         class ContactViewHolder(val cardView: CardView) : RecyclerView.ViewHolder(cardView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.single_contact, parent, false)
+        val v = LayoutInflater.from(parent.context).inflate(R.layout.checkable_single_contact, parent, false)
         return ContactViewHolder(v as CardView)
     }
 
@@ -60,11 +61,12 @@ class CheckableContactsAdapter(val users: ArrayList<User>) : RecyclerView.Adapte
 
             user.isSelected = checkbox.isChecked
             users[position].isSelected = checkbox.isChecked
-        }
-    }
 
-    fun setAllItemsEnabled(enable: Boolean) {
-        mAllEnabled = enable
-        notifyItemRangeChanged(0, itemCount)
+            if (users[position].isSelected) {
+                selectedUsers.add(users[position])
+            } else {
+                selectedUsers.remove(users[position])
+            }
+        }
     }
 }
