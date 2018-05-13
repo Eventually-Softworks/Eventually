@@ -52,7 +52,7 @@ class GroupsFragment : Fragment(), OnRetrieveFirebaseDataListener {
         val docId = db.collection("Grupos").document().id
         val intent = Intent(activity?.applicationContext, OneGroupActivity::class.java)
         intent.putExtra("collectionId", docId)
-        startActivity(intent)
+        startActivityForResult(intent, 11)
     }
 
     override fun onRetrieved() {

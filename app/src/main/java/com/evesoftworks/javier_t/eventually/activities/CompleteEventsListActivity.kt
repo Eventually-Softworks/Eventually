@@ -32,7 +32,7 @@ class CompleteEventsListActivity : AppCompatActivity(), OnRetrieveFirebaseDataWi
     lateinit var swipeRefreshLayout: SwipeRefreshLayout
     lateinit var adapter: CompleteEventsAdapter
 
-    override fun onRetrieve(args: String?, arrayList: ArrayList<Event>?) {
+    override fun onRetrieve(args: String?, arrayList: ArrayList<Event>?, arrayId: ArrayList<String>?, userId: String?) {
         arrayList?.let {
             val layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
             complete_recycler.layoutManager = layoutManager

@@ -8,6 +8,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.design.widget.Snackbar
 import android.support.design.widget.TabLayout
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
@@ -19,6 +20,7 @@ import android.view.ViewAnimationUtils
 import android.widget.TextView
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.adapters.SectionsPagerAdapter
+import com.evesoftworks.javier_t.eventually.constants.CustomResultCode
 import com.evesoftworks.javier_t.eventually.fragments.GroupsFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -188,6 +190,14 @@ class MainPageActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                     finish()
                 })
                 .setNegativeButton(getString(R.string.logout_cancel), null).show()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == CustomResultCode.GROUP_CREATED) {
+            Snackbar.make(findViewById(R.id.main_content), "Grupo creado con éxito", Snackbar.LENGTH_LONG).show()
+        }
     }
 
     private fun circleReveal(viewId: Int, startingPos: Int, hasOverflow: Boolean, isShow: Boolean) {

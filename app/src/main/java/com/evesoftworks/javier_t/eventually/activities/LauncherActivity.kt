@@ -20,7 +20,7 @@ class LauncherActivity : AppCompatActivity(), OnRetrieveFirebaseDataWithArgsList
         userComesFromDynamicLink()
     }
 
-    override fun onRetrieve(args: String?, arrayList: ArrayList<Event>?) {
+    override fun onRetrieve(args: String?, arrayList: ArrayList<Event>?, arrayId: ArrayList<String>?, userId: String?) {
         val db = FirebaseFirestore.getInstance()
 
         if (FirebaseAuth.getInstance().currentUser != null) {

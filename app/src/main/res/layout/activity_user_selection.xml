@@ -5,6 +5,24 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.UserSelectionActivity">
+    
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include layout="@layout/checkable_group_toolbar"/>
+        </android.support.design.widget.AppBarLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/checkable_user_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/checkable_creation_group"
@@ -16,10 +34,5 @@
         android:elevation="6dp"
         android:text="@string/group_creation"
         android:textColor="@color/textButton" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/checkable_user_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -17,6 +17,7 @@ import android.view.View
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.adapters.CheckableContactsAdapter
 import com.evesoftworks.javier_t.eventually.constants.ContentsUri
+import com.evesoftworks.javier_t.eventually.constants.CustomResultCode
 import com.evesoftworks.javier_t.eventually.constants.RequestCode
 import com.evesoftworks.javier_t.eventually.constants.SignalCode
 import com.evesoftworks.javier_t.eventually.dbmodel.User
@@ -102,7 +103,8 @@ class OneGroupActivity : AppCompatActivity(), View.OnClickListener, OnRetrieveFi
             val intent = Intent(this, UserSelectionActivity::class.java)
             intent.putExtra("prepareDocId", groupId)
             intent.putParcelableArrayListExtra("selectableUsers", coincidences)
-            startActivity(intent)
+            intent.putExtra("groupName", creation_group_name.text.toString())
+            startActivityForResult(intent, 7)
         } else {
             noCoincidencesDialog()
         }
@@ -154,6 +156,11 @@ class OneGroupActivity : AppCompatActivity(), View.OnClickListener, OnRetrieveFi
             }
         }
 
+        if (resultCode == CustomResultCode.GROUP_CREATED) {
+            val returnIntent = Intent()
+            setResult(CustomResultCode.GROUP_CREATED, returnIntent)
+            finish()
+        }
     }
 
     private fun userHasPermissions() {
