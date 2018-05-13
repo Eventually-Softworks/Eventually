@@ -13,6 +13,7 @@ import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
+import android.view.MenuItem
 import android.view.View
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.adapters.CheckableContactsAdapter
@@ -76,6 +77,17 @@ class OneGroupActivity : AppCompatActivity(), View.OnClickListener, OnRetrieveFi
                 completeData()
             }
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+
+        return true
     }
 
     private fun createGroup() {

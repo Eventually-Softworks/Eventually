@@ -195,8 +195,10 @@ class MainPageActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (resultCode == CustomResultCode.GROUP_CREATED) {
-            Snackbar.make(findViewById(R.id.main_content), "Grupo creado con éxito", Snackbar.LENGTH_LONG).show()
+        when (resultCode) {
+            CustomResultCode.GROUP_CREATED -> Snackbar.make(findViewById(R.id.main_content), "Grupo creado con éxito", Snackbar.LENGTH_LONG).show()
+            CustomResultCode.GROUP_LEAVED -> Snackbar.make(findViewById(R.id.main_content), "Has dejado el grupo con éxito", Snackbar.LENGTH_LONG).show()
+            CustomResultCode.GROUP_DELETED -> Snackbar.make(findViewById(R.id.main_content), "Has eliminado el grupo con éxito", Snackbar.LENGTH_LONG).show()
         }
     }
 

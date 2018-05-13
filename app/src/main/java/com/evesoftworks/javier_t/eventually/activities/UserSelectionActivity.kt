@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
+import android.view.MenuItem
 import android.view.View
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.adapters.CheckableContactsAdapter
@@ -58,6 +59,17 @@ class UserSelectionActivity : AppCompatActivity(), View.OnClickListener, OnSucce
         } else {
             createGroupInFirebase(currentCheckedUsers)
         }
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                finish()
+                return true
+            }
+        }
+
+        return true
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

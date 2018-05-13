@@ -80,6 +80,9 @@
     <string name="no_coincidences_title">No tienes coincidencias</string>
     <string name="no_coincidences_text">Necesitas al menos una coincidencia para poder crear un grupo</string>
     <string name="group_creation">Crear grupo</string>
+    <string name="participants_details">Participantes</string>
+    <string name="leave_group">Dejar grupo</string>
+    <string name="delete_group">Eliminar grupo</string>
 
     <string-array name="feedback_choices">
         <item>Duda sobre la aplicación</item>
