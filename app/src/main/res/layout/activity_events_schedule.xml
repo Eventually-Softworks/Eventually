@@ -3,37 +3,37 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".activities.EventsScheduleActivity">
-    
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <include layout="@layout/schedule_toolbar"/>
-        <include layout="@layout/month_toolbar"/>
+        <include layout="@layout/schedule_toolbar" />
+
+        <include layout="@layout/month_toolbar" />
 
 
-        <com.github.sundeepk.compactcalendarview.CompactCalendarView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
+        <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/compactcalendar_view"
             android:layout_width="fill_parent"
-            android:paddingRight="10dp"
-            android:paddingLeft="10dp"
             android:layout_height="250dp"
-            app:compactCalendarTargetHeight="250dp"
-            app:compactCalendarTextSize="12sp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             app:compactCalendarBackgroundColor="@color/colorPrimary"
-            app:compactCalendarTextColor="@android:color/white"
-            app:compactCalendarCurrentSelectedDayBackgroundColor="@color/colorAccent"
             app:compactCalendarCurrentDayBackgroundColor="@color/colorPrimaryDark"
-            app:compactCalendarMultiEventIndicatorColor="@android:color/white"/>
+            app:compactCalendarCurrentSelectedDayBackgroundColor="@color/colorAccent"
+            app:compactCalendarMultiEventIndicatorColor="@android:color/white"
+            app:compactCalendarTargetHeight="250dp"
+            app:compactCalendarTextColor="@android:color/white"
+            app:compactCalendarTextSize="12sp" />
     </android.support.design.widget.AppBarLayout>
-    
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/schedule_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_margin="8dp"/>
+        android:layout_margin="8dp" />
 </LinearLayout>

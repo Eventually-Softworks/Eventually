@@ -49,11 +49,13 @@ class EventsScheduleActivity : AppCompatActivity(), OnRetrieveFirebaseDataListen
 
         for (documentChanges in querySnapshot!!.documentChanges) {
             when (documentChanges.type) {
-                DocumentChange.Type.ADDED -> {}
+                DocumentChange.Type.ADDED -> {
+                }
                 DocumentChange.Type.MODIFIED -> {
                     retrieveInfoAboutCurrentUser()
                 }
-                DocumentChange.Type.REMOVED -> {}
+                DocumentChange.Type.REMOVED -> {
+                }
             }
         }
     }

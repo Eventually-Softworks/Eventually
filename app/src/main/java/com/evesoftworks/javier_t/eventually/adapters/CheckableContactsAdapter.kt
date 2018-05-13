@@ -1,21 +1,16 @@
 package com.evesoftworks.javier_t.eventually.adapters
 
-import android.content.Intent
-import android.os.Bundle
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import com.evesoftworks.javier_t.eventually.R
-import com.evesoftworks.javier_t.eventually.activities.UserProfileActivity
 import com.evesoftworks.javier_t.eventually.dbmodel.User
 import com.evesoftworks.javier_t.eventually.interfaces.RecyclerViewItemEnabler
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.checkable_single_contact.view.*
-import kotlinx.android.synthetic.main.single_contact.view.*
 
 class CheckableContactsAdapter(val users: ArrayList<User>) : RecyclerView.Adapter<CheckableContactsAdapter.Companion.ContactViewHolder>(), RecyclerViewItemEnabler {
     var mAllEnabled = false

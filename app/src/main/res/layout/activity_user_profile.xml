@@ -14,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        android:translationZ="2dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:translationZ="2dp">
 
         <include layout="@layout/edit_profile_toolbar" />
 
@@ -46,15 +46,15 @@
 
             <EditText
                 android:id="@+id/profile_my_name"
-                android:textColor="@android:color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:backgroundTint="@android:color/transparent"
-                android:maxLines="1"
                 android:inputType="textNoSuggestions"
                 android:maxLength="20"
+                android:maxLines="1"
                 android:text="Nombre"
+                android:textColor="@android:color/white"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -63,14 +63,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:backgroundTint="@android:color/transparent"
-                android:maxLines="1"
                 android:layout_marginTop="-10dp"
+                android:backgroundTint="@android:color/transparent"
+                android:imeOptions="actionGo"
                 android:inputType="textNoSuggestions"
                 android:maxLength="20"
-                android:imeOptions="actionGo"
-                android:textColor="@android:color/white"
+                android:maxLines="1"
                 android:text="Nombre de usuario"
+                android:textColor="@android:color/white"
                 android:textSize="14sp" />
 
             <TextView
@@ -82,9 +82,9 @@
                 android:backgroundTint="@android:color/transparent"
                 android:clickable="false"
                 android:focusable="false"
-                android:textSize="12sp"
                 android:focusableInTouchMode="false"
-                android:text="Email" />
+                android:text="Email"
+                android:textSize="12sp" />
         </LinearLayout>
 
     </android.support.design.widget.AppBarLayout>
@@ -184,7 +184,7 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_button"
         android:elevation="6dp"
-        android:translationZ="4dp"
         android:text="@string/finish_editting"
-        android:textColor="@color/textButton" />
+        android:textColor="@color/textButton"
+        android:translationZ="4dp" />
 </android.support.design.widget.CoordinatorLayout>

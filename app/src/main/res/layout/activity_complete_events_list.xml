@@ -5,16 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activities.CompleteEventsListActivity">
-    
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <android.support.design.widget.AppBarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-            <include layout="@layout/complete_events_list_toolbar"/>
+            <include layout="@layout/complete_events_list_toolbar" />
         </android.support.design.widget.AppBarLayout>
 
         <android.support.v7.widget.RecyclerView

@@ -14,7 +14,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.single_complete_event.view.*
 
-class CompleteEventsAdapter(val events: ArrayList<Event>): RecyclerView.Adapter<CompleteEventsAdapter.Companion.CompleteEventViewHolder>(), RecyclerViewItemEnabler {
+class CompleteEventsAdapter(val events: ArrayList<Event>) : RecyclerView.Adapter<CompleteEventsAdapter.Companion.CompleteEventViewHolder>(), RecyclerViewItemEnabler {
     var mAllEnabled = false
 
     companion object {

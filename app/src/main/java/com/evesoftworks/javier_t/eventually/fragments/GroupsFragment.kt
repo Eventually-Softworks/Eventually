@@ -6,12 +6,10 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.activities.OneGroupActivity
 import com.evesoftworks.javier_t.eventually.adapters.GroupAdapter
@@ -47,7 +45,8 @@ class GroupsFragment : Fragment(), OnRetrieveFirebaseDataListener, EventListener
 
         for (documentChanges in querySnapshot!!.documentChanges) {
             when (documentChanges.type) {
-                DocumentChange.Type.ADDED -> {}
+                DocumentChange.Type.ADDED -> {
+                }
                 DocumentChange.Type.MODIFIED -> {
                     refreshContent()
                 }

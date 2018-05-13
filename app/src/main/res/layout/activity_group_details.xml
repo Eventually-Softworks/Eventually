@@ -14,8 +14,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fitsSystemWindows="true"
-        android:translationZ="2dp"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        android:translationZ="2dp">
 
         <include layout="@layout/group_details_toolbar" />
 
@@ -45,14 +45,14 @@
 
             <TextView
                 android:id="@+id/group_name"
-                android:textColor="@android:color/white"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:backgroundTint="@android:color/transparent"
-                android:maxLines="1"
                 android:maxLength="20"
+                android:maxLines="1"
                 android:text="Nombre"
+                android:textColor="@android:color/white"
                 android:textSize="20sp"
                 android:textStyle="bold" />
         </LinearLayout>
@@ -105,7 +105,7 @@
         android:background="@drawable/rounded_button"
         android:elevation="6dp"
         android:text="@string/leave_group"
-        android:textColor="@color/textButton"/>
+        android:textColor="@color/textButton" />
 
     <android.support.v7.widget.AppCompatButton
         android:id="@+id/delete_group_button"
@@ -115,7 +115,7 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/rounded_button"
         android:elevation="6dp"
-        android:translationZ="4dp"
         android:text="@string/delete_group"
-        android:textColor="@color/textButton"/>
+        android:textColor="@color/textButton"
+        android:translationZ="4dp" />
 </android.support.design.widget.CoordinatorLayout>

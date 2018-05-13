@@ -3,9 +3,8 @@ package com.evesoftworks.javier_t.eventually.dbmodel
 import android.os.Parcel
 import android.os.Parcelable
 import com.google.firebase.firestore.Exclude
-import kotlin.collections.ArrayList
 
-class User (): Parcelable {
+class User() : Parcelable {
     var categories: ArrayList<String> = ArrayList()
     var username: String = ""
     var displayName: String = ""
@@ -26,7 +25,7 @@ class User (): Parcelable {
         isMatched = parcel.readByte() != 0.toByte()
     }
 
-    constructor(categories: ArrayList<String>, displayName: String, eventsLiked: ArrayList<String>, eventsAssisting: ArrayList<String>, username: String, friends: ArrayList<String>, groups: ArrayList<String>, photoId: String): this() {
+    constructor(categories: ArrayList<String>, displayName: String, eventsLiked: ArrayList<String>, eventsAssisting: ArrayList<String>, username: String, friends: ArrayList<String>, groups: ArrayList<String>, photoId: String) : this() {
         this.displayName = displayName
         this.categories = categories
         this.eventsLiked = eventsLiked

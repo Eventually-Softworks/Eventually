@@ -16,14 +16,15 @@
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <include layout="@layout/tabs_layout"/>
+
+            <include layout="@layout/tabs_layout" />
         </FrameLayout>
 
         <android.support.v4.view.ViewPager
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </LinearLayout>
 
     <android.support.design.widget.NavigationView
@@ -31,7 +32,6 @@
         android:layout_width="240dp"
         android:layout_height="match_parent"
         android:layout_gravity="start"
-        app:menu="@menu/menu_main_page"
-        app:headerLayout="@layout/header_drawer">
-    </android.support.design.widget.NavigationView>
+        app:headerLayout="@layout/header_drawer"
+        app:menu="@menu/menu_main_page"/>
 </android.support.v4.widget.DrawerLayout>

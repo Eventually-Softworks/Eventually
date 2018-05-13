@@ -113,20 +113,20 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
-                    
+
                     <com.varunest.sparkbutton.SparkButton
                         android:id="@+id/spark_fav"
                         android:layout_width="40dp"
                         android:layout_height="40dp"
-                        android:layout_marginStart="8dp"
-                        app:sparkbutton_animationSpeed="1.5"
                         android:layout_alignParentStart="true"
+                        android:layout_marginStart="8dp"
                         android:layout_marginTop="12dp"
                         app:sparkbutton_activeImage="@drawable/ic_dark_favorite"
-                        app:sparkbutton_inActiveImage="@drawable/ic_favorite"
+                        app:sparkbutton_animationSpeed="1.5"
                         app:sparkbutton_iconSize="25dp"
+                        app:sparkbutton_inActiveImage="@drawable/ic_favorite"
                         app:sparkbutton_primaryColor="@color/colorAccent"
-                        app:sparkbutton_secondaryColor="@color/colorPrimary"/>
+                        app:sparkbutton_secondaryColor="@color/colorPrimary" />
 
                     <TextView
                         android:id="@+id/aneventtime"
@@ -170,12 +170,12 @@
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="16dp"
         android:background="@drawable/rounded_button_old"
-        android:elevation="6dp"
         android:clickable="false"
-        android:visibility="gone"
+        android:elevation="6dp"
         android:focusable="false"
         android:text="@string/event_old"
-        android:textColor="@color/textButton" />
+        android:textColor="@color/textButton"
+        android:visibility="gone" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_event_share"

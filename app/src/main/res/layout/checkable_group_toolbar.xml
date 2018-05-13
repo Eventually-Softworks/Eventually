@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
-    android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/checkable_group_toolbar"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/actionBarSize"
     android:background="@color/colorPrimary"
+    android:theme="@style/Base.ThemeOverlay.AppCompat.Dark"
     app:popupTheme="@style/AppTheme.PopupOverlay"
-    app:title="Nombre del grupo">
-</android.support.v7.widget.Toolbar>
+    app:title="Nombre del grupo"/>

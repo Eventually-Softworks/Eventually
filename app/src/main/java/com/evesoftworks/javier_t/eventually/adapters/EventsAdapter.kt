@@ -3,11 +3,9 @@ package com.evesoftworks.javier_t.eventually.adapters
 import android.content.Intent
 import android.os.Bundle
 import android.support.constraint.ConstraintLayout
-import android.support.constraint.ConstraintSet
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.TextView
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.activities.AnEventActivity
 import com.evesoftworks.javier_t.eventually.dbmodel.Event

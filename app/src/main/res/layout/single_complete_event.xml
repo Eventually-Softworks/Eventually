@@ -1,10 +1,9 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:focusable="true"
+    android:layout_height="150dp"
     android:background="?android:attr/selectableItemBackground"
-    android:layout_height="150dp">
+    android:focusable="true">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -30,9 +29,9 @@
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
             android:ellipsize="end"
-            android:textStyle="bold"
             android:text="Titulo"
             android:textSize="18sp"
+            android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/event_complete_image"
             app:layout_constraintTop_toTopOf="@+id/event_complete_image" />
 

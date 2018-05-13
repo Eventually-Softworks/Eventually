@@ -21,7 +21,6 @@ import android.widget.TextView
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.adapters.SectionsPagerAdapter
 import com.evesoftworks.javier_t.eventually.constants.CustomResultCode
-import com.evesoftworks.javier_t.eventually.fragments.GroupsFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -52,16 +51,8 @@ class MainPageActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 goToUserProfileActivity()
             }
 
-            R.id.action_settings -> {
-
-            }
-
             R.id.share_friends -> {
-                val intent = Intent()
-                intent.action = Intent.ACTION_SEND
-                intent.putExtra(Intent.EXTRA_TEXT, "¡Descárgate Eventually, está genial! ${Uri.parse("https://evedb-98c72.firebaseapp.com")}")
-                intent.type = "text/plain"
-                startActivity(intent)
+                shareAction()
             }
 
             R.id.feedback -> {
@@ -75,6 +66,14 @@ class MainPageActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         main_content.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun shareAction() {
+        val intent = Intent()
+        intent.action = Intent.ACTION_SEND
+        intent.putExtra(Intent.EXTRA_TEXT, "¡Descárgate Eventually, está genial! ${Uri.parse("https://evedb-98c72.firebaseapp.com")}")
+        intent.type = "text/plain"
+        startActivity(intent)
     }
 
     private fun goToEventsScheduleActivity() {

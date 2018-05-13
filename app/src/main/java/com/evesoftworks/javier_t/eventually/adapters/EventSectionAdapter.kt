@@ -13,9 +13,9 @@ import com.evesoftworks.javier_t.eventually.dbmodel.EventSection
 import kotlinx.android.synthetic.main.single_event_section.view.*
 
 
-class EventSectionAdapter(val sectionArray: ArrayList<EventSection>): RecyclerView.Adapter<EventSectionAdapter.Companion.ViewHolder>() {
+class EventSectionAdapter(val sectionArray: ArrayList<EventSection>) : RecyclerView.Adapter<EventSectionAdapter.Companion.ViewHolder>() {
     companion object {
-        class ViewHolder(var cardView: CardView): RecyclerView.ViewHolder(cardView)
+        class ViewHolder(var cardView: CardView) : RecyclerView.ViewHolder(cardView)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {

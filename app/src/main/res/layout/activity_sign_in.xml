@@ -9,10 +9,10 @@
     tools:context="com.evesoftworks.javier_t.eventually.activities.SignInActivity">
 
     <ImageView
+        android:id="@+id/image_icon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@drawable/eventually"
-        android:id="@+id/image_icon"/>
+        app:srcCompat="@drawable/eventually" />
 
     <TextView
         android:layout_width="match_parent"
@@ -30,11 +30,11 @@
 
         <EditText
             android:id="@+id/et_name"
-            android:layout_gravity="center"
             android:layout_width="@dimen/et_width"
-            android:inputType="textEmailAddress"
             android:layout_height="wrap_content"
-            android:hint="@string/mail_telf"/>
+            android:layout_gravity="center"
+            android:hint="@string/mail_telf"
+            android:inputType="textEmailAddress" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -57,10 +57,10 @@
         android:id="@+id/sign_in_button"
         android:layout_width="@dimen/et_width"
         android:layout_height="40dp"
-        android:elevation="6dp"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/margin_from_button"
         android:background="@drawable/rounded_button"
+        android:elevation="6dp"
         android:text="@string/sign_in"
         android:textColor="@color/textButton" />
 
@@ -77,12 +77,12 @@
         android:text="@string/not_registered"
         android:textAllCaps="false"
         android:textColor="@color/colorPrimary"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <com.shobhitpuri.custombuttons.GoogleSignInButton
         android:id="@+id/google_sign_in_button"
         android:layout_width="@dimen/et_width"
-        android:layout_marginTop="16dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp" />
 </LinearLayout>

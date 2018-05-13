@@ -41,11 +41,13 @@ class ContactsFragment : Fragment(), OnRetrieveFirebaseDataListener, EventListen
 
         for (documentChanges in querySnapshot!!.documentChanges) {
             when (documentChanges.type) {
-                DocumentChange.Type.ADDED -> {}
+                DocumentChange.Type.ADDED -> {
+                }
                 DocumentChange.Type.MODIFIED -> {
                     retrieveCurrentUserPreferences()
                 }
-                DocumentChange.Type.REMOVED -> {}
+                DocumentChange.Type.REMOVED -> {
+                }
             }
         }
     }
