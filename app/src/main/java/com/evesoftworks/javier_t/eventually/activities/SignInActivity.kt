@@ -26,8 +26,8 @@ import kotlinx.android.synthetic.main.activity_sign_in.*
 
 class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteListener<AuthResult> {
     lateinit var mAuth: FirebaseAuth
-    lateinit var mGoogleSignInClient: GoogleSignInClient
-    lateinit var mAccount: GoogleSignInAccount
+    var mGoogleSignInClient: GoogleSignInClient? = null
+    var mAccount: GoogleSignInAccount? = null
 
     override fun onComplete(task: Task<AuthResult>) {
         if (task.isSuccessful) {
@@ -70,7 +70,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
     }
 
     private fun signInGoogle() {
-        val intent = mGoogleSignInClient.signInIntent
+        val intent = mGoogleSignInClient?.signInIntent
         startActivityForResult(intent, RequestCode.RC_GOOGLE_SIGN_IN)
     }
 
@@ -113,7 +113,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
             try {
                 mAccount = task.getResult(ApiException::class.java)
 
-                firebaseAuthWithGoogle(mAccount)
+                firebaseAuthWithGoogle(mAccount!!)
             } catch (e: ApiException) {
                 Toast.makeText(applicationContext, e.message, Toast.LENGTH_LONG).show()
             }
@@ -135,7 +135,10 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
 
     private fun goToDataCompletionActivity() {
         val intent = Intent(this, DataCompletionActivity::class.java)
-        intent.putExtra("googleAccountDefaultName", mAccount.displayName)
+
+        if (mAccount != null) {
+            intent.putExtra("googleAccountDefaultName", mAccount!!.displayName)
+        }
 
         if (this.intent.extras?.get("DYN_LINK") != null) {
             intent.putExtra("DYN_LINK", this.intent.extras.getString("DYN_LINK"))
