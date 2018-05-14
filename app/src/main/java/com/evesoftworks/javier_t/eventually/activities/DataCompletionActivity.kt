@@ -68,9 +68,13 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
         when (signalCode) {
             SignalCode.SC_DEFAULT_PROFILE_PICTURE -> {
                 if (userComesFromGoogleSignIn()) {
-                    updateProfileRequest(FirebaseAuth.getInstance().currentUser!!.photoUrl, data_completion_name.text.toString())
+                    storageReference.putFile(FirebaseAuth.getInstance().currentUser!!.photoUrl!!).addOnSuccessListener {
+                        updateProfileRequest(FirebaseAuth.getInstance().currentUser!!.photoUrl, data_completion_name.text.toString())
+                    }
                 } else {
-                    updateProfileRequest(Uri.parse(defaultImageUri), data_completion_name.text.toString())
+                    storageReference.putFile(Uri.parse(defaultImageUri)).addOnSuccessListener {
+                        updateProfileRequest(Uri.parse(defaultImageUri), data_completion_name.text.toString())
+                    }
                 }
             }
 
@@ -89,7 +93,7 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun userComesFromGoogleSignIn(): Boolean {
-        return GoogleSignIn.getLastSignedInAccount(applicationContext) != null
+        return GoogleSignIn.getSignedInAccountFromIntent(intent) != null
     }
 
     private fun completeProfile() {
