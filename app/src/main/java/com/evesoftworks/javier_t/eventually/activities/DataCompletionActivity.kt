@@ -5,12 +5,14 @@ import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import android.view.View
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.constants.ContentsUri
@@ -25,6 +27,8 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_data_completion.*
 import kotlinx.android.synthetic.main.data_completion_toolbar.*
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileInputStream
 import java.io.IOException
 
 class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
@@ -55,9 +59,9 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
         if (userComesFromGoogleSignIn()) {
             Picasso.get().load(FirebaseAuth.getInstance().currentUser!!.photoUrl).into(data_completion_profile_pic)
             data_completion_name.setText(FirebaseAuth.getInstance().currentUser!!.displayName)
+        } else {
+            data_completion_profile_pic.setImageResource(R.mipmap.default_pic)
         }
-
-        data_completion_profile_pic.setImageResource(R.mipmap.default_pic)
 
         data_completion_profile_pic.setOnClickListener(this)
         fab_to_grid.setOnClickListener(this)
@@ -68,7 +72,9 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
         when (signalCode) {
             SignalCode.SC_DEFAULT_PROFILE_PICTURE -> {
                 if (userComesFromGoogleSignIn()) {
-                    storageReference.putFile(FirebaseAuth.getInstance().currentUser!!.photoUrl!!).addOnSuccessListener {
+                    bitmap = (data_completion_profile_pic.drawable as BitmapDrawable).bitmap
+
+                    storageReference.putBytes(convertBitmapToByteArray(bitmap)).addOnSuccessListener {
                         updateProfileRequest(FirebaseAuth.getInstance().currentUser!!.photoUrl, data_completion_name.text.toString())
                     }
                 } else {

@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.activities.AnEventActivity
@@ -31,7 +32,10 @@ class EventsAdapter(val events: ArrayList<Event>) : RecyclerView.Adapter<EventsA
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         val storageReference = FirebaseStorage.getInstance().reference.child("eventsphotos/${events[position].eventId}.jpg")
 
-        storageReference.downloadUrl.addOnSuccessListener { Picasso.get().load(it).into(holder.constraint.singleevent_image) }
+        storageReference.downloadUrl.addOnSuccessListener {
+            holder.constraint.singleevent_progress_bar.visibility = View.GONE
+            Picasso.get().load(it).into(holder.constraint.singleevent_image)
+        }
         holder.constraint.singleevent_name.text = events[position].name
         holder.constraint.singleevent_category.text = events[position].category
 
