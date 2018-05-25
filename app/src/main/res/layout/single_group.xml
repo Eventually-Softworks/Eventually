@@ -23,6 +23,8 @@
             android:background="@color/colorPrimary"
             android:gravity="center_vertical|center_horizontal"
             android:text="@string/group_name"
+            android:ellipsize="end"
+            android:maxLines="1"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
     </RelativeLayout>

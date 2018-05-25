@@ -28,12 +28,13 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginTop="24dp"
-            android:ellipsize="end"
+            android:ellipsize="middle"
             android:text="Titulo"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@+id/event_complete_image"
-            app:layout_constraintTop_toTopOf="@+id/event_complete_image" />
+            app:layout_constraintTop_toTopOf="@+id/event_complete_image"
+            android:singleLine="true" />
 
         <TextView
             android:id="@+id/event_complete_category"

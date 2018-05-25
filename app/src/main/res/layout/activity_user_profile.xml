@@ -52,11 +52,12 @@
                 android:backgroundTint="@android:color/transparent"
                 android:inputType="textNoSuggestions"
                 android:maxLength="20"
-                android:maxLines="1"
+                android:ellipsize="middle"
                 android:text="Nombre"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:singleLine="true" />
 
             <EditText
                 android:id="@+id/profile_my_username"
