@@ -32,6 +32,14 @@ class GroupAdapter(val groups: ArrayList<Group>) : RecyclerView.Adapter<GroupAda
         return groups.size
     }
 
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
     override fun onBindViewHolder(holder: GroupViewHolder, position: Int) {
         val storageReference = FirebaseStorage.getInstance().reference.child("groupsphotos/${groups[position].groupId}")
 

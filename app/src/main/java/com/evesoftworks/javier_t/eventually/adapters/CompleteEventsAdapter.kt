@@ -29,6 +29,14 @@ class CompleteEventsAdapter(val events: ArrayList<Event>) : RecyclerView.Adapter
         return mAllEnabled
     }
 
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompleteEventViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.single_complete_event, parent, false)
         return CompleteEventViewHolder(v as CardView)

@@ -167,7 +167,7 @@ class EventsScheduleActivity : AppCompatActivity(), OnRetrieveFirebaseDataListen
                     for (assistingEventId in confirmedAssistanceEventsId) {
                         if (assistingEventId == event.eventId) {
                             val dateFormatGmt = SimpleDateFormat.getInstance()
-                            dateFormatGmt.timeZone = TimeZone.getTimeZone("GMT")
+                            dateFormatGmt.timeZone = TimeZone.getDefault()
                             val gmtDate = dateFormatGmt.format(date)
                             val gmtEventDate = dateFormatGmt.format(eventDate)
 

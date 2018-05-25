@@ -29,6 +29,14 @@ class CheckableContactsAdapter(val users: ArrayList<User>) : RecyclerView.Adapte
         return true
     }
 
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
     override fun areAllItemsEnabled(): Boolean {
         return mAllEnabled
     }

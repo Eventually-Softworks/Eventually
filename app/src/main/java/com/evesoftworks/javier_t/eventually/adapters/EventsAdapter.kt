@@ -29,6 +29,14 @@ class EventsAdapter(val events: ArrayList<Event>) : RecyclerView.Adapter<EventsA
         return events.size
     }
 
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
+    }
+
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         val storageReference = FirebaseStorage.getInstance().reference.child("eventsphotos/${events[position].eventId}.jpg")
 

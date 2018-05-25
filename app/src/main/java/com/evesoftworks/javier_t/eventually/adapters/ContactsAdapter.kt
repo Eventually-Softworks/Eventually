@@ -13,6 +13,7 @@ import com.evesoftworks.javier_t.eventually.dbmodel.User
 import com.evesoftworks.javier_t.eventually.interfaces.RecyclerViewItemEnabler
 import com.google.firebase.storage.FirebaseStorage
 import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.fragment_contacts.view.*
 import kotlinx.android.synthetic.main.single_contact.view.*
 
 class ContactsAdapter(val suggestions: ArrayList<User>) : RecyclerView.Adapter<ContactsAdapter.Companion.ContactViewHolder>(), RecyclerViewItemEnabler {
@@ -37,6 +38,14 @@ class ContactsAdapter(val suggestions: ArrayList<User>) : RecyclerView.Adapter<C
 
     override fun getItemCount(): Int {
         return suggestions.size
+    }
+
+    override fun getItemId(position: Int): Long {
+        return position.toLong()
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        return position
     }
 
     override fun onBindViewHolder(holder: ContactViewHolder, position: Int) {
