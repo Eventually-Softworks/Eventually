@@ -181,7 +181,7 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot>, OnRetrieveFireb
     private fun getEventsInFavourites(favouritesEventsToQuery: ArrayList<String>) {
         favouritesEvents.clear()
 
-        db.collection("Eventos").orderBy("name").limit(6).get().addOnCompleteListener { task ->
+        db.collection("Eventos").orderBy("name").get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (document in task.result) {
                     val geoPoint: GeoPoint? = document.getGeoPoint("latLng")
@@ -203,9 +203,11 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot>, OnRetrieveFireb
 
                     val event = Event(document.getString("eventId")!!, document.getString("category")!!, latLng!!, document.getString("name")!!, document.getString("description")!!, document.getString("placeId")!!, dateToString!!, tags.split(","))
 
-                    for (eventId in favouritesEventsToQuery) {
-                        if (eventId == event.eventId) {
-                            favouritesEvents.add(event)
+                    if (favouritesEvents.size <= 6) {
+                        for (eventId in favouritesEventsToQuery) {
+                            if (eventId == event.eventId) {
+                                favouritesEvents.add(event)
+                            }
                         }
                     }
                 }
