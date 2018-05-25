@@ -97,7 +97,7 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot>, OnRetrieveFireb
     private fun getLovedEvents() {
         lovedEvents.clear()
 
-        db.collection("Eventos").whereGreaterThanOrEqualTo("eventDate", Calendar.getInstance().time).orderBy("eventDate").limit(10).get().addOnCompleteListener { task ->
+        db.collection("Eventos").whereGreaterThanOrEqualTo("eventDate", Calendar.getInstance().time).orderBy("eventDate").get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (document in task.result) {
                     val geoPoint: GeoPoint? = document.getGeoPoint("latLng")
@@ -119,13 +119,13 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot>, OnRetrieveFireb
 
                     val event = Event(document.getString("eventId")!!, document.getString("category")!!, latLng!!, document.getString("name")!!, document.getString("description")!!, document.getString("placeId")!!, dateToString!!, tags.split(","))
 
-
-                    for (i in 0 until currentUserPreferences.size) {
-                        if (event.category == currentUserPreferences[i]) {
-                            lovedEvents.add(event)
+                    if (lovedEvents.size <= 6) {
+                        for (i in 0 until currentUserPreferences.size) {
+                            if (event.category.toLowerCase() == currentUserPreferences[i].toLowerCase()) {
+                                lovedEvents.add(event)
+                            }
                         }
                     }
-
                 }
 
                 val layoutManager = LinearLayoutManager(activity?.applicationContext, LinearLayoutManager.VERTICAL, false)
@@ -144,7 +144,7 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot>, OnRetrieveFireb
 
         val rangeDate = calendar.time
 
-        db.collection("Eventos").whereGreaterThanOrEqualTo("eventDate", Calendar.getInstance().time).whereLessThan("eventDate", rangeDate).orderBy("eventDate").limit(10).get().addOnCompleteListener { task ->
+        db.collection("Eventos").whereGreaterThanOrEqualTo("eventDate", Calendar.getInstance().time).whereLessThan("eventDate", rangeDate).orderBy("eventDate").limit(6).get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (document in task.result) {
                     val geoPoint: GeoPoint? = document.getGeoPoint("latLng")
@@ -181,7 +181,7 @@ class EventsFragment : Fragment(), EventListener<QuerySnapshot>, OnRetrieveFireb
     private fun getEventsInFavourites(favouritesEventsToQuery: ArrayList<String>) {
         favouritesEvents.clear()
 
-        db.collection("Eventos").orderBy("name").limit(10).get().addOnCompleteListener { task ->
+        db.collection("Eventos").orderBy("name").limit(6).get().addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 for (document in task.result) {
                     val geoPoint: GeoPoint? = document.getGeoPoint("latLng")

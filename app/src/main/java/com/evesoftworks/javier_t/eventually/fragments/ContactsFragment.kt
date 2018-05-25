@@ -124,7 +124,7 @@ class ContactsFragment : Fragment(), OnRetrieveFirebaseDataListener, EventListen
                             }
                         }
 
-                        if (coincidences > 0) {
+                        if (coincidences > 1) {
                             suggestions.add(user)
                         }
                     }
