@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".activities.UserSelectionActivity">
 
     <LinearLayout
@@ -23,12 +24,13 @@
             android:layout_height="match_parent" />
     </LinearLayout>
 
-    <android.support.v7.widget.AppCompatButton
+    <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
         android:id="@+id/checkable_creation_group"
         android:layout_width="240dp"
         android:layout_height="40dp"
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="16dp"
+        app:spinning_bar_color="@android:color/white"
         android:background="@drawable/rounded_button"
         android:elevation="6dp"
         android:text="@string/group_creation"

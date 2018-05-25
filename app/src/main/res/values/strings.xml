@@ -83,6 +83,7 @@
     <string name="participants_details">Participantes</string>
     <string name="leave_group">Dejar grupo</string>
     <string name="delete_group">Eliminar grupo</string>
+    <string name="error_try_again">¡Error! Vuelve a intentarlo</string>
 
     <string-array name="feedback_choices">
         <item>Duda sobre la aplicación</item>

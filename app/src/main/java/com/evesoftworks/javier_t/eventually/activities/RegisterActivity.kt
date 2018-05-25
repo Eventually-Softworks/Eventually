@@ -1,13 +1,18 @@
 package com.evesoftworks.javier_t.eventually.activities
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
 import android.view.View
 import android.widget.Toast
 import com.evesoftworks.javier_t.eventually.R
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
@@ -17,12 +22,18 @@ import kotlinx.android.synthetic.main.activity_register.*
 class RegisterActivity : AppCompatActivity(), View.OnClickListener, OnCompleteListener<AuthResult> {
     lateinit var mAuth: FirebaseAuth
     lateinit var mAuthStateLisener: FirebaseAuth.AuthStateListener
+    var mGoogleSignInClient: GoogleSignInClient? = null
+
 
     override fun onComplete(task: Task<AuthResult>) {
         if (task.isSuccessful) {
             sendVerificationEmail()
         } else {
-            Toast.makeText(this, task.exception.toString(), Toast.LENGTH_LONG).show()
+            Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
+
+            register_button.revertAnimation {
+                register_button.background = getDrawable(R.drawable.rounded_button)
+            }
         }
     }
 
@@ -58,9 +69,13 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, OnCompleteLi
         setContentView(R.layout.activity_register)
         supportActionBar?.hide()
 
+        register_button.background = getDrawable(R.drawable.rounded_button)
         mAuth = FirebaseAuth.getInstance()
         register_button.setOnClickListener(this)
         register_text.setOnClickListener(this)
+
+        val gso: GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build()
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
         mAuthStateLisener = FirebaseAuth.AuthStateListener {
             if (it.currentUser != null) {
@@ -70,6 +85,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, OnCompleteLi
     }
 
     private fun register(mail: String, password: String) {
+        register_button.startAnimation()
         mAuth.createUserWithEmailAndPassword(mail, password).addOnCompleteListener(this)
     }
 
@@ -126,6 +142,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, OnCompleteLi
 
         user!!.reload().addOnSuccessListener {
             if (user.isEmailVerified) {
+                register_button.doneLoadingAnimation(ContextCompat.getColor(this, R.color.colorPrimary), BitmapFactory.decodeResource(resources, R.drawable.ic_check_white_24dp))
                 goToDataCompletionActivity()
             } else {
                 showEmailSendVerificationDialogIfUserIsNotVerified()

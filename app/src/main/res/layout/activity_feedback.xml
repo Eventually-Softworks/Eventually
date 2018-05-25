@@ -70,7 +70,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <android.support.v7.widget.AppCompatButton
+        <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
             android:id="@+id/send_feedback_button"
             android:layout_width="240dp"
             android:layout_height="40dp"
@@ -79,6 +79,7 @@
             android:background="@drawable/rounded_button"
             android:elevation="6dp"
             android:text="@string/button_send_feedback"
+            app:spinning_bar_color="@android:color/white"
             android:textColor="@color/textButton"
             android:translationZ="4dp" />
     </android.support.design.widget.CoordinatorLayout>

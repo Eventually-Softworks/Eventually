@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.activities.UserProfileActivity
@@ -32,6 +33,7 @@ class GroupParticipantsAdapter(val participants: ArrayList<User>) : RecyclerView
         val storageReference = FirebaseStorage.getInstance().reference.child("usersprofilepics/${participants[position].photoId}")
 
         storageReference.downloadUrl.addOnSuccessListener {
+            holder.cardView.participant_progress_bar.visibility = View.GONE
             Picasso.get().load(it).into(holder.cardView.participant_image)
         }
 

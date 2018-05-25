@@ -53,15 +53,15 @@
     </android.support.design.widget.TextInputLayout>
 
 
-    <android.support.v7.widget.AppCompatButton
+    <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
         android:id="@+id/sign_in_button"
         android:layout_width="@dimen/et_width"
         android:layout_height="40dp"
         android:layout_gravity="center"
         android:layout_marginTop="@dimen/margin_from_button"
-        android:background="@drawable/rounded_button"
         android:elevation="6dp"
         android:text="@string/sign_in"
+        app:spinning_bar_color="@android:color/white"
         android:textColor="@color/textButton" />
 
     <android.support.v7.widget.AppCompatButton

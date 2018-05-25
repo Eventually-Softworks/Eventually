@@ -1,7 +1,9 @@
 package com.evesoftworks.javier_t.eventually.activities
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.view.MenuItem
@@ -42,6 +44,7 @@ class UserSelectionActivity : AppCompatActivity(), View.OnClickListener, OnSucce
             val mapGroups = HashMap<String, Any>()
             mapGroups["groups"] = it
             db.collection("Usuarios").document(userId!!).update(mapGroups).addOnCompleteListener {
+                checkable_creation_group.doneLoadingAnimation(ContextCompat.getColor(this, R.color.colorPrimary), BitmapFactory.decodeResource(resources, R.drawable.ic_check_white_24dp))
                 val returnIntent = Intent()
                 setResult(CustomResultCode.GROUP_CREATED, returnIntent)
                 finish()
@@ -106,6 +109,7 @@ class UserSelectionActivity : AppCompatActivity(), View.OnClickListener, OnSucce
 
 
     private fun createGroupInFirebase(currentCheckedUsers: ArrayList<User>) {
+        checkable_creation_group.startAnimation()
         participantsId.add(FirebaseAuth.getInstance().currentUser!!.uid)
 
         for (currentChecked in currentCheckedUsers) {

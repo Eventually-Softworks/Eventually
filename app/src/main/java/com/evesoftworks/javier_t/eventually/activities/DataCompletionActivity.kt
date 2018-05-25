@@ -71,14 +71,14 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
         storageReference = FirebaseStorage.getInstance().reference.child("usersprofilepics/${FirebaseAuth.getInstance().currentUser!!.uid}")
         when (signalCode) {
             SignalCode.SC_DEFAULT_PROFILE_PICTURE -> {
-                if (userComesFromGoogleSignIn()) {
-                    bitmap = (data_completion_profile_pic.drawable as BitmapDrawable).bitmap
+                bitmap = (data_completion_profile_pic.drawable as BitmapDrawable).bitmap
 
+                if (userComesFromGoogleSignIn()) {
                     storageReference.putBytes(convertBitmapToByteArray(bitmap)).addOnSuccessListener {
                         updateProfileRequest(FirebaseAuth.getInstance().currentUser!!.photoUrl, data_completion_name.text.toString())
                     }
                 } else {
-                    storageReference.putFile(Uri.parse(defaultImageUri)).addOnSuccessListener {
+                    storageReference.putBytes(convertBitmapToByteArray(bitmap)).addOnSuccessListener {
                         updateProfileRequest(Uri.parse(defaultImageUri), data_completion_name.text.toString())
                     }
                 }
@@ -99,7 +99,7 @@ class DataCompletionActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun userComesFromGoogleSignIn(): Boolean {
-        return GoogleSignIn.getSignedInAccountFromIntent(intent) != null
+        return GoogleSignIn.getLastSignedInAccount(this) != null
     }
 
     private fun completeProfile() {

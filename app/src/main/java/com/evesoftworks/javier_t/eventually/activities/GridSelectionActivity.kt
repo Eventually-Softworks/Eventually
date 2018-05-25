@@ -3,12 +3,16 @@ package com.evesoftworks.javier_t.eventually.activities
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.TableRow
+import android.widget.Toast
 import android.widget.ToggleButton
+import br.com.simplepass.loading_button_lib.interfaces.OnAnimationEndListener
 import com.evesoftworks.javier_t.eventually.R
 import com.evesoftworks.javier_t.eventually.constants.RequestCode
 import com.evesoftworks.javier_t.eventually.dbmodel.User
@@ -46,6 +50,7 @@ class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
 
         setAllListeners()
         continue_button.setOnClickListener {
+            continue_button.startAnimation()
             userHasPermissions()
         }
     }
@@ -83,7 +88,18 @@ class GridSelectionActivity : AppCompatActivity(), View.OnClickListener {
 
             val newUser = User(arrayOfPreferences, intent.extras.getString("DISPLAYNAME_TO_FIRESTORE"), ArrayList(), ArrayList(), intent.extras.getString("USERNAME_TO_FIRESTORE"), ArrayList(), ArrayList(), FirebaseAuth.getInstance().currentUser!!.uid)
 
-            db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).set(newUser).addOnSuccessListener {
+            db.collection("Usuarios").document(FirebaseAuth.getInstance().currentUser!!.uid).set(newUser).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    continue_button.doneLoadingAnimation(ContextCompat.getColor(this, R.color.colorPrimary), BitmapFactory.decodeResource(resources, R.drawable.ic_check_white_24dp))
+                } else {
+                    Toast.makeText(this, it.exception?.message, Toast.LENGTH_LONG).show()
+
+                    continue_button.revertAnimation {
+                        continue_button.background = getDrawable(R.drawable.rounded_button_cancel)
+                        continue_button.text = getString(R.string.error_try_again)
+                    }
+                }
+
                 goToMainPageActivity()
             }
         } else {

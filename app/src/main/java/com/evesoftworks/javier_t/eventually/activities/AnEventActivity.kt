@@ -89,7 +89,7 @@ class AnEventActivity : AppCompatActivity(), OnMapReadyCallback, View.OnClickLis
         val currentLocLatLng = LatLng(event.latLng.latitude, event.latLng.longitude)
 
         googleMap!!.addMarker(MarkerOptions().position(currentLocLatLng).title(event.name))
-        googleMap.setPadding(10, 10, 10, 72)
+        googleMap.setPadding(10, 10, 10, 98)
 
         val cameraPosition: CameraPosition = CameraPosition.Builder()
                 .target(currentLocLatLng)

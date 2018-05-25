@@ -176,14 +176,14 @@
         android:text="@string/follow_text"
         android:textColor="@color/textButton" />
 
-    <android.support.v7.widget.AppCompatButton
+    <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
         android:id="@+id/finish_editing_button"
         android:layout_width="240dp"
         android:layout_height="40dp"
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="8dp"
-        android:background="@drawable/rounded_button"
         android:elevation="6dp"
+        app:spinning_bar_color="@android:color/white"
         android:text="@string/finish_editting"
         android:textColor="@color/textButton"
         android:translationZ="4dp" />

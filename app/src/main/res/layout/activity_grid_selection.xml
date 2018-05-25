@@ -205,15 +205,17 @@
         </TableLayout>
     </LinearLayout>
 
-    <android.support.v7.widget.AppCompatButton
+    <br.com.simplepass.loading_button_lib.customViews.CircularProgressButton
         android:id="@+id/continue_button"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:background="@color/primaryButton"
+        android:layout_width="240dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_button"
+        android:elevation="6dp"
         android:text="@string/text_continue"
         android:textColor="@color/textButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:spinning_bar_color="@android:color/white"
         app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

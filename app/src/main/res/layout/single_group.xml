@@ -13,7 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:src="@drawable/eventually" />
+            android:src="@mipmap/default_pic" />
 
         <TextView
             android:id="@+id/group_name"

@@ -1,7 +1,9 @@
 package com.evesoftworks.javier_t.eventually.activities
 
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
 import android.text.TextUtils
@@ -31,9 +33,14 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
 
     override fun onComplete(task: Task<AuthResult>) {
         if (task.isSuccessful) {
+            sign_in_button.doneLoadingAnimation(ContextCompat.getColor(this, R.color.colorPrimary), BitmapFactory.decodeResource(resources, R.drawable.ic_check_white_24dp))
             userAlreadySetPreferences(mAuth.currentUser!!)
         } else {
-            Toast.makeText(this, task.exception.toString(), Toast.LENGTH_LONG).show()
+            Toast.makeText(this, task.exception?.message, Toast.LENGTH_LONG).show()
+
+            sign_in_button.revertAnimation {
+                sign_in_button.background = getDrawable(R.drawable.rounded_button)
+            }
             mAuth.signOut()
         }
     }
@@ -65,6 +72,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
     }
 
     private fun signIn(mail: String, password: String) {
+        sign_in_button.startAnimation()
         mAuth.signInWithEmailAndPassword(mail, password).addOnCompleteListener(this)
 
     }
@@ -91,6 +99,7 @@ class SignInActivity : AppCompatActivity(), View.OnClickListener, OnCompleteList
         setContentView(R.layout.activity_sign_in)
         supportActionBar?.hide()
 
+        sign_in_button.background = getDrawable(R.drawable.rounded_button)
         register_text.setOnClickListener(this)
         sign_in_button.setOnClickListener(this)
         google_sign_in_button.setOnClickListener(this)

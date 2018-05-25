@@ -45,7 +45,7 @@ class MainPageActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
     lateinit var userData: ArrayList<String>
     private var mSectionsPagerAdapter: SectionsPagerAdapter? = null
     private lateinit var mToggle: ActionBarDrawerToggle
-    private lateinit var mGoogleSignInClient: GoogleSignInClient
+    private var mGoogleSignInClient: GoogleSignInClient? = null
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         val id: Int = item.itemId
@@ -111,6 +111,9 @@ class MainPageActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
 
         val bundle = intent.extras
         continueActivityFlowIfTheresDynamicLink(bundle)
+
+        val gso: GoogleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id)).requestEmail().build()
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
 
         container.offscreenPageLimit = 3;
         setSupportActionBar(toolbar)
@@ -193,6 +196,7 @@ class MainPageActivity : AppCompatActivity(), NavigationView.OnNavigationItemSel
                 .setMessage(getString(R.string.logout_confirmation))
                 .setPositiveButton(getString(R.string.logout_ok), DialogInterface.OnClickListener { _, _ ->
                     FirebaseAuth.getInstance().signOut()
+                    mGoogleSignInClient?.signOut()
                     goToSignInActivity()
                     finish()
                 })

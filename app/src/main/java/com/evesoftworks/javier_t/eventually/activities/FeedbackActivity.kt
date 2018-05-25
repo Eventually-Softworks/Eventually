@@ -1,7 +1,9 @@
 package com.evesoftworks.javier_t.eventually.activities
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.design.widget.Snackbar
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
 import android.view.View
@@ -48,14 +50,17 @@ class FeedbackActivity : AppCompatActivity(), View.OnClickListener {
     }
 
     private fun submitFeedback() {
+        send_feedback_button.startAnimation()
         val string = "Mensaje de ${FirebaseAuth.getInstance().currentUser!!.uid} con motivo $choice ---> ${comment_feedback.text}"
         val feedbackData = HashMap<String, Any>()
         feedbackData["message"] = string
 
         FirebaseFirestore.getInstance().collection("Feedback").document(Calendar.getInstance().timeInMillis.toString()).set(feedbackData).addOnCompleteListener {
             if (it.isSuccessful) {
+                send_feedback_button.doneLoadingAnimation(ContextCompat.getColor(this, R.color.colorPrimary), BitmapFactory.decodeResource(resources, R.drawable.ic_check_white_24dp))
                 finish()
             } else {
+                send_feedback_button.revertAnimation()
                 Snackbar.make(findViewById(R.id.feedback_act), "No se ha podido enviar el mensaje, comprueba tu conexión y vuelve a intentarlo", Snackbar.LENGTH_SHORT).show()
             }
         }

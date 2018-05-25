@@ -6,6 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -28,6 +29,7 @@ import com.evesoftworks.javier_t.eventually.dbmodel.Event
 import com.evesoftworks.javier_t.eventually.dbmodel.User
 import com.evesoftworks.javier_t.eventually.interfaces.OnEventStateChangedListener
 import com.evesoftworks.javier_t.eventually.interfaces.OnRetrieveFirebaseDataListener
+import com.google.android.gms.flags.IFlagProvider
 import com.google.android.gms.maps.model.LatLng
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.UserProfileChangeRequest
@@ -297,7 +299,7 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener,
         } else {
             profile_my_name.error = null
             profile_my_username.error = null
-
+            finish_editing_button.startAnimation()
             uploadImage()
         }
     }
@@ -306,14 +308,28 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener,
         val storageReference = FirebaseStorage.getInstance().reference.child("usersprofilepics/${FirebaseAuth.getInstance().currentUser!!.uid}")
         when (signalCode) {
             SignalCode.SC_PROFILE_PICTURE_SET_WITH_CAMERA -> {
-                storageReference.putBytes(convertBitmapToByteArray(bitmap)).addOnSuccessListener {
-                    updateProfileRequest(it.uploadSessionUri, profile_my_name.text.toString(), profile_my_username.text.toString())
+                storageReference.putBytes(convertBitmapToByteArray(bitmap)).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        updateProfileRequest(it.result.uploadSessionUri, profile_my_name.text.toString(), profile_my_username.text.toString())
+                    } else {
+                        finish_editing_button.revertAnimation {
+                            finish_editing_button.background = getDrawable(R.drawable.rounded_button_cancel)
+                            finish_editing_button.text = getString(R.string.error_try_again)
+                        }
+                    }
                 }
             }
 
             SignalCode.SC_PROFILE_PICTURE_SET_WITH_GALLERY -> {
-                storageReference.putFile(selectedImageUri!!).addOnSuccessListener {
-                    updateProfileRequest(it.uploadSessionUri, profile_my_name.text.toString(), profile_my_username.text.toString())
+                storageReference.putFile(selectedImageUri!!).addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        updateProfileRequest(it.result.uploadSessionUri, profile_my_name.text.toString(), profile_my_username.text.toString())
+                    } else {
+                        finish_editing_button.revertAnimation {
+                            finish_editing_button.background = getDrawable(R.drawable.rounded_button_cancel)
+                            finish_editing_button.text = getString(R.string.error_try_again)
+                        }
+                    }
                 }
             }
 
@@ -358,8 +374,10 @@ class UserProfileActivity : AppCompatActivity(), OnRetrieveFirebaseDataListener,
         profile_my_name.isEnabled = false
         profile_my_username.isEnabled = false
 
-        finish_editing_button.visibility = View.GONE
+        finish_editing_button.visibility = View.INVISIBLE
         finish_editing_button.setOnClickListener(null)
+        finish_editing_button.revertAnimation()
+        finish_editing_button.background = getDrawable(R.drawable.rounded_button)
     }
 
     private fun getConfirmedAssistanceEvents() {
